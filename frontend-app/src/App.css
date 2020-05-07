@@ -1,0 +1,20 @@
+body {
+  background-image: url("https://miro.medium.com/max/2000/1*mIq3lD2x0pwNbcACLcNY0Q.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.App {
+  text-align: center;
+  
+}
+
+button {
+  background: rgb(178, 241, 239);
+  margin: 25%;
+  border-radius: 50%;
+  padding: 30px;
+  font-size: 22px;
+  font-family: sans-serif
+}
+
