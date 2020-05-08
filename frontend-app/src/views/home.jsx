@@ -4,8 +4,11 @@ import '../styles/home.scss';
 
 class Home extends Component {
     constructor(props){
-        super(props)
+        super(props);
+        
     }
+
+    
 
     render(){
         return (
