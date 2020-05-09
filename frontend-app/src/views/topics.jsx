@@ -12,10 +12,17 @@ class Topics extends Component {
     }
 
     
-    handleClickTopic(topic){
+    handleClickTopic(topic, div){
     
         this.setState({
             selected_topics: [...this.state.selected_topics, topic]})
+
+        if (div.style.backgroundColor === "rgb(255, 255, 255)") {
+            console.log("fired click")
+            div.style.backgroundColor = "rgb(150, 219, 242)";
+        } else{
+            div.style.backgroundColor = "rgb(255, 255, 255)";
+        }
     }
 
     handleClickNext(){
@@ -29,11 +36,12 @@ class Topics extends Component {
     render(){
         console.log('checkk', this.state.selected_topics)
 
+        
         return (
             <div class="topics">
                 <p>Which topics are you interested in to speak?</p>
                 {topics.map(topic => {
-                    return (<div class="topic" onClick={() => this.handleClickTopic(topic)}>{topic}</div>)
+                    return (<div class="topic" id={topic.name} style={{backgroundColor: "rgb(255,255,255)"}} tabindex={topic.tabIndex} onClick={() => this.handleClickTopic(topic, document.getElementById(topic.name))}>{topic.name}</div>)
                 })}
                 <button onClick={() => this.handleClickNext()}>Next</button>
             </div>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
 import Home from './views/home';
-import Topics from './views/topics'
+import Topics from './views/topics';
+import Time from './views/time'
 
 function App() {
   return (
@@ -23,6 +24,16 @@ function App() {
             props => {
               return (
                 <Topics {...props}/>
+              )
+            }
+          }
+        />
+        <Route
+          exact path = "/time"
+          render = {
+            props => {
+              return (
+                <Time {...props}/>
               )
             }
           }
