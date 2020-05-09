@@ -12,16 +12,41 @@ class Time extends Component {
 
     render(){
 
-        for (var day in timeslots){
-            return (
-                <div class="time">
-                    <p>Choose your timeslot</p>
-                    <p>{day}</p>
-                    {timeslots[day].map(time => <p>{time}</p>) }
-                </div>
-            )
+        console.log(timeslots)
 
-        }
+        // for (var day in timeslots){
+        //     if (timeslots.hasOwnProperty(day)){
+        //     console.log(day + " " + timeslots[day])
+        //     return (
+        //         <div class="time">
+        //             <p>Choose your timeslot</p>
+        //             <p>{day}</p>
+        //             {timeslots[day].map(time => <p>{time}</p>) }
+        //         </div>
+        //     )
+        //     }
+
+        // }
+
+        return (
+            <div class="slots">
+                <p>Choose your timeslot</p>
+                {Object.keys(timeslots).map(function (day) {
+            console.log(day + timeslots[day])
+            return (
+                        <div class="each-slot">
+                            <p class="day">{day}</p>
+                            {timeslots[day].map(time => <p class="time">{time}</p>) }
+                        </div>
+                    )
+        })}
+            </div>
+        )
+
+        
+
+        
+        
 
        
     }

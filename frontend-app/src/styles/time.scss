@@ -1,0 +1,13 @@
+.slots {
+    display: flex;
+    .each-slot {
+        margin: 20px;
+        text-align: center;
+
+        .time {
+            border: 1px solid rgb(20, 134, 173);
+            padding: 5px;
+            border-radius: 4px
+        }
+    }
+}
