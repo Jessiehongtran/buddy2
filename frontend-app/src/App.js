@@ -2,7 +2,8 @@ import React from 'react';
 import { Route, Switch } from "react-router-dom";
 import Home from './views/home';
 import Topics from './views/topics';
-import Time from './views/time'
+import Time from './views/time';
+import TimeZone from './views/timezone';
 
 function App() {
   return (
