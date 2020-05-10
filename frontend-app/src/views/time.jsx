@@ -8,7 +8,7 @@ class Time extends Component {
         super(props);
         this.state = {
             timezone: "America/Los_Angeles",
-            currentTime: "6:00:00 AM"
+            currentTime: (new Date()).toLocaleString('en-US', { timezone: "America/Los_Angeles" }).split(",")[1]
 
         }
 
@@ -38,11 +38,11 @@ class Time extends Component {
         var timeH = timeslot.split(":")[0]
         const ampmT = timeslot.split(" ")[1]
 
-        if (ampmC === "PM"){
+        if (ampmC === "PM" && parseInt(currH) !== 12){
             currH = parseInt(currH) + 12
         }
 
-        if (ampmT === "PM"){
+        if (ampmT === "PM" && parseInt(timeH) !== 12){
             timeH = parseInt(timeH) + 12
         }
 
@@ -76,21 +76,57 @@ class Time extends Component {
                 <div class="slots">
                     <p>Choose your timeslot</p>
                     {Object.keys(timeslots).map(function (day) {
-                console.log(day + timeslots[day])
-                return (
-                            <div class="each-slot">
-                                <p class="day">{day}</p>
-                                {timeslots[day].map(function (time){  
-                                    if (this.toShowTime(time)){
-                                        return <p class="time">{time}</p>
-                                    } else {
-                                        return <p class="time"></p>
-                                    }
-                                }, this
-                                )}
-                            </div>
-                        )
-                    }, this)}
+                        console.log(day + timeslots[day])
+                        var d = new Date()
+                        if (d.getDay() === 0){
+                            d = "Sun"
+                        }
+                        else if (d.getDay() === 1){
+                            d = "Mon"
+                        }
+                        else if (d.getDay() === 2){
+                            d = "Tue"
+                        }
+                        else if (d.getDay() === 3){
+                            d = "Wed"
+                        }
+                        else if (d.getDay() === 4){
+                            d = "Thu"
+                        }
+                        else if (d.getDay() === 5){
+                            d = "Fri"
+                        }
+                        else if (d.getDay() === 6){
+                            d = "Sat"
+                        }
+
+                        if (d === day){
+
+                        return (
+                                    <div class="each-slot">
+                                        <p class="day">{day}</p>
+                                        {timeslots[day].map(function (time){  
+                                            if (this.toShowTime(time)){
+                                                return <p class="time">{time}</p>
+                                            } else {
+                                                return <p class="time-not"></p>
+                                            }
+                                        }, this
+                                        )}
+                                    </div>
+                                )
+                        }
+
+                        else {
+                            return (
+                                <div class="each-slot">
+                                        <p class="day">{day}</p>
+                                        {timeslots[day].map(time => <p class="time">{time}</p>)}
+                                    </div>
+                            )
+                        }
+                            }, this)}
+                            
                 </div>
             </div>
         )
