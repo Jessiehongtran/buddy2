@@ -30,9 +30,11 @@ class Time extends Component {
     }
 
     //compare current time to show only the time after that
-    toShowTime(currentTime, timeslot){
-        var currH = currentTime.split(":")[0]
-        const ampmC = currentTime.split(" ")[1]
+    toShowTime(timeslot){
+        console.log('currentTime in toShowTime', this.state.currentTime)
+        var currH = this.state.currentTime.split(":")[0]
+        const ampmC = this.state.currentTime.split(" ")[2]
+        console.log(ampmC)
         var timeH = timeslot.split(":")[0]
         const ampmT = timeslot.split(" ")[1]
 
@@ -44,7 +46,9 @@ class Time extends Component {
             timeH = parseInt(timeH) + 12
         }
 
-        if (currH > timeH){
+        console.log(currH, timeH)
+
+        if (currH >= timeH){
             return false
         }
         else {
@@ -62,6 +66,7 @@ class Time extends Component {
 
         return (
             <div class="time-container">
+                {/* {this.toShowTime(this.state.currentTime, "9:00 AM")? <h1>OK</h1>: <h1>Not ok</h1>} */}
                 <div>
                     <select name="timezone" onChange={this.handleChange}>
                         <option>Select one</option>
@@ -75,10 +80,17 @@ class Time extends Component {
                 return (
                             <div class="each-slot">
                                 <p class="day">{day}</p>
-                                {timeslots[day].map(time => <p class="time">{time}</p> ) }
+                                {timeslots[day].map(function (time){  
+                                    if (this.toShowTime(time)){
+                                        return <p class="time">{time}</p>
+                                    } else {
+                                        return <p class="time"></p>
+                                    }
+                                }, this
+                                )}
                             </div>
                         )
-                    })}
+                    }, this)}
                 </div>
             </div>
         )
