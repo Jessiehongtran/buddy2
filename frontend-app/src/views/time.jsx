@@ -8,7 +8,9 @@ class Time extends Component {
         super(props);
         this.state = {
             timezone: "America/Los_Angeles",
-            currentTime: (new Date()).toLocaleString('en-US', { timezone: "America/Los_Angeles" }).split(",")[1]
+            currentTime: (new Date()).toLocaleString('en-US', { timezone: "America/Los_Angeles" }).split(",")[1],
+            currentDate: (new Date()).getDate(),
+            currentMonth: (new Date()).getMonth()
 
         }
 
@@ -48,12 +50,12 @@ class Time extends Component {
 
         console.log(currH, timeH)
 
-        if (currH >= timeH){
+        if (parseInt(currH) >= parseInt(timeH)){
             return false
         }
-        else {
-            return true
-        }
+        
+        return true
+        
     }
     
     //show date with Mon, Tue
@@ -105,11 +107,14 @@ class Time extends Component {
                         return (
                                     <div class="each-slot">
                                         <p class="day">{day}</p>
+                                        <p>{(this.state.currentMonth+1).toString() + "/" + this.state.currentDate.toString()}</p>
                                         {timeslots[day].map(function (time){  
                                             if (this.toShowTime(time)){
+                                                console.log('heyhey')
                                                 return <p class="time">{time}</p>
                                             } else {
-                                                return <p class="time-not"></p>
+                                                console.log('haha')
+                                            return <p class="time-not">{time}</p>
                                             }
                                         }, this
                                         )}
@@ -121,6 +126,7 @@ class Time extends Component {
                             return (
                                 <div class="each-slot">
                                         <p class="day">{day}</p>
+                                        <p class="non-date">XX</p> 
                                         {timeslots[day].map(time => <p class="time">{time}</p>)}
                                     </div>
                             )
