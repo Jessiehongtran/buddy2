@@ -10,7 +10,11 @@ class Time extends Component {
             timezone: "America/Los_Angeles",
             currentTime: (new Date()).toLocaleString('en-US', { timezone: "America/Los_Angeles" }).split(",")[1],
             currentDate: (new Date()).getDate(),
-            currentMonth: (new Date()).getMonth()
+            currentMonth: (new Date()).getMonth(),
+            dateTimeClicked: {
+                date: '',
+                time: ''
+            }
 
         }
 
@@ -33,10 +37,10 @@ class Time extends Component {
 
     //compare current time to show only the time after that
     toShowTime(timeslot){
-        console.log('currentTime in toShowTime', this.state.currentTime)
+        // console.log('currentTime in toShowTime', this.state.currentTime)
         var currH = this.state.currentTime.split(":")[0]
         const ampmC = this.state.currentTime.split(" ")[2]
-        console.log(ampmC)
+        // console.log(ampmC)
         var timeH = timeslot.split(":")[0]
         const ampmT = timeslot.split(" ")[1]
 
@@ -48,7 +52,7 @@ class Time extends Component {
             timeH = parseInt(timeH) + 12
         }
 
-        console.log(currH, timeH)
+        // console.log(currH, timeH)
 
         if (parseInt(currH) >= parseInt(timeH)){
             return false
@@ -57,14 +61,76 @@ class Time extends Component {
         return true
         
     }
+
+    handleClickTime(date, time, div){
+        console.log('clicked')
+        const dateTimeClicked = {
+            date: date,
+            time: time
+        }
+        this.setState({
+            dateTimeClicked: dateTimeClicked
+        })
+
+        if (div.style.backgroundColor === "rgb(255, 255, 255)") {
+            console.log("fired click")
+            div.style.backgroundColor = "rgb(150, 219, 242)";
+        } else{
+            div.style.backgroundColor = "rgb(255, 255, 255)";
+        }
+    }
+
+    //to get another date based on one date
+    getAnotherdate(monthdate, now, offset){
+        var month = parseInt(monthdate.split('/')[0])
+        var date = parseInt(monthdate.split('/')[1])
+      
+        if (offset > now){
+          if (date - now + offset <= new Date(2020, month, 0).getDate()){
+            return month.toString() + "/" + (date - now + offset).toString()
+          }
+          else {
+            return (month+1).toString() + "/" + (date - now + offset - new Date(2020, month, 0).getDate()).toString()
+          
+        }
+      
+      }
+    }
     
-    //show date with Mon, Tue
+    
 
     render(){
+        console.log(this.state.dateTimeClicked)
 
-        console.log(timeslots)
-        console.log('currenttime', this.state.currentTime)
-        console.log(this.toShowTime(this.state.currentTime, "9:00 AM"))
+        const arrangedSlots = []
+        var todate = (this.state.currentMonth+1).toString() + "/" + this.state.currentDate.toString()
+
+        for (var i=0; i < timeslots.length; i++){
+            if (i == (new Date()).getDay()){
+                arrangedSlots.push(timeslots[i])
+                var j = i + 1
+                while (j < timeslots.length){
+                    var dateObj = {
+                        day: timeslots[j].day,
+                        date: this.getAnotherdate(todate, i, j),
+                        times: timeslots[j].times
+                    }
+                    arrangedSlots.push(dateObj)
+                    j += 1
+                }
+                if (j === timeslots.length){
+                    while (j - timeslots.length< i){
+                        var dateObj2 = {
+                            day: timeslots[j-timeslots.length].day,
+                            date: this.getAnotherdate(todate, i, j),
+                            times: timeslots[j-timeslots.length].times
+                        }
+                        arrangedSlots.push(dateObj2)
+                        j += 1
+                    }
+                }
+            }
+        }
 
         return (
             <div class="time-container">
@@ -77,43 +143,18 @@ class Time extends Component {
                 </div>
                 <div class="slots">
                     <p>Choose your timeslot</p>
-                    {Object.keys(timeslots).map(function (day) {
-                        console.log(day + timeslots[day])
-                        var d = new Date()
-                        if (d.getDay() === 0){
-                            d = "Sun"
-                        }
-                        else if (d.getDay() === 1){
-                            d = "Mon"
-                        }
-                        else if (d.getDay() === 2){
-                            d = "Tue"
-                        }
-                        else if (d.getDay() === 3){
-                            d = "Wed"
-                        }
-                        else if (d.getDay() === 4){
-                            d = "Thu"
-                        }
-                        else if (d.getDay() === 5){
-                            d = "Fri"
-                        }
-                        else if (d.getDay() === 6){
-                            d = "Sat"
-                        }
-
-                        if (d === day){
+                    {arrangedSlots.map(function (slot, i) {
+                        if (i === 0){
 
                         return (
                                     <div class="each-slot">
-                                        <p class="day">{day}</p>
-                                        <p>{(this.state.currentMonth+1).toString() + "/" + this.state.currentDate.toString()}</p>
-                                        {timeslots[day].map(function (time){  
+                                        <p class="day">{slot.day}</p>
+                                        <p>{todate}</p>
+                                        {slot.times.map(function (time, ind){  
                                             if (this.toShowTime(time)){
-                                                console.log('heyhey')
-                                                return <p class="time">{time}</p>
+                                                console.log('1', i+ind)
+                                                return <p class="time" style={{backgroundColor: "rgb(255,255,255)"}} id = {i + ind} onClick={() => this.handleClickTime(todate, time, document.getElementById(i*8 + ind))}>{time}</p>
                                             } else {
-                                                console.log('haha')
                                             return <p class="time-not">{time}</p>
                                             }
                                         }, this
@@ -125,9 +166,14 @@ class Time extends Component {
                         else {
                             return (
                                 <div class="each-slot">
-                                        <p class="day">{day}</p>
-                                        <p class="non-date">XX</p> 
-                                        {timeslots[day].map(time => <p class="time">{time}</p>)}
+                                        <p class="day">{slot.day}</p>
+                                        <p class="non-date">{slot.date}</p> 
+                                        {slot.times.map(function(time,ind2){
+                                            console.log('i', i, 'ind2', ind2)
+                                            console.log('2', i*16 + ind2)
+                                            return <p class="time" style={{backgroundColor: "rgb(255,255,255)"}} id = {i*16 + ind2} onClick={() => this.handleClickTime(slot.date, time, document.getElementById(i*16 + ind2))}>{time}</p>
+                                        }, this
+                                        )}
                                     </div>
                             )
                         }
