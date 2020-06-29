@@ -7,10 +7,16 @@ class Time extends Component {
     constructor(props){
         super(props);
         this.state = {
-            timezone: "America/Los_Angeles",
-            currentTime: (new Date()).toLocaleString('en-US', { timezone: "America/Los_Angeles" }).split(",")[1],
-            currentDate: (new Date()).getDate(),
-            currentMonth: (new Date()).getMonth(),
+            timezoneDif: 0,
+            currentTime: {
+                year: (new Date()).getFullYear(),
+                month: (new Date()).getMonth()+1,
+                date: (new Date()).getDate(),
+                hour: (new Date()).getHours(),
+                min: (new Date()).getMinutes(),
+                sec: (new Date()).getSeconds(),
+                daynight: 'AM'
+            },
             dateTimeClicked: {
                 date: '',
                 time: ''
@@ -25,22 +31,20 @@ class Time extends Component {
     }
 
     updateCurrentTime(){
-        const d = (new Date()).toLocaleString('en-US', { timezone: this.state.timezone })
-        this.setState({currentTime: d.split(",")[1]})
+        this.setState({currentTime: this.getLocalTime(this.state.timezoneDif)})
     }
 
     //update time zone
     handleChange(e) {
-        console.log(e.target.value)
-        this.setState({timezone: e.target.value})
+        this.setState({timezoneDif: parseInt(e.target.value)})
         this.updateCurrentTime()
     }
 
     //compare current time to show only the time after that
     toShowTime(timeslot){
         // console.log('currentTime in toShowTime', this.state.currentTime)
-        var currH = this.state.currentTime.split(":")[0]
-        const ampmC = this.state.currentTime.split(" ")[2]
+        var currH = this.state.currentTime.hour
+        const ampmC = this.state.currentTime.daynight
         // console.log(ampmC)
         var timeH = timeslot.split(":")[0]
         const ampmT = timeslot.split(" ")[1]
@@ -89,8 +93,10 @@ class Time extends Component {
 
     //to get another date based on one date
     getAnotherdate(monthdate, now, offset){
-        var month = parseInt(monthdate.split('/')[0])
-        var date = parseInt(monthdate.split('/')[1])
+        // var month = parseInt(monthdate.split('/')[0])
+        // var date = parseInt(monthdate.split('/')[1])
+        var month = this.state.currentTime.month
+        var date = this.state.currentTime.date
       
         if (offset > now){
           if (date - now + offset <= new Date(2020, month, 0).getDate()){
@@ -103,14 +109,95 @@ class Time extends Component {
       
       }
     }
+
+    getLocalTime(dif){
+        let datetime = (new Date()).toLocaleString()
+        let date = datetime.split(', ')[0]
+        let day = parseInt(date.split('/')[1])
+        let month = parseInt(date.split('/')[0])
+        let year = parseInt(date.split('/')[2])
+        let time = datetime.split(', ')[1]
+        let daynight = time.split(' ')[1]
+        let currentTime = time.split(' ')[0]
+      
+        let hour = parseInt(currentTime.split(':')[0])
+        let min = parseInt(currentTime.split(':')[1])
+        let sec = parseInt(currentTime.split(':')[2])
+        
+        //convert hours based on morning/afternoon
+        if (daynight == 'PM' && hour !== 12){
+          hour = hour + 12
+        }
+      
+        //convert hour based on time zone difference
+        let t = (hour+ dif)*3600 + min*60 + sec
+        let h1 = Math.floor(t/3600)
+        let m1 = Math.floor((t-h1*3600)/60)
+        let s1 = t - h1*3600 - m1*60
+      
+        if (h1 < 0){
+          h1 = 24 + h1
+          day = day - 1
+          if (day < 0){
+            day = new Date(2020, month-1, 0).getDate()
+            month = month - 1
+            if (month <0){
+              year = year - 1
+              month = 12
+            }
+          }
+        }
+        else {
+          hour = h1 - 24
+          day = day + 1
+          if (day > new Date(2020, month, 0).getDate()){
+            day = 1
+            month = month + 1
+            if (month > 12){
+              year = year + 1
+              month = 1
+            }
+          }
+        }
+      
+        //convert back to AM or PM
+        if (h1 < 12){
+          daynight = 'AM'
+        }
+        else {
+          daynight = 'PM'
+          h1 = h1 - 12
+        }
+      
+        //check digits of min
+        if (m1.toString().length === 1){
+          m1 = '0' + m1.toString() 
+        }
+      
+        //check digits of sec
+        if (s1.toString().length === 1){
+          s1 = '0' + s1.toString() 
+        }
+      
+        return {
+          year: year,
+          month: month,
+          date: day,
+          hour: h1,
+          min: m1,
+          sec: s1,
+          daynight: daynight
+        }
+      }
     
     
 
     render(){
+        console.log('this.state.currentTime', this.state.currentTime)
         console.log(this.state.dateTimeClicked)
 
         const arrangedSlots = []
-        var todate = (this.state.currentMonth+1).toString() + "/" + this.state.currentDate.toString()
+        var todate = (this.state.currentTime.month).toString() + "/" + this.state.currentTime.date.toString()
 
         for (var i=0; i < timeslots.length; i++){
             if (i == (new Date()).getDay()){
@@ -145,7 +232,7 @@ class Time extends Component {
                 <div>
                     <select name="timezone" onChange={this.handleChange}>
                         <option>Select one</option>
-                        {timeZones.map(zone =>  <option value={zone.value}>{zone.name}</option>)}
+                        {timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
                 </div>
                 <div class="slots">
