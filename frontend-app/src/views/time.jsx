@@ -14,7 +14,8 @@ class Time extends Component {
             dateTimeClicked: {
                 date: '',
                 time: ''
-            }
+            },
+            divsToColor: []
 
         }
 
@@ -62,14 +63,15 @@ class Time extends Component {
         
     }
 
+    //when the slot is clicked
     handleClickTime(date, time, div){
-        console.log('clicked')
         const dateTimeClicked = {
             date: date,
             time: time
         }
         this.setState({
-            dateTimeClicked: dateTimeClicked
+            dateTimeClicked: dateTimeClicked,
+            divsToColor: [...this.state.divsToColor, div]
         })
 
         if (div.style.backgroundColor === "rgb(255, 255, 255)") {
@@ -77,6 +79,11 @@ class Time extends Component {
             div.style.backgroundColor = "rgb(150, 219, 242)";
         } else{
             div.style.backgroundColor = "rgb(255, 255, 255)";
+        }
+
+        //make previous clicked back to white
+        for (var i=0; i<this.state.divsToColor.length; i++){
+            this.state.divsToColor[i].style.backgroundColor = "rgb(255, 255, 255)";
         }
     }
 
@@ -145,14 +152,13 @@ class Time extends Component {
                     <p>Choose your timeslot</p>
                     {arrangedSlots.map(function (slot, i) {
                         if (i === 0){
-
                         return (
                                     <div class="each-slot">
                                         <p class="day">{slot.day}</p>
                                         <p>{todate}</p>
                                         {slot.times.map(function (time, ind){  
                                             if (this.toShowTime(time)){
-                                                console.log('1', i+ind)
+                                                // console.log('1', i+ind)
                                                 return <p class="time" style={{backgroundColor: "rgb(255,255,255)"}} id = {i + ind} onClick={() => this.handleClickTime(todate, time, document.getElementById(i*8 + ind))}>{time}</p>
                                             } else {
                                             return <p class="time-not">{time}</p>
@@ -169,8 +175,8 @@ class Time extends Component {
                                         <p class="day">{slot.day}</p>
                                         <p class="non-date">{slot.date}</p> 
                                         {slot.times.map(function(time,ind2){
-                                            console.log('i', i, 'ind2', ind2)
-                                            console.log('2', i*16 + ind2)
+                                            // console.log('i', i, 'ind2', ind2)
+                                            // console.log('2', i*16 + ind2)
                                             return <p class="time" style={{backgroundColor: "rgb(255,255,255)"}} id = {i*16 + ind2} onClick={() => this.handleClickTime(slot.date, time, document.getElementById(i*16 + ind2))}>{time}</p>
                                         }, this
                                         )}
