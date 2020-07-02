@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Home from './views/home';
 import Topics from './views/topics';
 import Time from './views/time';
-import TimeZone from './views/timezone';
+import Closing from './views/closingMessage';
 
 function App() {
   return (
@@ -35,6 +35,16 @@ function App() {
             props => {
               return (
                 <Time {...props}/>
+              )
+            }
+          }
+        />
+        <Route
+          exact path = "/end"
+          render = {
+            props => {
+              return (
+                <Closing {...props}/>
               )
             }
           }

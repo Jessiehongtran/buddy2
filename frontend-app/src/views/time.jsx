@@ -229,11 +229,12 @@ class Time extends Component {
         return (
             <div class="time-container">
                 {/* {this.toShowTime(this.state.currentTime, "9:00 AM")? <h1>OK</h1>: <h1>Not ok</h1>} */}
-                <div>
-                    <select name="timezone" onChange={this.handleChange}>
-                        <option>Select one</option>
+                <div class="top">
+                    <select className="timezone" name="timezone" onChange={this.handleChange}>
+                        <option>Select your time zone</option>
                         {timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
+                    <button onClick={() => this.props.history.push('/end')}>Next</button>
                 </div>
                 <div class="slots">
                     <p>Choose your timeslot</p>
@@ -273,6 +274,7 @@ class Time extends Component {
                             }, this)}
                             
                 </div>
+                
             </div>
         )
        

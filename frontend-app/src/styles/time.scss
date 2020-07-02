@@ -1,24 +1,48 @@
-.slots {
-    display: flex;
-    .each-slot {
-        margin: 20px;
-        text-align: center;
+.time-container {
+    .top {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
 
-        .non-date {
-            // visibility: hidden;
+        .timezone {
+            margin-left: 20px;
         }
 
-        .time {
-            border: 1px solid rgb(20, 134, 173);
-            padding: 5px;
+        button {
+            margin-right: 200px;
+            background-color:  rgb(20, 134, 173);
             border-radius: 4px;
+            padding: 5px;
+            color: white;
+            width: 8%;
+            font-size: 16px;
         }
+    }
 
-        .time-not {
-            border: 1px solid rgb(20, 134, 173);
-            padding: 5px;
-            border-radius: 4px;
-            visibility: hidden;
+    .slots {
+        display: flex;
+        margin-left: 20px;
+        
+        .each-slot {
+            margin: 20px;
+            text-align: center;
+
+            .non-date {
+                // visibility: hidden;
+            }
+
+            .time {
+                border: 1px solid rgb(20, 134, 173);
+                padding: 5px;
+                border-radius: 4px;
+            }
+
+            .time-not {
+                border: 1px solid rgb(20, 134, 173);
+                padding: 5px;
+                border-radius: 4px;
+                visibility: hidden;
+            }
         }
     }
 }
