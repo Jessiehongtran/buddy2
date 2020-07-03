@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Home from './views/home';
 import Topics from './views/topics';
 import Time from './views/time';
+import SignUp from './views/signup';
 import Closing from './views/closingMessage';
 
 function App() {
@@ -35,6 +36,16 @@ function App() {
             props => {
               return (
                 <Time {...props}/>
+              )
+            }
+          }
+        />
+        <Route
+          exact path = "/signup"
+          render = {
+            props => {
+              return (
+                <SignUp {...props}/>
               )
             }
           }
