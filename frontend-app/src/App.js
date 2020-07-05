@@ -4,6 +4,7 @@ import Home from './views/home';
 import Topics from './views/topics';
 import Time from './views/time';
 import SignUp from './views/signup';
+import Sorry from './views/sorry'
 import Closing from './views/closingMessage';
 
 function App() {
