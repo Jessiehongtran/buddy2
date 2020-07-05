@@ -66,7 +66,7 @@ class SignUp extends React.Component {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <button>Sign up</button>
+                        <button onClick={() => this.props.history.push('/end')}>Sign up</button>
                     </form>
                 </div>
             </div>

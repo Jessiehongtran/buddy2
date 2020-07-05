@@ -234,7 +234,7 @@ class Time extends Component {
                         <option>Select your time zone</option>
                         {timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
-                    <button onClick={() => this.props.history.push('/end')}>Next</button>
+                    <button onClick={() => this.props.history.push('/signup')}>Next</button>
                 </div>
                 <div class="slots">
                     <p>Choose your timeslot</p>
