@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/home.scss';
+import axios from 'axios';
 import {topics} from '../data/topics';
 import '../styles/topics.scss';
 
@@ -7,6 +8,7 @@ class Topics extends Component {
     constructor(props){
         super(props);
         this.state = {
+            topics: [],
             selected_topics: []
         }   
     }
@@ -33,6 +35,16 @@ class Topics extends Component {
         this.props.history.push('/time')
     }
 
+    componentDidMount(){
+        axios.get('https://buddy-talk.herokuapp.com/api/topics')
+             .then(res => {
+                this.setState({topics: res.data})
+             })
+             .catch(err => {
+                 console.log(err.message)
+             })
+    }
+
     render(){
         console.log('checkk', this.state.selected_topics)
 
@@ -40,8 +52,17 @@ class Topics extends Component {
         return (
             <div class="topics">
                 <p>Which topics are you interested in to speak?</p>
-                {topics.map(topic => {
-                    return (<div class="topic" id={topic.name} style={{backgroundColor: "rgb(255,255,255)"}} tabindex={topic.tabIndex} onClick={() => this.handleClickTopic(topic, document.getElementById(topic.name))}>{topic.name}</div>)
+                {this.state.topics.map(topic => {
+                    return (<div 
+                            class="topic" 
+                            id={topic.id} 
+                            style={{backgroundColor: "rgb(255,255,255)"}} 
+                            tabindex={topic.id} 
+                            onClick={
+                                () => this.handleClickTopic(topic, document.getElementById(topic.id))
+                            }>
+                                {topic.topic_name}
+                            </div>)
                 })}
                 <button onClick={() => this.handleClickNext()}>Next</button>
             </div>

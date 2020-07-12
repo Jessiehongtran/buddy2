@@ -1,5 +1,6 @@
 import React from 'react';
 import "../styles/signup.scss"
+import axios from 'axios';
 
 class SignUp extends React.Component {
     constructor(props){
@@ -22,8 +23,13 @@ class SignUp extends React.Component {
 
     handleSubmit(e){
         e.preventDefault()
-        console.log('submitted')
-        console.log(this.state.user)
+        axios.post(`https://buddy-talk.herokuapp.com/api/users`, this.state.user)
+             .then(res => {
+                 console.log(res.data)
+             })
+             .catch(err => {
+                 console.log(err.message)
+             })
     }
 
     render(){

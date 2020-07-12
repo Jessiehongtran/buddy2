@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../styles/time.scss';
 import {timeslots} from '../data/timeslots';
 import {timeZones} from '../data/timeZones';
+import Axios from 'axios';
 
 class Time extends Component {
     constructor(props){
@@ -28,6 +29,33 @@ class Time extends Component {
         this.handleChange = this.handleChange.bind(this)
         // this.updateCurrentTime = this.updateCurrentTime(this)
         
+    }
+
+    componentDidMount(){
+        Axios.get('https://buddy-talk.herokuapp.com/api/days')
+             .then(res => {
+                const days = res.data
+                Axios.get('https://buddy-talk.herokuapp.com/api/times')
+                     .then(newres => {
+                        const timeslots = []
+                        for (let i=0; i<days.length;i++){
+                            const timeObj = {
+                                day: days[i],
+                                date: "",
+                                times: newres.data
+                            }
+                            timeslots.push(timeObj)
+                        }
+                        console.log('timeslots from get request', timeslots)
+
+                     })
+                     .catch(err => {
+                        console.log(err.message)
+                    })
+             })
+             .catch(err => {
+                 console.log(err.message)
+             })
     }
 
     updateCurrentTime(){
