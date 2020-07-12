@@ -46,25 +46,31 @@ class Topics extends Component {
     render(){
         console.log('checkk', this.state.selected_topics)
 
-        
-        return (
-            <div class="topics">
-                <p>Which topics are you interested in to speak?</p>
-                {this.state.topics.map(topic => {
-                    return (<div 
-                            class="topic" 
-                            id={topic.id} 
-                            style={{backgroundColor: "rgb(255,255,255)"}} 
-                            tabindex={topic.id} 
-                            onClick={
-                                () => this.handleClickTopic(topic, document.getElementById(topic.id))
-                            }>
-                                {topic.topic_name}
-                            </div>)
-                })}
-                <button onClick={() => this.handleClickNext()}>Next</button>
-            </div>
-        )
+        if (this.state.topics.length > 0){
+            return (
+                <div class="topics">
+                    <p>Which topics are you interested in to speak?</p>
+                    {this.state.topics.map(topic => {
+                        return (<div 
+                                class="topic" 
+                                id={topic.id} 
+                                style={{backgroundColor: "rgb(255,255,255)"}} 
+                                tabindex={topic.id} 
+                                onClick={
+                                    () => this.handleClickTopic(topic, document.getElementById(topic.id))
+                                }>
+                                    {topic.topic_name}
+                                </div>)
+                    })}
+                    <button onClick={() => this.handleClickNext()}>Next</button>
+                </div>
+            )
+        }
+        else {
+           return (
+               <div className="loader"></div>
+           )
+        }
     }
 }
 
