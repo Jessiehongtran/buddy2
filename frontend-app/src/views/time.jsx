@@ -122,7 +122,7 @@ class Time extends Component {
     }
 
     //to get another date based on one date
-    getAnotherdate(monthdate, now, offset){
+    getAnotherdate(now, offset){
         // var month = parseInt(monthdate.split('/')[0])
         // var date = parseInt(monthdate.split('/')[1])
         var month = this.state.currentTime.month
@@ -255,6 +255,8 @@ class Time extends Component {
                 }
             }
         }
+
+        console.log('arrangedSlots', arrangedSlots)
 
         return (
             <div class="time-container">
