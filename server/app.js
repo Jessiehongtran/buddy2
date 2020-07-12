@@ -9,6 +9,7 @@ const dayRoutes = require('./routes/days.route');
 const requestRoutes = require('./routes/requests.route');
 const topicRoutes = require('./routes/topics.route');
 const userRoutes = require('./routes/users.route');
+const timeRoutes = require('./routes/times.route');
 
 
 //middlewares
@@ -18,6 +19,7 @@ app.use('/api/days', dayRoutes)
 app.use('/api/requests', requestRoutes)
 app.use('/api/topics', topicRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/times', timeRoutes)
 
 
 
