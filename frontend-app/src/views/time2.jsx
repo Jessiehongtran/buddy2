@@ -7,11 +7,13 @@ class Time2 extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            days: [],
+            originalTimeList: [],
             timeslots: [],
-            localTime: new Date()
+            localTime: new Date(),
         }
 
-        this.updateLocalTime = this.updateLocalTime.bind(this)
+        this.updateTimeZone = this.updateTimeZone.bind(this)
     }
 
     componentDidMount(){
@@ -66,8 +68,63 @@ class Time2 extends React.Component {
 
     }
 
-    updateLocalTime(){
+    updateTimeZone(e){
+        const newlocalTime = this.updateLocalTime(parseInt(e.target.value))
+        this.setState({localTime: newlocalTime})
+    }
 
+    updateLocalTime(dif){
+        let datetime = (new Date()).toLocaleString()
+        let date = datetime.split(', ')[0]
+        let day = parseInt(date.split('/')[1])
+        let month = parseInt(date.split('/')[0])
+        let year = parseInt(date.split('/')[2])
+        let time = datetime.split(', ')[1]
+        let daynight = time.split(' ')[1]
+        let currentTime = time.split(' ')[0]
+      
+        let hour = parseInt(currentTime.split(':')[0])
+        let min = parseInt(currentTime.split(':')[1])
+        let sec = parseInt(currentTime.split(':')[2])
+        
+        //convert hours based on morning/afternoon
+        if (daynight == 'PM' && hour !== 12){
+          hour = hour + 12
+        }
+      
+        //convert hour based on time zone difference
+        console.log('dif', dif)
+        let t = (hour+ dif)*3600 + min*60 + sec
+        let h1 = Math.floor(t/3600)
+        let m1 = Math.floor((t-h1*3600)/60)
+        let s1 = t - h1*3600 - m1*60
+      
+        if (h1 < 0){
+          h1 = 24 + h1
+          day = day - 1
+          if (day < 0){
+            day = new Date(2020, month-1, 0).getDate()
+            month = month - 1
+            if (month <0){
+              year = year - 1
+              month = 12
+            }
+          }
+        }
+        else if (h1 >24) {
+          h1 = h1 - 24
+          day = day + 1
+          if (day > new Date(2020, month, 0).getDate()){
+            day = 1
+            month = month + 1
+            if (month > 12){
+              year = year + 1
+              month = 1
+            }
+          }
+        }
+        
+        return new Date(year, month-1,day,h1,m1,s1 )
     }
 
     handleClick(){
@@ -76,11 +133,11 @@ class Time2 extends React.Component {
 
     render(){
         console.log('timeslots', this.state.timeslots)
-
+        
         return (
             <div className="time-container">
                 <div class="top">
-                    <select className="timezone" name="timezone" onChange={this.updateLocalTime}>
+                    <select className="timezone" name="timezone" onChange={this.updateTimeZone} >
                         <option>Select your time zone</option>
                         {timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
