@@ -11,7 +11,7 @@ class Time2 extends React.Component {
             localTime: new Date()
         }
 
-        this.changeTimeZone = this.changeTimeZone.bind(this)
+        this.updateLocalTime = this.updateLocalTime.bind(this)
     }
 
     componentDidMount(){
@@ -20,19 +20,7 @@ class Time2 extends React.Component {
                 const days = res.data
                 Axios.get('https://buddy-talk.herokuapp.com/api/times')
                      .then(newres => {
-                        const timeslots = []
-                        for (let i=0; i<days.length;i++){
-                            const timeObj = {
-                                    day: days[i],
-                                    date: (this.state.localTime.getMonth() + 1).toString() + "/"+ (this.state.localTime.getDate() - this.state.localTime.getDay() + i).toString(), //find a way to update date into here for rendering
-                                    times: newres.data //find a way to push time only after current time of that time zone
-                                }
-                            
-                            timeslots.push(timeObj)
-                        }
-                        console.log('timeslots from get request', timeslots)
-                        this.setState({timeslots: timeslots})
-
+                         this.updateTimeSlots(days, newres.data)
                      })
                      .catch(err => {
                         console.log(err.message)
@@ -43,7 +31,46 @@ class Time2 extends React.Component {
              })
     }
 
-    changeTimeZone(){
+    updateTimeSlots(days, originalTimeList){
+        const timelist = originalTimeList.map(time => Object.assign({},time, {show: true}))
+        const dateTimes = days.map(function(day, i){
+            let timelistToAdd = timelist
+            if (day.day_int == this.state.localTime.getDay()){
+                timelistToAdd = this.checkTimeValid(originalTimeList)
+            }
+            return {
+                day: days[i],
+                date: (this.state.localTime.getMonth() + 1).toString() + "/"+ (this.state.localTime.getDate() - this.state.localTime.getDay() + day.day_int ).toString(),
+                times: timelistToAdd
+            }
+        }, this)
+        this.setState({timeslots: dateTimes})
+    }
+
+    checkTimeValid(timeArr){
+            for (let i =0; i < timeArr.length; i++){
+                let hour = parseInt(timeArr[i].timeslot.split(":")[0])
+                if (timeArr[i].ampm == "PM" && timeArr[i].timeslot.split(":")[0] != 12){
+                    hour = parseInt(timeArr[i].timeslot.split(":")[0]) + 12
+                }
+                if (hour <= parseInt(this.state.localTime.getHours())){
+                    timeArr[i].show = false
+                }
+                else {
+                    console.log('true')
+                    timeArr[i].show = true
+                }
+            }
+            
+        return timeArr
+
+    }
+
+    updateLocalTime(){
+
+    }
+
+    handleClick(){
 
     }
 
@@ -53,7 +80,7 @@ class Time2 extends React.Component {
         return (
             <div className="time-container">
                 <div class="top">
-                    <select className="timezone" name="timezone" onChange={this.changeTimeZone}>
+                    <select className="timezone" name="timezone" onChange={this.updateLocalTime}>
                         <option>Select your time zone</option>
                         {timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
@@ -65,8 +92,14 @@ class Time2 extends React.Component {
                         <div className="each-slot">
                             <p className="day">{eachday.day.day_name}</p>
                             <p className="date">{eachday.date}</p>
-                            {eachday.times.map(eachtime => 
-                                <div className="time">{eachtime.timeslot} {eachtime.ampm}</div>)}
+                            {eachday.times.map(function(eachtime){ 
+                                if (!eachtime.show)
+                                    {return <div className="time-not">{eachtime.timeslot} {eachtime.ampm}</div>}
+                                else {
+                                    return <div className="time">{eachtime.timeslot} {eachtime.ampm}</div>
+                                    }
+                                }
+                                )}
                         </div>
                     )}
                 </div>
