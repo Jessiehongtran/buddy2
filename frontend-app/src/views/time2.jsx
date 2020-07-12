@@ -20,9 +20,11 @@ class Time2 extends React.Component {
         Axios.get('https://buddy-talk.herokuapp.com/api/days')
              .then(res => {
                 const days = res.data
+                this.setState({days: days})
                 Axios.get('https://buddy-talk.herokuapp.com/api/times')
                      .then(newres => {
-                         this.updateTimeSlots(days, newres.data)
+                         this.setState({originalTimeList: newres.data})
+                        
                      })
                      .catch(err => {
                         console.log(err.message)
@@ -33,28 +35,14 @@ class Time2 extends React.Component {
              })
     }
 
-    updateTimeSlots(days, originalTimeList){
-        const timelist = originalTimeList.map(time => Object.assign({},time, {show: true}))
-        const dateTimes = days.map(function(day, i){
-            let timelistToAdd = timelist
-            if (day.day_int == this.state.localTime.getDay()){
-                timelistToAdd = this.checkTimeValid(originalTimeList)
-            }
-            return {
-                day: days[i],
-                date: (this.state.localTime.getMonth() + 1).toString() + "/"+ (this.state.localTime.getDate() - this.state.localTime.getDay() + day.day_int ).toString(),
-                times: timelistToAdd
-            }
-        }, this)
-        this.setState({timeslots: dateTimes})
-    }
-
     checkTimeValid(timeArr){
             for (let i =0; i < timeArr.length; i++){
                 let hour = parseInt(timeArr[i].timeslot.split(":")[0])
                 if (timeArr[i].ampm == "PM" && timeArr[i].timeslot.split(":")[0] != 12){
                     hour = parseInt(timeArr[i].timeslot.split(":")[0]) + 12
                 }
+
+                console.log('hour', hour, parseInt(this.state.localTime.getHours()))
                 if (hour <= parseInt(this.state.localTime.getHours())){
                     timeArr[i].show = false
                 }
@@ -69,8 +57,8 @@ class Time2 extends React.Component {
     }
 
     updateTimeZone(e){
-        const newlocalTime = this.updateLocalTime(parseInt(e.target.value))
-        this.setState({localTime: newlocalTime})
+        this.updateLocalTime(parseInt(e.target.value))
+        
     }
 
     updateLocalTime(dif){
@@ -123,6 +111,7 @@ class Time2 extends React.Component {
             }
           }
         }
+        this.setState({localTime: new Date(year, month-1,day,h1,m1,s1 )})
         
         return new Date(year, month-1,day,h1,m1,s1 )
     }
@@ -132,8 +121,21 @@ class Time2 extends React.Component {
     }
 
     render(){
-        console.log('timeslots', this.state.timeslots)
+        const timelist = this.state.originalTimeList.map(time => Object.assign({},time, {show: true}))
+        const dateTimes = this.state.days.map(function(day, i){
+            let timelistToAdd = timelist
+            console.log(day.day_int, this.state.localTime.getDay())
+            if (day.day_int == this.state.localTime.getDay()){
+                timelistToAdd = this.checkTimeValid(this.state.originalTimeList)
+            }
+            return {
+                day: day,
+                date: (this.state.localTime.getMonth() + 1).toString() + "/"+ (this.state.localTime.getDate() - this.state.localTime.getDay() + day.day_int ).toString(),
+                times: timelistToAdd
+            }
+        }, this)
         
+        if (dateTimes.length > 0){
         return (
             <div className="time-container">
                 <div class="top">
@@ -145,8 +147,9 @@ class Time2 extends React.Component {
                 </div>
                 <div className="slots">
                     <p>Choose your timeslot</p>
-                    {this.state.timeslots.map(eachday => 
-                        <div className="each-slot">
+                    {dateTimes.map(function (eachday){ 
+                        if (eachday.date.split("/")[1] >= this.state.localTime.getDate()){
+                        return <div className="each-slot">
                             <p className="day">{eachday.day.day_name}</p>
                             <p className="date">{eachday.date}</p>
                             {eachday.times.map(function(eachtime){ 
@@ -157,11 +160,19 @@ class Time2 extends React.Component {
                                     }
                                 }
                                 )}
-                        </div>
+                            </div>
+                        } 
+                        }, this
                     )}
                 </div>
             </div>
         )
+        }
+        else {
+            return (
+                <div className="loader"></div>
+            )
+        }
     }
 }
 
