@@ -8,6 +8,7 @@ class Time extends Component {
     constructor(props){
         super(props);
         this.state = {
+            timeslots: [],
             timezoneDif: 0,
             currentTime: {
                 year: (new Date()).getFullYear(),
@@ -47,6 +48,7 @@ class Time extends Component {
                             timeslots.push(timeObj)
                         }
                         console.log('timeslots from get request', timeslots)
+                        this.setState({timeslots: timeslots})
 
                      })
                      .catch(err => {

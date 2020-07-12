@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/home.scss';
 import axios from 'axios';
-import {topics} from '../data/topics';
 import '../styles/topics.scss';
 
 class Topics extends Component {
@@ -15,7 +14,6 @@ class Topics extends Component {
 
     
     handleClickTopic(topic, div){
-    
         this.setState({
             selected_topics: [...this.state.selected_topics, topic]})
 
