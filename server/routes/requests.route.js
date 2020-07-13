@@ -13,7 +13,7 @@ router.post('/withTopic/:topic_id', async (req,res) => {
     const request = req.body
     const topicId = req.params.topic_id
     console.log('topicId', topicId)
-    addRequest(request)
+    addRequest(request)  //have to separate because we have many topics
         .then(response => {
             //get id to post topic_request
             const requestId = response.id
@@ -52,6 +52,12 @@ router.get('/', async (req,res) => {
                     day_name: requests[i].day_name,
                     day_int: requests[i].day_int,
                     date: requests[i].date
+                },
+                timezone: {
+                    timezone_id: requests[i].timezone_id,
+                    value: requests[i].value,
+                    dif: requests[i].dif,
+                    name: requests[i].name
                 },
                 time: {
                     time_id: requests[i].time_id,

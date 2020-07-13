@@ -15,6 +15,7 @@ function getRequests(){
             .join('users as u', 'u.id', 'r.user_id')
             .join('days as d', 'd.id', 'r.day_id')
             .join('times as t', 't.id', 'r.time_id')
+            .join('timezones as tz', 'tz.id', 'r.timezone_id')
             .join('request_topic as rt', 'rt.request_id', 'r.id')
             .join('topics as tp', 'tp.id', 'rt.topic_id')
             .select(
@@ -26,6 +27,10 @@ function getRequests(){
                 'd.day_name',
                 'd.day_int',
                 'r.date',
+                'tz.id as timezone_id',
+                'tz.value',
+                'tz.dif',
+                'tz.name',
                 't.id as time_id',
                 't.timeslot',
                 't.ampm',
