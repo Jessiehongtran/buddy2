@@ -10,6 +10,7 @@ exports.seed = function(knex) {
           user_id: 1,
           day_id: 1,
           time_id: 1,
+          timezone_id: 5,
           date: '07/20',
           matched: false
         },
@@ -18,6 +19,7 @@ exports.seed = function(knex) {
           user_id: 1,
           day_id: 2,
           time_id: 7,
+          timezone_id: 5,
           date: '07/21',
           matched: false
         },
@@ -26,6 +28,7 @@ exports.seed = function(knex) {
           user_id: 2,
           day_id: 2,
           time_id: 8,
+          timezone_id: 5,
           date: '07/21',
           matched: false
         },
@@ -34,6 +37,7 @@ exports.seed = function(knex) {
           user_id: 3,
           day_id: 2,
           time_id: 8,
+          timezone_id: 5,
           date: '07/21',
           matched: false
         },
