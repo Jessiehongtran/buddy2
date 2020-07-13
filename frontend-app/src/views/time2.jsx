@@ -11,9 +11,16 @@ class Time2 extends React.Component {
             originalTimeList: [],
             timeslots: [],
             localTime: new Date(),
+            dateTimeClicked: {
+                date: "",
+                day: {},
+                time: {}
+            },
+            divsToColor: []
         }
 
         this.updateTimeZone = this.updateTimeZone.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
     componentDidMount(){
@@ -116,8 +123,28 @@ class Time2 extends React.Component {
         return new Date(year, month-1,day,h1,m1,s1 )
     }
 
-    handleClick(){
+    handleClick(date, day, time, div){
+        const dateTimeClicked = {
+            date: date,
+            day: day,
+            time: time
+        }
+        this.setState({
+            dateTimeClicked: dateTimeClicked,
+            divsToColor: [...this.state.divsToColor, div]
+        })
 
+        if (div.style.backgroundColor === "rgb(255, 255, 255)") {
+            console.log("fired click")
+            div.style.backgroundColor = "rgb(150, 219, 242)";
+        } else{
+            div.style.backgroundColor = "rgb(255, 255, 255)";
+        }
+
+        //make previous clicked back to white
+        for (var i=0; i<this.state.divsToColor.length; i++){
+            this.state.divsToColor[i].style.backgroundColor = "rgb(255, 255, 255)";
+        }
     }
 
     render(){
@@ -147,21 +174,26 @@ class Time2 extends React.Component {
                 </div>
                 <div className="slots">
                     <p>Choose your timeslot</p>
-                    {dateTimes.map(function (eachday){ 
+                    {dateTimes.map(function (eachday, dayInd){ 
                         if (eachday.date.split("/")[1] >= this.state.localTime.getDate()){
                         return <div className="each-slot">
                             <p className="day">{eachday.day.day_name}</p>
                             <p className="date">{eachday.date}</p>
-                            {eachday.times.map(function(eachtime){ 
+                            {eachday.times.map(function(eachtime, timeInd){ 
                                 if (!eachtime.show)
-                                    {return <div className="time-not">{eachtime.timeslot} {eachtime.ampm}</div>}
+                                    {return <div className="time-not" >{eachtime.timeslot} {eachtime.ampm}</div>}
                                 else {
-                                    return <div className="time">{eachtime.timeslot} {eachtime.ampm}</div>
+                                    return <div 
+                                    className="time"
+                                    style={{backgroundColor: "rgb(255,255,255)"}}
+                                    id = {dayInd*16 + timeInd} 
+                                    onClick={() => this.handleClick(eachday.date, eachday.day, eachtime, document.getElementById(dayInd*16 + timeInd))}
+                                    >{eachtime.timeslot} {eachtime.ampm}</div>
                                     }
-                                }
+                                }, this
                                 )}
                             </div>
-                        } 
+                            } 
                         }, this
                     )}
                 </div>
