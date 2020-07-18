@@ -137,18 +137,37 @@ class Time2 extends React.Component {
     }
 
     render(){
+        console.log('this.state.days', this.state.days)
+
+        let sortedDays = []
+        for (let i=0; i<this.state.days.length; i++){
+            let x 
+            if (i + this.state.localTime.getDay() < this.state.days.length){
+                x = i+ this.state.localTime.getDay()
+            }
+            else {
+                x = i+ this.state.localTime.getDay() - this.state.days.length
+            }
+            sortedDays.push(this.state.days[x])
+        }
+
+        console.log('sortedDays', sortedDays)
         const timelist = this.state.originalTimeList.map(time => Object.assign({},time, {show: true}))
-        const dateTimes = this.state.days.map(function(day, i){
+        const dateTimes = sortedDays.map(function(day, i){
             let timelistToAdd = timelist
             if (day.day_int == this.state.localTime.getDay()){
                 timelistToAdd = this.checkTimeValid(this.state.originalTimeList)
             }
             return {
                 day: day,
-                date: (this.state.localTime.getMonth() + 1).toString() + "/"+ (this.state.localTime.getDate() - this.state.localTime.getDay() + day.day_int ).toString(),
+                date: (this.state.localTime.getMonth() + 1).toString() + "/"+ (this.state.localTime.getDate() + i ).toString(),
                 times: timelistToAdd
             }
         }, this)
+
+        console.log(dateTimes)
+
+        
 
         console.log('topics', localStorage.getItem('selected_topics'))
         
