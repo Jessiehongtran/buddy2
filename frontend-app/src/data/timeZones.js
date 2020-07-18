@@ -1,5 +1,6 @@
 export const timeZones = [
     {
+        id: 1,
         value: "Etc/GMT+12",
         dif: -12,
         name: "(GMT-12:00) International Date Line West"

@@ -49,7 +49,6 @@ class Time2 extends React.Component {
                     hour = parseInt(timeArr[i].timeslot.split(":")[0]) + 12
                 }
 
-                console.log('hour', hour, parseInt(this.state.localTime.getHours()))
                 if (hour <= parseInt(this.state.localTime.getHours())){
                     timeArr[i].show = false
                 }
@@ -69,33 +68,21 @@ class Time2 extends React.Component {
     }
 
     updateLocalTime(dif){
-        let datetime = (new Date()).toLocaleString()
-        let date = datetime.split(', ')[0]
-        let day = parseInt(date.split('/')[1])
-        let month = parseInt(date.split('/')[0])
-        let year = parseInt(date.split('/')[2])
-        let time = datetime.split(', ')[1]
-        let daynight = time.split(' ')[1]
-        let currentTime = time.split(' ')[0]
-      
-        let hour = parseInt(currentTime.split(':')[0])
-        let min = parseInt(currentTime.split(':')[1])
-        let sec = parseInt(currentTime.split(':')[2])
+        const utc = new Date()
+        let year = utc.getUTCFullYear()
+        let month = utc.getUTCMonth()
+        let day = utc.getUTCDate()
+        let hour = utc.getUTCHours()
+        let min = utc.getUTCMinutes()
+        let sec = utc.getUTCSeconds()
         
-        //convert hours based on morning/afternoon
-        if (daynight == 'PM' && hour !== 12){
-          hour = hour + 12
-        }
-      
         //convert hour based on time zone difference
-        console.log('dif', dif)
-        let t = (hour+ dif)*3600 + min*60 + sec
-        let h1 = Math.floor(t/3600)
-        let m1 = Math.floor((t-h1*3600)/60)
-        let s1 = t - h1*3600 - m1*60
+        console.log('hour before', hour, (new Date()).getHours())
+        hour = hour + dif
+        console.log('hour after', hour)
       
-        if (h1 < 0){
-          h1 = 24 + h1
+        if (hour < 0){
+          hour = 24 + hour
           day = day - 1
           if (day < 0){
             day = new Date(2020, month-1, 0).getDate()
@@ -106,8 +93,8 @@ class Time2 extends React.Component {
             }
           }
         }
-        else if (h1 >24) {
-          h1 = h1 - 24
+        else if (hour >24) {
+          hour = hour - 24
           day = day + 1
           if (day > new Date(2020, month, 0).getDate()){
             day = 1
@@ -118,9 +105,11 @@ class Time2 extends React.Component {
             }
           }
         }
-        this.setState({localTime: new Date(year, month-1,day,h1,m1,s1 )})
+        this.setState({localTime: new Date(year, month,day,hour,min,sec )})
+
+        console.log(year, month,day,hour,min,sec)
         
-        return new Date(year, month-1,day,h1,m1,s1 )
+        return new Date(year, month,day,hour,min,sec)
     }
 
     handleClick(date, day, time, div){
@@ -151,7 +140,6 @@ class Time2 extends React.Component {
         const timelist = this.state.originalTimeList.map(time => Object.assign({},time, {show: true}))
         const dateTimes = this.state.days.map(function(day, i){
             let timelistToAdd = timelist
-            console.log(day.day_int, this.state.localTime.getDay())
             if (day.day_int == this.state.localTime.getDay()){
                 timelistToAdd = this.checkTimeValid(this.state.originalTimeList)
             }
@@ -161,6 +149,8 @@ class Time2 extends React.Component {
                 times: timelistToAdd
             }
         }, this)
+
+        console.log('topics', localStorage.getItem('selected_topics'))
         
         if (dateTimes.length > 0){
         return (

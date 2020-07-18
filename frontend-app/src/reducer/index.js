@@ -1,4 +1,4 @@
-import { ADD_PREFERENCE, ADD_TOPIC, ADD_TIMESLOT } from '../actions';
+import { ADD_PREFERENCE, ADD_TOPIC } from '../actions';
 
 const initialState = {
     student: {
@@ -14,9 +14,13 @@ const initialState = {
         speaking_level: ""
     },
     topics: [],
-    timeslot: {
+    request_id: 0,
+    request: {
+        user_id: 0,
+        day_id: 0,
+        time_id: 0,
         date: "",
-        time: ""
+        matched: false
     }
 }
 
@@ -33,10 +37,6 @@ export const reducer = (state=initialState, action) => {
                 ...state,
                 topics: [...state.topics, action.payload]
             };
-        case ADD_TIMESLOT:
-            return {
-                ...state,
-                timeslot: action.payload
-            }
+        
     }
 }

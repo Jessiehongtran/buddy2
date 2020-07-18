@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import '../styles/home.scss';
 import axios from 'axios';
+import { addTopic } from '../actions';
+import { connect } from 'react-redux';
 import '../styles/topics.scss';
 
 class Topics extends Component {
@@ -14,8 +16,9 @@ class Topics extends Component {
 
     
     handleClickTopic(topic, div){
-        this.setState({
-            selected_topics: [...this.state.selected_topics, topic]})
+        // this.setState({
+        //     selected_topics: [...this.state.selected_topics, topic]})
+        this.props.addTopic(topic)
 
         if (div.style.backgroundColor === "rgb(255, 255, 255)") {
             console.log("fired click")
@@ -26,7 +29,7 @@ class Topics extends Component {
     }
 
     handleClickNext(){
-        localStorage.setItem('selected_topics', this.state.selected_topics)
+        // this.props.addTopic(this.state.selected_topics)
         /*
         posted to backend these selected_topic
         */
@@ -44,7 +47,7 @@ class Topics extends Component {
     }
 
     render(){
-        console.log('checkk', this.state.selected_topics)
+        console.log('state', this.props.state)
 
         if (this.state.topics.length > 0){
             return (
@@ -74,4 +77,10 @@ class Topics extends Component {
     }
 }
 
-export default Topics;
+const mapStateToProps = state => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { addTopic })(Topics);
