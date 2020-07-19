@@ -11,6 +11,12 @@ class Time2 extends React.Component {
             originalTimeList: [],
             timeslots: [],
             localTime: new Date(),
+            timeZone: {
+                id: 0,
+                dif: 0,
+                name: "(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London",
+                value: "Etc/Greenwich"
+            },
             dateTimeClicked: {
                 date: "",
                 day: {},
@@ -64,7 +70,8 @@ class Time2 extends React.Component {
     }
 
     updateTimeZone(e){
-        this.updateLocalTime(parseInt(e.target.value))
+        this.setState({timeZone: e.target.value})
+        this.updateLocalTime(parseInt(e.target.value.dif))
         
     }
 
@@ -138,7 +145,14 @@ class Time2 extends React.Component {
     }
     
     handleSubmit(){
-        console.log("this.state.dateTimeClicked", this.state.dateTimeClicked)
+        const dateTime = {
+            day_id: this.state.dateTimeClicked.day.id,
+            time_id: this.state.dateTimeClicked.time.id,
+            date: this.state.dateTimeClicked.date,
+            timezone_id: this.state.timeZone.id
+        }
+        
+        console.log("dateTime", dateTime)
         this.props.history.push('/topics')
     }
 
@@ -176,7 +190,7 @@ class Time2 extends React.Component {
                 <div class="top">
                     <select className="timezone" name="timezone" onChange={this.updateTimeZone} >
                         <option>Select your time zone</option>
-                        {timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
+                        {timeZones.map(zone =>  <option value={zone}>{zone.name}</option>)}
                     </select>
                     <button onClick={() => this.handleSubmit()}>Next</button>
                 </div>
