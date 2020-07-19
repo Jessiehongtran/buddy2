@@ -21,6 +21,7 @@ class Time2 extends React.Component {
 
         this.updateTimeZone = this.updateTimeZone.bind(this)
         this.handleClick = this.handleClick.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount(){
@@ -135,10 +136,15 @@ class Time2 extends React.Component {
             this.state.divsToColor[i].style.backgroundColor = "rgb(255, 255, 255)";
         }
     }
+    
+    handleSubmit(){
+        console.log("this.state.dateTimeClicked", this.state.dateTimeClicked)
+        this.props.history.push('/topics')
+    }
 
     render(){
-        console.log('this.state.days', this.state.days)
 
+        //make sure today is displayed first and the other days in the coming week follow
         let sortedDays = []
         for (let i=0; i<this.state.days.length; i++){
             let x 
@@ -151,7 +157,6 @@ class Time2 extends React.Component {
             sortedDays.push(this.state.days[x])
         }
 
-        console.log('sortedDays', sortedDays)
         const timelist = this.state.originalTimeList.map(time => Object.assign({},time, {show: true}))
         const dateTimes = sortedDays.map(function(day, i){
             let timelistToAdd = timelist
@@ -165,12 +170,6 @@ class Time2 extends React.Component {
             }
         }, this)
 
-        console.log(dateTimes)
-
-        
-
-        console.log('topics', localStorage.getItem('selected_topics'))
-        
         if (dateTimes.length > 0){
         return (
             <div className="time-container">
@@ -179,7 +178,7 @@ class Time2 extends React.Component {
                         <option>Select your time zone</option>
                         {timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
-                    <button onClick={() => this.props.history.push('/signup')}>Next</button>
+                    <button onClick={() => this.handleSubmit()}>Next</button>
                 </div>
                 <div className="slots">
                     <p>Choose your timeslot</p>

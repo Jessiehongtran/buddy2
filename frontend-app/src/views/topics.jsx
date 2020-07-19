@@ -33,7 +33,7 @@ class Topics extends Component {
         /*
         posted to backend these selected_topic
         */
-        this.props.history.push('/time')
+        this.props.history.push('/signup')
     }
 
     componentDidMount(){

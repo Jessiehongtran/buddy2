@@ -15,7 +15,7 @@ class Home extends Component {
             <div class="home">
                 {/* <Nav/> */}
                 <p>Practice speaking with a buddy</p>
-                <button onClick={() => this.props.history.push('/topics')}>Find a buddy</button>
+                <button onClick={() => this.props.history.push('/time')}>Find a buddy</button>
             </div>
         )
     }
