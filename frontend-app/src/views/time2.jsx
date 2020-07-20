@@ -1,7 +1,9 @@
 import React from 'react';
 import '../styles/time.scss';
-import {timeZones} from '../data/timeZones';
 import Axios from 'axios';
+import { API_URL } from '../config';
+import { addDateTime } from '../actions';
+import { connect } from 'react-redux';
 
 class Time2 extends React.Component {
     constructor(props){
@@ -11,8 +13,9 @@ class Time2 extends React.Component {
             originalTimeList: [],
             timeslots: [],
             localTime: new Date(),
-            timeZone: {
-                id: 0,
+            timeZones: [],
+            timeZoneSelected: {
+                id: 30,
                 dif: 0,
                 name: "(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London",
                 value: "Etc/Greenwich"
@@ -31,11 +34,18 @@ class Time2 extends React.Component {
     }
 
     componentDidMount(){
-        Axios.get('https://buddy-talk.herokuapp.com/api/days')
+        Axios.get(`${API_URL}/api/timezones`)
+             .then(res => {
+                 this.setState({timeZones: res.data})
+             })
+             .catch(err => {
+                console.log(err.message)
+            })
+        Axios.get(`${API_URL}/api/days`)
              .then(res => {
                 const days = res.data
                 this.setState({days: days})
-                Axios.get('https://buddy-talk.herokuapp.com/api/times')
+                Axios.get(`${API_URL}/api/times`)
                      .then(newres => {
                          this.setState({originalTimeList: newres.data})
                         
@@ -70,8 +80,17 @@ class Time2 extends React.Component {
     }
 
     updateTimeZone(e){
-        this.setState({timeZone: e.target.value})
-        this.updateLocalTime(parseInt(e.target.value.dif))
+        const id = e.target.value
+        let zone = {}
+        for (let i =0; i < this.state.timeZones.length; i++){
+            if (this.state.timeZones[i].id == id){
+                zone = this.state.timeZones[i]
+            }
+        }
+        if (zone){
+            this.setState({timeZoneSelected: zone})
+            this.updateLocalTime(parseInt(zone.dif))
+        }
         
     }
 
@@ -85,7 +104,7 @@ class Time2 extends React.Component {
         let sec = utc.getUTCSeconds()
         
         //convert hour based on time zone difference
-        console.log('hour before', hour, (new Date()).getHours())
+        console.log('dif', dif)
         hour = hour + dif
         console.log('hour after', hour)
       
@@ -149,10 +168,11 @@ class Time2 extends React.Component {
             day_id: this.state.dateTimeClicked.day.id,
             time_id: this.state.dateTimeClicked.time.id,
             date: this.state.dateTimeClicked.date,
-            timezone_id: this.state.timeZone.id
+            timezone_id: this.state.timeZoneSelected.id
         }
         
         console.log("dateTime", dateTime)
+        this.props.addDateTime(dateTime)
         this.props.history.push('/topics')
     }
 
@@ -190,7 +210,7 @@ class Time2 extends React.Component {
                 <div class="top">
                     <select className="timezone" name="timezone" onChange={this.updateTimeZone} >
                         <option>Select your time zone</option>
-                        {timeZones.map(zone =>  <option value={zone}>{zone.name}</option>)}
+                        {this.state.timeZones.map(zone =>  <option value={zone.id}>{zone.name}</option>)}
                     </select>
                     <button onClick={() => this.handleSubmit()}>Next</button>
                 </div>
@@ -230,4 +250,10 @@ class Time2 extends React.Component {
     }
 }
 
-export default Time2;
+const mapStateToProps = state => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { addDateTime})(Time2);
