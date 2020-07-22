@@ -12,7 +12,14 @@ class Time2 extends React.Component {
             days: [],
             originalTimeList: [],
             timeslots: [],
-            localTime: new Date(),
+            localTime: new Date(
+                (new Date()).getUTCFullYear(),
+                (new Date()).getUTCMonth(),
+                (new Date()).getUTCDate(),
+                (new Date()).getUTCHours(),
+                (new Date()).getUTCMinutes(),
+                (new Date()).getUTCSeconds(),
+            ),
             timeZones: [],
             timeZoneSelected: {
                 id: 30,
@@ -104,6 +111,7 @@ class Time2 extends React.Component {
         let sec = utc.getUTCSeconds()
         
         //convert hour based on time zone difference
+        console.log('hour', hour)
         console.log('dif', dif)
         hour = hour + dif
         console.log('hour after', hour)
@@ -208,8 +216,9 @@ class Time2 extends React.Component {
         return (
             <div className="time-container">
                 <div class="top">
+                    <label>Select your time zone</label>
                     <select className="timezone" name="timezone" onChange={this.updateTimeZone} >
-                        <option>Select your time zone</option>
+                        <option>(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
                         {this.state.timeZones.map(zone =>  <option value={zone.id}>{zone.name}</option>)}
                     </select>
                     <button onClick={() => this.handleSubmit()}>Next</button>

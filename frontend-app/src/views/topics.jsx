@@ -29,10 +29,6 @@ class Topics extends Component {
     }
 
     handleClickNext(){
-        // this.props.addTopic(this.state.selected_topics)
-        /*
-        posted to backend these selected_topic
-        */
         this.props.history.push('/signup')
     }
 
