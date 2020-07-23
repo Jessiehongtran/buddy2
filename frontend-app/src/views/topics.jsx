@@ -16,20 +16,23 @@ class Topics extends Component {
 
     
     handleClickTopic(topic, div){
-        // this.setState({
-        //     selected_topics: [...this.state.selected_topics, topic]})
-        this.props.addTopic(topic)
-
         if (div.style.backgroundColor === "rgb(255, 255, 255)") {
             console.log("fired click")
             div.style.backgroundColor = "rgb(150, 219, 242)";
+            const selected = this.state.selected_topics
+            selected.push(topic)
+            this.setState({selected_topics: selected})
         } else{
+            console.log("unclicked")
             div.style.backgroundColor = "rgb(255, 255, 255)";
+            const selected = this.state.selected_topics
+            selected.pop(topic)
+            this.setState({selected_topics: selected})
         }
     }
 
-    handleClickNext(){
-        this.props.history.push('/signup')
+    handleClickNext(){ 
+        this.props.addTopic(this.state.selected_topics)
     }
 
     componentDidMount(){
@@ -44,6 +47,9 @@ class Topics extends Component {
 
     render(){
         console.log('state', this.props.state)
+        if (this.props.state.topics.length > 0){
+            this.props.history.push('/end')
+        }
 
         if (this.state.topics.length > 0){
             return (

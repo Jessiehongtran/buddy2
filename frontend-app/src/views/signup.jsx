@@ -1,14 +1,15 @@
 import React from 'react';
-import "../styles/signup.scss"
-import axios from 'axios';
+import "../styles/signup.scss";
+import { postUser, postRequest } from '../actions';
+import { connect } from 'react-redux';
 
 class SignUp extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             user: {
-                firstName: "",
-                lastName: "",
+                first_name: "",
+                last_name: "",
                 email: "",
                 password: ""
             }
@@ -22,17 +23,20 @@ class SignUp extends React.Component {
     }
 
     handleSubmit(e){
-        e.preventDefault()
-        axios.post(`https://buddy-talk.herokuapp.com/api/users`, this.state.user)
-             .then(res => {
-                 console.log(res.data)
-             })
-             .catch(err => {
-                 console.log(err.message)
-             })
+        e.preventDefault() 
+        console.log('user', this.state.user)
+        this.props.postUser(this.state.user)
     }
 
+
     render(){
+
+        const userId = this.props.state.request.user_id
+        if (userId >0){
+            this.props.postRequest(this.props.state.request)
+            this.props.history.push('/topics')
+        }
+        
         return (
             <div className="signup">
                 <div className="image">
@@ -46,13 +50,13 @@ class SignUp extends React.Component {
                             <input 
                                 placeholder="First name"
                                 type="text"
-                                name="firstName"
+                                name="first_name"
                                 onChange={this.handleChange}
                             />
                             <input 
                                 placeholder="Last name"
                                 type="text"
-                                name="lastName"
+                                name="last_name"
                                 onChange={this.handleChange}
                             />
                         </div>
@@ -72,7 +76,7 @@ class SignUp extends React.Component {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <button onClick={() => this.props.history.push('/end')}>Sign up</button>
+                        <button>Sign up</button>
                     </form>
                 </div>
             </div>
@@ -80,4 +84,10 @@ class SignUp extends React.Component {
     }
 }
 
-export default SignUp;
+const mapStateToProps = state => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { postUser, postRequest })(SignUp);

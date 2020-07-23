@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/time.scss';
 import Axios from 'axios';
 import { API_URL } from '../config';
-import { addDateTime } from '../actions';
+import { addDateTime, postRequest} from '../actions';
 import { connect } from 'react-redux';
 
 class Time2 extends React.Component {
@@ -172,19 +172,29 @@ class Time2 extends React.Component {
     }
     
     handleSubmit(){
-        const dateTime = {
+        const request = {
             day_id: this.state.dateTimeClicked.day.id,
             time_id: this.state.dateTimeClicked.time.id,
             date: this.state.dateTimeClicked.date,
-            timezone_id: this.state.timeZoneSelected.id
+            timezone_id: this.state.timeZoneSelected.id,
+            matched: false
         }
-        
-        console.log("dateTime", dateTime)
-        this.props.addDateTime(dateTime)
-        this.props.history.push('/topics')
+        const userId = this.props.state.request.user_id
+        if (userId > 0){
+            request.user_id = parseInt(userId)
+            console.log('request', request)
+            this.props.postRequest(request)
+            this.props.history.push('/topics')
+        }
+        else {
+            this.props.addDateTime(request)
+            this.props.history.push('/signup')
+        }
+    
     }
 
     render(){
+        console.log('props in time2', this.props)
 
         //make sure today is displayed first and the other days in the coming week follow
         let sortedDays = []
@@ -265,4 +275,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { addDateTime})(Time2);
+export default connect(mapStateToProps, { addDateTime, postRequest})(Time2);

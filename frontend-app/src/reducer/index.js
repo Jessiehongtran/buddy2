@@ -43,7 +43,7 @@ export const reducer = (state=initialState, action) => {
         case ADD_TOPIC: 
             return {
                 ...state,
-                topics: [...state.topics, action.payload]
+                topics: action.payload
             };
         case ADD_USER_ID:
             return {
@@ -78,6 +78,8 @@ export const reducer = (state=initialState, action) => {
                 ...state,
                 requestTopic_post_error: action.payload
             }
+        default:
+            return state
 
     }
 }
