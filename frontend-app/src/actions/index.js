@@ -49,7 +49,7 @@ export const postRequest = request => {
         axios
             .post(`${API_URL}/api/requests`, request)
             .then(res => {
-                console.log('posted successfully')
+                console.log('posted request successfully')
                 dispatch({
                     type: UPDATE_REQUEST_ID,
                     payload: res.data.id
@@ -77,6 +77,7 @@ export const postRequestTopic = request_topic_ids => {
         axios
             .post(`${API_URL}/api/topics/withRequest`, request_topic_ids)
             .then(res => {
+                console.log('posted request topic successfully')
                 dispatch({
                     type: POST_REQUEST_TOPIC_SUCCESS,
                     payload: res.data.id

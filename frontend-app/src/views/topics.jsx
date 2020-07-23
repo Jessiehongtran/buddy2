@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../styles/home.scss';
 import axios from 'axios';
-import { addTopic } from '../actions';
+import { addTopic, postRequestTopic} from '../actions';
 import { connect } from 'react-redux';
 import '../styles/topics.scss';
 
@@ -48,6 +48,13 @@ class Topics extends Component {
     render(){
         console.log('state', this.props.state)
         if (this.props.state.topics.length > 0){
+            for (let i=0; i< this.props.state.topics.length; i++){
+                const request_topic_ids = {
+                    request_id: this.props.state.request_id,
+                    topic_id: this.props.state.topics[i].id
+                }
+                this.props.postRequestTopic(request_topic_ids)
+            }
             this.props.history.push('/end')
         }
 
@@ -85,4 +92,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { addTopic })(Topics);
+export default connect(mapStateToProps, { addTopic, postRequestTopic })(Topics);
