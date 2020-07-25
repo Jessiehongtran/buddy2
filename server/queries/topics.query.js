@@ -15,6 +15,14 @@ function addTopic(topic){
             .then(ids => ({id: ids[0]}))
 }
 
+//POST a request and topic
+function addRequestTopic(request_topic_ids){
+    return db('request_topic')
+            .returning('id')
+            .insert(request_topic_ids)
+            .then(ids => ({id: ids[0]}))
+}
+
 
 //UPDATE a topic
 function updateTopic(topic_id, change){
@@ -35,6 +43,7 @@ function deleteTopic(topic_id){
 module.exports = {
     getTopics,
     addTopic,
+    addRequestTopic,
     updateTopic,
     deleteTopic
 }

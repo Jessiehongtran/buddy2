@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {
         getTopics,
         addTopic,
+        addRequestTopic,
         updateTopic,
         deleteTopic
       } = require('../queries/topics.query')
@@ -21,6 +22,17 @@ router.post('/', async (req,res) => {
     const topic = req.body
     try {
         const id = await addTopic(topic)
+        res.status(200).json(id)
+    } catch (err){
+        res.status(500).json(err.message)
+    }
+})
+
+//POST a request and topic
+router.post('/withRequest', async (req,res) => {
+    const request_topic_ids = req.body
+    try {
+        const id = await addRequestTopic(request_topic_ids)
         res.status(200).json(id)
     } catch (err){
         res.status(500).json(err.message)

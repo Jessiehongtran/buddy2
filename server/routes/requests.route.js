@@ -9,31 +9,15 @@ const {
 
 
 //POST a request
-router.post('/withTopic/:topic_id', async (req,res) => {
+router.post('/', async (req,res) => {
     const request = req.body
-    const topicId = req.params.topic_id
-    console.log('topicId', topicId)
-    addRequest(request)  //have to separate because we have many topics
-        .then(response => {
-            //get id to post topic_request
-            const requestId = response.id
-            console.log('requestId', requestId)
-            addRequestTopic({
-                request_id: requestId,
-                topic_id: topicId
-            })
-            .then(newres => {
-                res.status(200).json({request_id: requestId})
-            })
-
-        })
-        .catch(err => {
-            res.status(500).json(err)
-        })
-       
+    try {
+        const request_id = await  addRequest(request)
+        res.status(200).json(request_id)
+    } catch (err){
+        res.status(500).json(err.message)
+    }   
 })
-
-
 
 //GET all requests
 router.get('/', async (req,res) => {
