@@ -42,7 +42,7 @@ function getRequests(){
 
 //UPDATE a request
 function updateRequest(request_id, change){
-    return db('request as r')
+    return db('requests as r')
             .where({id: request_id})
             .update(change)
             
