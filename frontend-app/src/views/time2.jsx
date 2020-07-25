@@ -73,6 +73,8 @@ class Time2 extends React.Component {
                     hour = parseInt(timeArr[i].timeslot.split(":")[0]) + 12
                 }
 
+                console.log('this.state.localTime.getHours()',this.state.localTime.getHours())
+
                 if (hour <= parseInt(this.state.localTime.getHours())){
                     timeArr[i].show = false
                 }

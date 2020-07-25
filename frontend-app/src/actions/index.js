@@ -28,7 +28,6 @@ export const postUser = user => {
         axios
             .post(`${API_URL}/api/users`, user)
             .then(res => {
-                // localStorage.setItem('user_id', res.data.id)
                 console.log('posted user successfully')
                 dispatch({
                     type: ADD_USER_ID,

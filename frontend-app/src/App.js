@@ -7,6 +7,7 @@ import SignUp from './views/signup';
 import Sorry from './views/sorry';
 import Time2 from './views/time2';
 import Closing from './views/closingMessage';
+import Matching from './views/matching';
 
 function App() {
   return (
@@ -48,6 +49,16 @@ function App() {
             props => {
               return (
                 <SignUp {...props}/>
+              )
+            }
+          }
+        />
+        <Route
+          exact path = "/matching"
+          render = {
+            props => {
+              return (
+                <Matching {...props}/>
               )
             }
           }

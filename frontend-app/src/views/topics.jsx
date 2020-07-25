@@ -55,7 +55,7 @@ class Topics extends Component {
                 }
                 this.props.postRequestTopic(request_topic_ids)
             }
-            this.props.history.push('/end')
+            this.props.history.push('/matching')
         }
 
         if (this.state.topics.length > 0){
