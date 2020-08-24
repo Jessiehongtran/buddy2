@@ -1,0 +1,42 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #FFDFCF;
+    padding: 30px 0 0 0;
+
+    .logo {
+        margin-left: 130px;
+        color: #61605D
+    }
+
+    .navigation {
+        margin-right: 130px;
+
+        a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: #61605D;
+        }
+
+        a:hover {
+            color: #3B3A36
+        }
+
+        button {
+            border: 1px solid #61605D;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: transparent;
+            font-family: 'Montserrat', sans-serif;
+            color: #61605D
+        }
+
+        button:hover {
+            border:  1px solid #3B3A36;
+            color: #3B3A36
+        }
+    }
+}

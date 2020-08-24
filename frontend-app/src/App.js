@@ -8,6 +8,8 @@ import Sorry from './views/sorry';
 import Time2 from './views/time2';
 import Closing from './views/closingMessage';
 import Matching from './views/matching';
+import Nav from './components/nav';
+import Top from './components/top';
 
 function App() {
   return (
@@ -18,7 +20,13 @@ function App() {
           render = {
             props => {
               return (
+                <>
+                {/* <Top/> */}
+                <Nav />
                 <Home {...props}/>
+                {/* <Top/> */}
+                </>
+                
               )
             }
           }

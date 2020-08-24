@@ -1,40 +1,79 @@
-body {
-    // background-image: url("https://miro.medium.com/max/2000/1*mIq3lD2x0pwNbcACLcNY0Q.jpeg");
-    // background-position: center;
-    // background-repeat: no-repeat;
-    // background-attachment: fixed;
-  }
-.home {
-    text-align: center;
-    padding: 20px;
-    background-image: url("https://miro.medium.com/max/2000/1*mIq3lD2x0pwNbcACLcNY0Q.jpeg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    height: 100vh;
 
-    p {
-      font-size: 22px;
-      padding: 10px
+.home {
+    padding: 20px 130px 50px 130px;
+    background-color:#FFDFCF;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 4px;
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      margin-top: -50px;
+
+      .position {
+        font-size: 33px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: bold;
+        color: #3B3A36;
+        text-align: left;
+      }
+  
+      .explain {
+        font-family: 'Montserrat', sans-serif;
+        margin-top: -20px;
+        font-size: 16px;
+        text-align: left;
+      }
+  
+      .get-started {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+  
+        input {
+          height: 42px;
+          margin-right: 10px;
+          border-radius: 6px;
+          border: 2px solid grey;
+          background-color: #E7E9EB;
+          padding-left: 20px;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 14px;
+          width: 50%;
+        }
+  
+        button {
+          font-family: 'Montserrat', sans-serif;
+          border-radius: 6px;
+          padding: 15px;
+          background-color: #DC5C3B;
+          color: white;
+          font-size: 16px;
+          border: none
+        }
+
+      }
+
+    
     }
 
-    button {
-        background:  rgb(178, 241, 239) ;
-        margin: 22% 25% 25% 22%;
-        border-radius: 50%;
-        padding: 30px;
-        font-size: 22px;
-        font-family: sans-serif;
-        border: 1px solid rgb(178, 241, 239);
-        /* -webkit-box-shadow: 3px 3px 5px 6px rgb(203, 231, 230);  
-        -moz-box-shadow:    3px 3px 5px 6px rgb(203, 231, 230);  
-        box-shadow:         3px 3px 5px 6px rgb(203, 231, 230); */
-      };
+    .right {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -30px;
 
-    button:hover {
-        background: rgb(243, 239, 160);
-        border: 1px solid rgb(243, 239, 160)
+      img {
+        width: 90%;
       }
+
+    }
+
+   
     
   }
   
