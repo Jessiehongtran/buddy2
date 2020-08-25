@@ -10,6 +10,7 @@ import Closing from './views/closingMessage';
 import Matching from './views/matching';
 import Nav from './components/nav';
 import Top from './components/top';
+import Video from './components/video';
 
 function App() {
   return (
@@ -57,6 +58,16 @@ function App() {
             props => {
               return (
                 <SignUp {...props}/>
+              )
+            }
+          }
+        />
+        <Route
+          exact path = "/call"
+          render = {
+            props => {
+              return (
+                <Video {...props}/>
               )
             }
           }
