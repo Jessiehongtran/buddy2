@@ -23,7 +23,7 @@ function App() {
               return (
                 <>
                 {/* <Top/> */}
-                <Nav />
+                <Nav {...props} />
                 <Home {...props}/>
                 {/* <Top/> */}
                 </>

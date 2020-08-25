@@ -1,4 +1,5 @@
 import {
+    UPDATE_EMAIL,
     ADD_USER_ID,
     ADD_TOPIC,
     ADD_DATE_TIME,
@@ -10,6 +11,7 @@ import {
 } from '../actions';
 
 const initialState = {
+    email: "",
     topics: [],
     request_id: 0,
     request_topic_id: 0,
@@ -29,6 +31,11 @@ const initialState = {
 export const reducer = (state=initialState, action) => {
 
     switch(action.type){
+        case UPDATE_EMAIL:
+            return {
+                ...state,
+                email: action.payload
+            }
         case ADD_DATE_TIME:
             return {
                 ...state,

@@ -10,7 +10,7 @@ class SignUp extends React.Component {
             user: {
                 first_name: "",
                 last_name: "",
-                email: "",
+                email: this.props.state.email,
                 password: ""
             }
         }
@@ -34,9 +34,11 @@ class SignUp extends React.Component {
         const userId = this.props.state.request.user_id
         if (userId >0){
             this.props.postRequest(this.props.state.request)
-            this.props.history.push('/topics')
+            this.props.history.push('/time')
         }
         
+        console.log('props in signup', this.props)
+
         return (
             <div className="signup">
                 <div className="image">
@@ -65,6 +67,7 @@ class SignUp extends React.Component {
                                 placeholder="Email"
                                 type="email"
                                 name="email"
+                                value={this.state.user.email}
                                 onChange={this.handleChange}
                             />
                         </div>

@@ -8,11 +8,25 @@ class Matching extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            requests: []
+            requests: [],
+            toMatch: {
+
+            }
         }
     }
 
     componentDidMount(){
+        //get request by id then update toMatch or use redux persistent
+        const request_id = this.props.state.request_id
+        Axios.get(`${API_URL}/api/requests/${request_id}`)
+        .then(res => {
+            console.log(res.data)
+            this.setState({toMatch: res.data})
+        })
+        .catch(err => {
+           console.log(err.message)
+       })
+
         Axios.get(`${API_URL}/api/requests`)
              .then(res => {
                  console.log(res.data)
@@ -62,15 +76,18 @@ class Matching extends React.Component{
         console.log('check state in matching', this.props.state)
         const toMatch = this.props.state
 
+        console.log('toMatch', this.state.toMatch)
+        console.log('requests', this.state.requests)
+
         const matches = []
 
         for (let i = 0; i < this.state.requests.length; i ++){
-            if (toMatch.request.user_id !== this.state.requests[i].user.user_id && 
+            if (toMatch.user_id !== this.state.requests[i].user.user_id && 
                 this.isUniqueUser(matches, this.state.requests[i].user.user_id) &&
-                toMatch.request.date == this.state.requests[i].day.date && 
-                toMatch.request.time_id == this.state.requests[i].time.time_id && 
-                toMatch.request.timezone_id == this.state.requests[i].timezone.timezone_id &&
-                this.topicMatched(toMatch.topics, this.state.requests[i].topic) &&
+                toMatch.date == this.state.requests[i].day.date && 
+                toMatch.time_id == this.state.requests[i].time.time_id && 
+                toMatch.timezone_id == this.state.requests[i].timezone.timezone_id &&
+                this.topicMatched(this.props.state.topics, this.state.requests[i].topic) &&
                 !this.state.requests[i].matched ){
                 
                 matches.push(this.state.requests[i])

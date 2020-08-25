@@ -8,6 +8,14 @@ export const UPDATE_REQUEST_ID = 'UPDATE_REQUEST_ID'
 export const POST_REQUEST_FAILURE = 'UPDATE_REQUEST_FAILURE'
 export const POST_REQUEST_TOPIC_SUCCESS = 'POST_REQUEST_TOPIC_SUCCESS'
 export const POST_REQUEST_TOPIC_FAILURE = 'POST_REQUEST_TOPIC_FAILURE'
+export const UPDATE_EMAIL = 'UPDATE_EMAIL'
+
+export const updateEmail = email => {
+    return {
+        type: UPDATE_EMAIL,
+        payload: email
+    }
+}
 
 export const addDateTime = dateTime => {
     return {
