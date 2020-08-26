@@ -18,7 +18,7 @@ class Nav extends Component {
                     <h1>Buddy</h1>
                 </div>
                 <div className="navigation">
-                    {/* <a href="">Login</a> */}
+                    <a href="/login">Login</a>
                     <button onClick={() => this.props.history.push('/signup')}>Get started</button>
                 </div>
             </div>

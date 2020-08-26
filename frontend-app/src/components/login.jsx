@@ -43,7 +43,9 @@ export default class Login extends React.Component {
     render(){
         return (
             <div className="login">
-                
+                <div className="logo">
+                    <h1>Buddy</h1>
+                </div>
                 <form onSubmit={this.handleSubmit}>
                     <p>Sign In</p>
                     <div className="input-container">
@@ -64,7 +66,7 @@ export default class Login extends React.Component {
                             onChange={this.handleChange}
                         />
                     </div>
-                    <button>Log In</button>
+                    <button>Sign In</button>
                 </form>
             </div>
         )

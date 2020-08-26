@@ -41,47 +41,45 @@ class SignUp extends React.Component {
 
         return (
             <div className="signup">
-                <div className="image">
-                    <img src="https://res.cloudinary.com/dfulxq7so/image/upload/v1593986423/unnamed_oqacur.png"/>
-                    <h1>Sign up to speak upppp</h1>
+                <div className="logo">
+                    <h1>Buddy</h1>
                 </div>
-                <div className="signup-form">
-                    <form onSubmit={this.handleSubmit}>
-                    
-                        <div className="row">
-                            <input 
-                                placeholder="First name"
-                                type="text"
-                                name="first_name"
-                                onChange={this.handleChange}
-                            />
-                            <input 
-                                placeholder="Last name"
-                                type="text"
-                                name="last_name"
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <div className="row">
-                            <input 
-                                placeholder="Email"
-                                type="email"
-                                name="email"
-                                value={this.state.user.email}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <div className="row">
-                            <input 
-                                placeholder="Password"
-                                type="password"
-                                name="password"
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <button>Sign up</button>
-                    </form>
-                </div>
+                <form onSubmit={this.handleSubmit}>
+                    <p>Sign Up</p>
+                    <div className="row">
+                        <input 
+                            placeholder="First name"
+                            type="text"
+                            name="first_name"
+                            onChange={this.handleChange}
+                        />
+                        <input 
+                            placeholder="Last name"
+                            type="text"
+                            name="last_name"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="row">
+                        <input 
+                            placeholder="Email"
+                            type="email"
+                            name="email"
+                            value={this.state.user.email}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="row">
+                        <input 
+                            placeholder="Password"
+                            type="password"
+                            name="password"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <button>Sign up</button>
+                </form>
+              
             </div>
         )
     }

@@ -8,13 +8,20 @@
 
     .logo {
         margin-left: 130px;
-        color: #FFDFCF;
+        color: white;
 
         h1 {
-            background-color: #61605D;
+            background-color: #DC5C3B;
             border-radius: 60%;
             padding: 15px;
             transform: rotate(-10deg); 
+            background: repeating-linear-gradient(
+                45deg,
+                #DC5C3B,
+                #FFDFCF 1px,
+                #DC5C3B 1px,
+                #DC5C3B 15px
+              ),
         }
     }
 

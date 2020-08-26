@@ -1,13 +1,36 @@
 .login {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-top: 20%;
 
+    .logo {
+        color: white;
+        margin-bottom: 40px;
+        margin-top: -100px;
+        display: flex;
+        justify-content: flex-start;
+
+        h1 {
+            background-color: #DC5C3B;
+            border-radius: 60%;
+            padding: 15px;
+            transform: rotate(-10deg); 
+            background: repeating-linear-gradient(
+                45deg,
+                #DC5C3B,
+                #FFDFCF 1px,
+                #DC5C3B 1px,
+                #DC5C3B 15px
+              ),
+        }
+    }
+
     form {
-        width: 20%;
+        width: 25%;
         background-color: #F2F0EF ;
-        padding: 40px;
+        padding: 50px;
         border-radius: 4px;
         display: flex;
         flex-direction: column;
@@ -15,6 +38,7 @@
 
         p {
             font-family: 'Montserrat', sans-serif;
+            color: #DC5C3B
         }
 
         .input-container {
