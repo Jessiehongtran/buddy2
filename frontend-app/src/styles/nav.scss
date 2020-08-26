@@ -8,7 +8,14 @@
 
     .logo {
         margin-left: 130px;
-        color: #61605D
+        color: #FFDFCF;
+
+        h1 {
+            background-color: #61605D;
+            border-radius: 60%;
+            padding: 15px;
+            transform: rotate(-10deg); 
+        }
     }
 
     .navigation {
