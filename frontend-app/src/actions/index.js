@@ -9,6 +9,7 @@ export const POST_REQUEST_FAILURE = 'UPDATE_REQUEST_FAILURE'
 export const POST_REQUEST_TOPIC_SUCCESS = 'POST_REQUEST_TOPIC_SUCCESS'
 export const POST_REQUEST_TOPIC_FAILURE = 'POST_REQUEST_TOPIC_FAILURE'
 export const UPDATE_EMAIL = 'UPDATE_EMAIL'
+export const UPDATE_CALL_INFO = 'UPDATE_CALL_INFO'
 
 export const updateEmail = email => {
     return {
@@ -98,6 +99,15 @@ export const postRequestTopic = request_topic_ids => {
             })
     }
 }
+
+export const updateCallInfo = info => {
+    return {
+        type: UPDATE_CALL_INFO,
+        payload: info
+    }
+}
+
+
 
 
 

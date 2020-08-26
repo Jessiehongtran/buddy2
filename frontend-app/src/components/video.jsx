@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux'
 
 import { Jutsu } from 'react-jutsu';
 
-const Video = () => {
-    const [room, setRoom] = useState('')
+const Video = (props) => {
+    const [room, setRoom] = useState(props.state.callInfo.roomId)
     const [name, setName] = useState('')
     const [call, setCall] = useState(false)
     const [password, setPassword] = useState('')
 
     const handleClick = event => {
         event.preventDefault()
-        if (room && name) setCall(true)
+        if (room ) setCall(true)
     }
+
+    console.log('state in video', props.state)
 
     return call ? (
         <Jutsu
@@ -55,4 +58,10 @@ const Video = () => {
     
 }
 
-export default Video;
+const mapStateToProps = state => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { })(Video);

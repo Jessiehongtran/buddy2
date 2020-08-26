@@ -3,6 +3,9 @@ import { API_URL } from '../config';
 import { connect } from 'react-redux';
 import '../styles/matching.scss'
 import Axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { Link } from 'react-router-dom';
+import { updateCallInfo } from '../actions';
 
 class Matching extends React.Component{
     constructor(props){
@@ -12,6 +15,8 @@ class Matching extends React.Component{
             toMatch: {}
         }
     }
+
+    
 
     componentDidMount(){
         //get request by id then update toMatch or use redux persistent
@@ -91,12 +96,12 @@ class Matching extends React.Component{
             }
         }
 
+
         if (matches.length > 0){
             //if there is a match,  update matched of this new request as 'true'
             this.updateMatch(this.props.state.request_id)
-
-            console.log(matches[0])
-
+            const uuid = uuidv4()
+           
             return (
                 <div className="matching-container">
                     <h2>You've been MATCHED</h2>
@@ -113,7 +118,7 @@ class Matching extends React.Component{
                             <td>{matches[0].day.date}</td>
                             <td>{matches[0].time.timeslot + matches[0].time.ampm}</td>
                             <td>{matches[0].topic.topic_name}</td>
-                            <td></td>
+                            <td><a href={`https://meet.jit.si/${uuid}`}>Set up call</a></td>
                         </tr>
                     </table>
                     
@@ -141,4 +146,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {  })(Matching);
+export default connect(mapStateToProps, { updateCallInfo })(Matching);

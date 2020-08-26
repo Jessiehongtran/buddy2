@@ -7,7 +7,8 @@ import {
     UPDATE_REQUEST_ID,
     POST_REQUEST_FAILURE,
     POST_REQUEST_TOPIC_SUCCESS,
-    POST_REQUEST_TOPIC_FAILURE 
+    POST_REQUEST_TOPIC_FAILURE,
+    UPDATE_CALL_INFO 
 } from '../actions';
 
 const initialState = {
@@ -25,7 +26,11 @@ const initialState = {
     },
     user_post_error: "",
     request_post_error: "",
-    requestTopic_post_error: ""
+    requestTopic_post_error: "",
+    callInfo: {
+        roomId: "",
+        password: ""
+    }
 }
 
 export const reducer = (state=initialState, action) => {
@@ -60,6 +65,14 @@ export const reducer = (state=initialState, action) => {
                     user_id: action.payload
                 }
             };
+        case UPDATE_CALL_INFO:
+            return {
+                ...state,
+                callInfo: {
+                    roomId: action.payload.roomId,
+                    password: action.payload.password
+                }
+            }
         case POST_USER_FAILURE:
             return {
                 ...state,
