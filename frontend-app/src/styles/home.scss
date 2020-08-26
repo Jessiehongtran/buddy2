@@ -12,14 +12,17 @@
       display: flex;
       flex-direction: column;
       width: 50%;
-      margin-top: -50px;
+      margin-top: -300px;
+      
+
 
       .position {
-        font-size: 35px;
+        font-size: 38px;
         font-family: 'Montserrat', sans-serif;
         font-weight: bold;
         color: #3B3A36;
         text-align: left;
+        margin-bottom: 50px;
       }
   
       .explain {
