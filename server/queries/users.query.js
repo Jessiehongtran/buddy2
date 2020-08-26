@@ -6,7 +6,6 @@ function getUsers(){
             
 }
 
-
 //POST a user
 function addUser(user){
     return db('users')
@@ -15,8 +14,15 @@ function addUser(user){
             .then(ids => ({id: ids[0]}))
 }
 
+//POST login
+function findBy(filter){
+    return db('users')
+            .where(filter)
+
+}
 
 module.exports = {
     getUsers,
-    addUser
+    addUser,
+    findBy
 }

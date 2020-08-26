@@ -52,7 +52,7 @@ function updateRequest(request_id, change){
 //GET a request by id
 function getRequestById(request_id){
     return db('requests as r')
-            .where({id: request_id})
+            .where('r.id', request_id)
             .join('users as u', 'u.id', 'r.user_id')
             .join('days as d', 'd.id', 'r.day_id')
             .join('times as t', 't.id', 'r.time_id')
