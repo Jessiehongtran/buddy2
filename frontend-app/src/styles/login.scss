@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 20%;
+    padding-top: 15%;
 
     .logo {
         color: white;
@@ -63,6 +63,7 @@
                 font-size: 16px;
                 font-family: 'Montserrat', sans-serif;
                 padding-bottom: 5px;
+                color: #DC5C3B
             }
 
             input:-webkit-autofill,
@@ -90,8 +91,19 @@
             border: none;
             border-radius: 4px;
             font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
         }
 
     
+    }
+
+    .new-here {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        color: blue;
+
+        a {
+            color: #DC5C3B;
+        }
     }
 }

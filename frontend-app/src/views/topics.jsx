@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../styles/home.scss';
 import axios from 'axios';
 import { addTopic, postRequestTopic} from '../actions';
 import { connect } from 'react-redux';
@@ -18,7 +17,7 @@ class Topics extends Component {
     handleClickTopic(topic, div){
         if (div.style.backgroundColor === "rgb(255, 255, 255)") {
             console.log("fired click")
-            div.style.backgroundColor = "rgb(150, 219, 242)";
+            div.style.backgroundColor = "#F6D6C7";
             const selected = this.state.selected_topics
             selected.push(topic)
             this.setState({selected_topics: selected})
@@ -60,20 +59,22 @@ class Topics extends Component {
 
         if (this.state.topics.length > 0){
             return (
-                <div class="topics">
-                    <p>Which topics are you interested in to speak?</p>
-                    {this.state.topics.map(topic => {
-                        return (<div 
-                                class="topic" 
-                                id={topic.id} 
-                                style={{backgroundColor: "rgb(255,255,255)"}} 
-                                tabindex={topic.id} 
-                                onClick={
-                                    () => this.handleClickTopic(topic, document.getElementById(topic.id))
-                                }>
-                                    {topic.topic_name}
-                                </div>)
-                    })}
+                <div class="topics-container">
+                    <p className="title">Which topics are you interested in to speak?</p>
+                    <div className="topics">
+                        {this.state.topics.map(topic => {
+                            return (<div 
+                                    class="topic" 
+                                    id={topic.id} 
+                                    style={{backgroundColor: "rgb(255,255,255)"}} 
+                                    tabindex={topic.id} 
+                                    onClick={
+                                        () => this.handleClickTopic(topic, document.getElementById(topic.id))
+                                    }>
+                                        {topic.topic_name}
+                                    </div>)
+                        })}
+                    </div>
                     <button onClick={() => this.handleClickNext()}>Next</button>
                 </div>
             )

@@ -32,7 +32,8 @@ class SignUp extends React.Component {
     render(){
 
         const userId = this.props.state.request.user_id
-        if (userId >0){
+        const token = localStorage.getItem('token')
+        if (userId >0 || token){
             this.props.postRequest(this.props.state.request)
             this.props.history.push('/time')
         }
@@ -79,7 +80,7 @@ class SignUp extends React.Component {
                     </div>
                     <button>Sign up</button>
                 </form>
-              
+                <p className="already-member">Already a member? <a href="/login">Log in</a></p>
             </div>
         )
     }

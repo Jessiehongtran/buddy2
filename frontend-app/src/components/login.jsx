@@ -34,6 +34,7 @@ export default class Login extends React.Component {
              .then(res => {
                  console.log(res.data)
                  localStorage.setItem('token', res.data.token)
+                 this.props.history.push('/time')
              })
              .catch(err => {
                  console.log(err.message)
@@ -68,6 +69,7 @@ export default class Login extends React.Component {
                     </div>
                     <button>Sign In</button>
                 </form>
+                <p className="new-here">New here? <a href="/signup">Create an account</a></p>
             </div>
         )
     }

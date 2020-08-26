@@ -16,7 +16,8 @@ class Closing extends React.Component {
                     justifyContent: 'center', 
                     textAlign: 'center', 
                     alignItems: 'center',
-                    marginTop: '30px'
+                    marginTop: '30px',
+                    
             }}>
                 <h1>You've been MATCHED</h1>
                 <h3>An awesome buddy is waiting for you</h3>

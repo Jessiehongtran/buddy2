@@ -1,21 +1,34 @@
 .time-container {
+    padding: 50px;
+    font-family: 'Montserrat', sans-serif;
+    // background-color: yellow;
+
     .top {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
 
+        label {
+            color: #DC5C3B;
+            font-weight: bold;
+        }
+        
+
         .timezone {
             margin-left: 20px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         button {
             margin-right: 200px;
-            background-color:  rgb(20, 134, 173);
+            background-color:  #DC5C3B;
             border-radius: 4px;
-            padding: 5px;
+            padding: 10px;
+            border: none;
             color: white;
             width: 8%;
             font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
         }
     }
 
@@ -23,6 +36,10 @@
         display: flex;
         margin-left: 20px;
 
+        .title {
+            color: #DC5C3B;
+            font-weight: bold;
+        }
         
         
         .each-slot {
@@ -34,16 +51,24 @@
             }
 
             .time {
-                border: 1px solid rgb(20, 134, 173);
+                border: 1px solid #e9cac0;
                 padding: 5px;
                 border-radius: 4px;
+                margin-bottom: 5px;
+                font-size: 16px;
+            }
+
+            .time:hover {
+                background-color: yellow;
+                // color: white
             }
 
             .time-not {
-                border: 1px solid rgb(20, 134, 173);
+                border: 1px solid #DC5C3B;
                 padding: 5px;
                 border-radius: 4px;
                 visibility: hidden;
+                margin-bottom: 5px;
             }
         }
     }

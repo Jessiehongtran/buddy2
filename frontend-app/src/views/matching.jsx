@@ -124,6 +124,9 @@ class Matching extends React.Component{
         else {
             return (
                 <div className="matching-container">
+                    <div className="sad-icon">
+                        <img src="https://image.flaticon.com/icons/png/512/260/260250.png"/>
+                    </div>
                     <h2>There is no match for you currently, we will notify you if there is one
                     </h2>
                 </div>

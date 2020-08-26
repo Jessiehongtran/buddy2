@@ -162,7 +162,7 @@ class Time2 extends React.Component {
 
         if (div.style.backgroundColor === "rgb(255, 255, 255)") {
             console.log("fired click")
-            div.style.backgroundColor = "rgb(150, 219, 242)";
+            div.style.backgroundColor = "#F6D6C7";
         } else{
             div.style.backgroundColor = "rgb(255, 255, 255)";
         }
@@ -236,7 +236,7 @@ class Time2 extends React.Component {
                     <button onClick={() => this.handleSubmit()}>Next</button>
                 </div>
                 <div className="slots">
-                    <p>Choose your timeslot</p>
+                    <p className="title">Choose your timeslot</p>
                     {dateTimes.map(function (eachday, dayInd){ 
                         if (eachday.date.split("/")[1] >= this.state.localTime.getDate()){
                         return <div className="each-slot">
@@ -248,7 +248,7 @@ class Time2 extends React.Component {
                                 else {
                                     return <div 
                                     className="time"
-                                    style={{backgroundColor: "rgb(255,255,255)"}}
+                                    style={{backgroundColor: "rgb(255, 255, 255)"}}
                                     id = {dayInd*16 + timeInd} 
                                     onClick={() => this.handleClick(eachday.date, eachday.day, eachtime, document.getElementById(dayInd*16 + timeInd))}
                                     >{eachtime.timeslot} {eachtime.ampm}</div>
