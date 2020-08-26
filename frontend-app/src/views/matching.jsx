@@ -118,7 +118,7 @@ class Matching extends React.Component{
                             <td>{matches[0].day.date}</td>
                             <td>{matches[0].time.timeslot + matches[0].time.ampm}</td>
                             <td>{matches[0].topic.topic_name}</td>
-                            <td><a href={`https://meet.jit.si/${uuid}`}>Set up call</a></td>
+                            <td><a href={`https://meet.jit.si/${uuid}`}>Join call</a></td>
                         </tr>
                     </table>
                     
