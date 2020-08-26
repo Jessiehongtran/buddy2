@@ -11,6 +11,7 @@ import Matching from './views/matching';
 import Nav from './components/nav';
 import Top from './components/top';
 import Video from './components/video';
+import Login from './components/login'
 
 function App() {
   return (
@@ -38,6 +39,16 @@ function App() {
             props => {
               return (
                 <Topics {...props}/>
+              )
+            }
+          }
+        />
+        <Route
+          exact path = "/login"
+          render = {
+            props => {
+              return (
+                <Login {...props}/>
               )
             }
           }

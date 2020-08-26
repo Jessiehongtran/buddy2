@@ -9,14 +9,13 @@ class Matching extends React.Component{
         super(props);
         this.state = {
             requests: [],
-            toMatch: {
-
-            }
+            toMatch: {}
         }
     }
 
     componentDidMount(){
         //get request by id then update toMatch or use redux persistent
+        //but request_id should be stored in localStorage or sessionStorage
         const request_id = this.props.state.request_id
         Axios.get(`${API_URL}/api/requests/${request_id}`)
         .then(res => {
@@ -73,11 +72,7 @@ class Matching extends React.Component{
     }
 
     render(){
-        console.log('check state in matching', this.props.state)
-        const toMatch = this.props.state
-
-        console.log('toMatch', this.state.toMatch)
-        console.log('requests', this.state.requests)
+        const toMatch = this.state.toMatch
 
         const matches = []
 
@@ -100,14 +95,29 @@ class Matching extends React.Component{
             //if there is a match,  update matched of this new request as 'true'
             this.updateMatch(this.props.state.request_id)
 
+            console.log(matches[0])
+
             return (
                 <div className="matching-container">
-                    <h2>You've been MATCHED with these awesome buddies</h2>
-                    {matches.map(eachMatch => 
-                    <p>
-                        {eachMatch.user.first_name + " " + eachMatch.user.last_name}
-                    </p>
-                    )}
+                    <h2>You've been MATCHED</h2>
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Topics</th>
+                            <th>Join</th>
+                        </tr>
+                        <tr>
+                            <td>{matches[0].user.first_name + " " + matches[0].user.last_name}</td>
+                            <td>{matches[0].day.date}</td>
+                            <td>{matches[0].time.timeslot + matches[0].time.ampm}</td>
+                            <td>{matches[0].topic.topic_name}</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    
+                
                 </div>
             )
         }
