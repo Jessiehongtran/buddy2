@@ -38,6 +38,7 @@ class Topics extends Component {
         axios.get('https://buddy-talk.herokuapp.com/api/topics')
              .then(res => {
                 this.setState({topics: res.data})
+                console.log('get topics', res.data)
              })
              .catch(err => {
                  console.log(err.message)

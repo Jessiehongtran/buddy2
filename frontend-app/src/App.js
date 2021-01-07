@@ -9,6 +9,7 @@ import Time2 from './views/time2';
 import Closing from './views/closingMessage';
 import Matching from './views/matching';
 import Nav from './components/nav';
+import Time3 from './views/time3';
 import Top from './components/top';
 import Video from './components/video';
 import Login from './components/login'
@@ -59,6 +60,16 @@ function App() {
             props => {
               return (
                 <Time2 {...props}/>
+              )
+            }
+          }
+        />
+        <Route
+          exact path = "/time3"
+          render = {
+            props => {
+              return (
+                <Time3 {...props}/>
               )
             }
           }

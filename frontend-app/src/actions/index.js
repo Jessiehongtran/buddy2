@@ -53,6 +53,7 @@ export const postUser = user => {
 }
 
 export const postRequest = request => {
+    console.log('request to post', request)
     return dispatch => {
         axios
             .post(`${API_URL}/api/requests`, request)

@@ -182,6 +182,8 @@ class Time2 extends React.Component {
             matched: false
         }
         const userId = this.props.state.request.user_id
+        console.log('userId', userId)
+        console.log('request', request)
         if (userId > 0){
             request.user_id = parseInt(userId)
             console.log('request', request)
