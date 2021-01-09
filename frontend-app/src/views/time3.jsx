@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/time3.scss';
 
 export default class Time3 extends React.Component {
     constructor(props){
@@ -80,12 +81,12 @@ export default class Time3 extends React.Component {
 
 
         return (
-            <div>
+            <div className="timetable-container">
                 {week.length > 0
                 ? <table>
                     {week.map(eachDay => 
                     <tr>
-                        {eachDay.map(el => Number.isInteger(el) ? el == 0 ? <td></td> : <td>{this.turnIntToHourString(el)}</td> : <td>{el}</td>)}
+                        {eachDay.map(el => Number.isInteger(el) ? el == 0 ? <td className="hour-invisible">0</td> : <td className="hour-visible">{this.turnIntToHourString(el)}</td> : <td className="daytime">{el}</td>)}
                     </tr>
                     )}
                  </table>
