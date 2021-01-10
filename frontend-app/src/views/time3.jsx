@@ -21,6 +21,17 @@ export default class Time3 extends React.Component {
         }
     }
 
+    turnHourDayMonthIntoNum(hr, daymonth, year){
+        const day = parseInt(daymonth.split("/")[0])
+        const month = parseInt(daymonth.split("/")[1])
+
+        return (year - 1970)*365*24 + month*30*24 + day*24 + hr
+    }
+
+    submitTimeSlot(timeInNum){
+        console.log('timeInNum', timeInNum)
+    }
+
     render(){
 
         const t = new Date()
@@ -34,9 +45,10 @@ export default class Time3 extends React.Component {
         5: ['Fri'],
         6: ['Sat']
         }
-        let curDay = parseInt(t.getDay())
-        let curDate = parseInt(t.getDate())
-        let curMonth = parseInt(t.getMonth() + 1)
+        let curDay = parseInt(t.getUTCDay())
+        let curDate = parseInt(t.getUTCDate())
+        let curMonth = parseInt(t.getUTCMonth() + 1)
+        let curYear = parseInt(t.getUTCFullYear())
 
         let dayInd = null
         let daysBefore = []
@@ -67,6 +79,7 @@ export default class Time3 extends React.Component {
         //the first date is already the current date, check if any hour already passed, don't show, else show
         const timesForCurDate = times.slice()
         for (let i = 0; i < timesForCurDate.length; i++){
+            console.log('t.getUTCHours()', t.getUTCHours(), 'curDate', curDate)
             if (timesForCurDate[i] < t.getUTCHours()){
                 timesForCurDate[i] = 0
             }
@@ -84,9 +97,9 @@ export default class Time3 extends React.Component {
             <div className="timetable-container">
                 {week.length > 0
                 ? <table>
-                    {week.map(eachDay => 
+                    {week.map((eachDay, i) => 
                     <tr>
-                        {eachDay.map(el => Number.isInteger(el) ? el == 0 ? <td className="hour-invisible">0</td> : <td className="hour-visible">{this.turnIntToHourString(el)}</td> : <td className="daytime">{el}</td>)}
+                        {eachDay.map(el => Number.isInteger(el) ? el == 0 ? <td className="hour-invisible">0</td> : <td className="hour-visible" onClick={() => this.submitTimeSlot(this.turnHourDayMonthIntoNum(el, week[i][1], curYear ))}>{this.turnIntToHourString(el)}</td> : <td className="daytime">{el}</td>)}
                     </tr>
                     )}
                  </table>
