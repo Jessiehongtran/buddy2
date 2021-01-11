@@ -1,12 +1,16 @@
 import React from 'react';
 import '../styles/time3.scss';
+import axios from 'axios';
+import { API_URL } from '../config';
 
 export default class Time3 extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-
+            request: {}
         }
+
+        this.updateTimeSlot = this.updateTimeSlot.bind(this)
     }
 
     turnIntToHourString(n){
@@ -28,8 +32,22 @@ export default class Time3 extends React.Component {
         return (year - 1970)*365*24 + month*30*24 + day*24 + hr
     }
 
-    submitTimeSlot(timeInNum){
-        console.log('timeInNum', timeInNum)
+    updateTimeSlot(timeInNum){
+        const newRequest = {
+            user_id: localStorage.getItem('userId'),
+            timeSlotInteger: timeInNum,
+            matched: false
+        }
+        this.setState({request: newRequest})
+    }
+
+    async submitTimeSlot(){
+        try {
+            const res = await axios.post(`${API_URL}/api/requests`, this.state.request)
+            console.log(res.data)
+        } catch (err){
+            console.log(err)
+        }
     }
 
     render(){
@@ -99,11 +117,12 @@ export default class Time3 extends React.Component {
                 ? <table>
                     {week.map((eachDay, i) => 
                     <tr>
-                        {eachDay.map(el => Number.isInteger(el) ? el == 0 ? <td className="hour-invisible">0</td> : <td className="hour-visible" onClick={() => this.submitTimeSlot(this.turnHourDayMonthIntoNum(el, week[i][1], curYear ))}>{this.turnIntToHourString(el)}</td> : <td className="daytime">{el}</td>)}
+                        {eachDay.map(el => Number.isInteger(el) ? el == 0 ? <td className="hour-invisible">0</td> : <td className="hour-visible" onClick={() => this.updateTimeSlot(this.turnHourDayMonthIntoNum(el, week[i][1], curYear ))}>{this.turnIntToHourString(el)}</td> : <td className="daytime">{el}</td>)}
                     </tr>
                     )}
                  </table>
                 : null}
+                <button className="next-btn" onClick={() => this.submitTimeSlot()}>NEXT</button>
             </div>
         )
     }

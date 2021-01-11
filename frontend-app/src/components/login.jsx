@@ -34,7 +34,8 @@ export default class Login extends React.Component {
              .then(res => {
                  console.log(res.data)
                  localStorage.setItem('token', res.data.token)
-                 this.props.history.push('/time')
+                 localStorage.setItem('userId', res.data.userId)
+                 this.props.history.push('/time3')
              })
              .catch(err => {
                  console.log(err.message)

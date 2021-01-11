@@ -38,6 +38,7 @@ export const postUser = user => {
             .post(`${API_URL}/api/users`, user)
             .then(res => {
                 console.log('posted user successfully')
+                localStorage.setItem('userId', res.data.id)
                 dispatch({
                     type: ADD_USER_ID,
                     payload: res.data.id
