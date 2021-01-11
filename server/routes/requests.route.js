@@ -32,22 +32,7 @@ router.get('/', async (req,res) => {
                     last_name: requests[i].last_name,
                     email: requests[i].email,
                 },
-                day: {
-                    day_name: requests[i].day_name,
-                    day_int: requests[i].day_int,
-                    date: requests[i].date
-                },
-                timezone: {
-                    timezone_id: requests[i].timezone_id,
-                    value: requests[i].value,
-                    dif: requests[i].dif,
-                    name: requests[i].name
-                },
-                time: {
-                    time_id: requests[i].time_id,
-                    timeslot: requests[i].timeslot,
-                    ampm: requests[i].ampm
-                },
+                timeSlotInteger: requests[i].timeSlotInteger,
                 topic: {
                     topic_id: requests[i].topic_id,
                     topic_name: requests[i].topic_name
