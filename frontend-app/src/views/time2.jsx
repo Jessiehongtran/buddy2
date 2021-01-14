@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/time.scss';
 import Axios from 'axios';
 import { API_URL } from '../config';
-import { addDateTime, postRequest} from '../actions';
+import { addTimeSlot, postRequest} from '../actions';
 import { connect } from 'react-redux';
 
 class Time2 extends React.Component {
@@ -21,6 +21,7 @@ class Time2 extends React.Component {
                 (new Date()).getUTCSeconds(),
             ),
             timeZones: [],
+            divsToChangeColor: [],
             timeZoneSelected: {
                 id: 30,
                 dif: 0,
@@ -279,4 +280,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { addDateTime, postRequest})(Time2);
+export default connect(mapStateToProps, { addTimeSlot, postRequest})(Time2);

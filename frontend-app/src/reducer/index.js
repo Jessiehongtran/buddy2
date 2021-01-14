@@ -2,7 +2,7 @@ import {
     UPDATE_EMAIL,
     ADD_USER_ID,
     ADD_TOPIC,
-    ADD_DATE_TIME,
+    ADD_TIMESLOT,
     POST_USER_FAILURE,
     UPDATE_REQUEST_ID,
     POST_REQUEST_FAILURE,
@@ -18,10 +18,7 @@ const initialState = {
     request_topic_id: 0,
     request: {
         user_id: 0,
-        day_id: 0,
-        time_id: 0,
-        timezone_id: 0,
-        date: "",
+        timeSlotInteger: 0,
         matched: false
     },
     user_post_error: "",
@@ -41,15 +38,12 @@ export const reducer = (state=initialState, action) => {
                 ...state,
                 email: action.payload
             }
-        case ADD_DATE_TIME:
+        case ADD_TIMESLOT:
             return {
                 ...state,
                 request: {
                     ...state.request,
-                    day_id: action.payload.day_id,
-                    time_id: action.payload.time_id,
-                    timezone_id: action.payload.timezone_id,
-                    date: action.payload.date
+                    timeSlotInteger: action.payload
                 }
             };
         case ADD_TOPIC: 

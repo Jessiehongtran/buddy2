@@ -23,13 +23,13 @@ class Matching extends React.Component{
         //but request_id should be stored in localStorage or sessionStorage
         const request_id = this.props.state.request_id
         Axios.get(`${API_URL}/api/requests/${request_id}`)
-        .then(res => {
-            console.log(res.data)
-            this.setState({toMatch: res.data})
+            .then(res => {
+                console.log(res.data)
+                this.setState({toMatch: res.data})
+            })
+            .catch(err => {
+            console.log(err.message)
         })
-        .catch(err => {
-           console.log(err.message)
-       })
 
         Axios.get(`${API_URL}/api/requests`)
              .then(res => {
@@ -84,9 +84,7 @@ class Matching extends React.Component{
         for (let i = 0; i < this.state.requests.length; i ++){
             if (toMatch.user_id !== this.state.requests[i].user.user_id && 
                 this.isUniqueUser(matches, this.state.requests[i].user.user_id) &&
-                toMatch.date == this.state.requests[i].day.date && 
-                toMatch.time_id == this.state.requests[i].time.time_id && 
-                toMatch.timezone_id == this.state.requests[i].timezone.timezone_id &&
+                toMatch.timeSlotInteger == this.state.requests[i].timeSlotInteger &&    
                 this.topicMatched(this.props.state.topics, this.state.requests[i].topic) &&
                 !this.state.requests[i].matched ){
                 

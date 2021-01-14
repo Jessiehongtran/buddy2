@@ -2,8 +2,10 @@ import React from 'react';
 import Axios from 'axios';
 import '../styles/login.scss'
 import { API_URL } from '../config';
+import { updateUserID } from '../actions';
+import { connect } from 'react-redux';
 
-export default class Login extends React.Component {
+class Login extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -35,6 +37,7 @@ export default class Login extends React.Component {
                  console.log(res.data)
                  localStorage.setItem('token', res.data.token)
                  localStorage.setItem('userId', res.data.userId)
+                 this.props.updateUserID(res.data.userId)
                  this.props.history.push('/time3')
              })
              .catch(err => {
@@ -75,3 +78,11 @@ export default class Login extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { updateUserID })(Login);

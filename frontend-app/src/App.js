@@ -2,12 +2,11 @@ import React from 'react';
 import { Route, Switch } from "react-router-dom";
 import Home from './views/home';
 import Topics from './views/topics';
-import Time from './views/time';
 import SignUp from './views/signup';
-import Sorry from './views/sorry';
 import Time2 from './views/time2';
 import Closing from './views/closingMessage';
 import Matching from './views/matching';
+import Matching2 from './views/matching2';
 import Nav from './components/nav';
 import Time3 from './views/time3';
 import Top from './components/top';
@@ -99,7 +98,7 @@ function App() {
           render = {
             props => {
               return (
-                <Matching {...props}/>
+                <Matching2 {...props}/>
               )
             }
           }

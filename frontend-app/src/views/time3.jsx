@@ -1,13 +1,14 @@
 import React from 'react';
 import '../styles/time3.scss';
-import axios from 'axios';
-import { API_URL } from '../config';
+import { addTimeSlot, postRequest} from '../actions';
+import { connect } from 'react-redux';
 
-export default class Time3 extends React.Component {
+class Time3 extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            request: {}
+            request: {},
+            divsToChangeColor: [],
         }
 
         this.updateTimeSlot = this.updateTimeSlot.bind(this)
@@ -32,21 +33,41 @@ export default class Time3 extends React.Component {
         return (year - 1970)*365*24 + month*30*24 + day*24 + hr
     }
 
-    updateTimeSlot(timeInNum){
+    changeColor(div){
+        if (div.style.backgroundColor === "rgb(255, 255, 255)"){
+            div.style.backgroundColor = "#BFE0FF"
+        } else {
+            div.style.backgroundColor = "rgb(255, 255, 255)"
+        }
+        //make previous clicked back to white
+        for (var i=0; i<this.state.divsToChangeColor.length; i++){
+            this.state.divsToChangeColor[i].style.backgroundColor = "rgb(255, 255, 255)";
+        }
+    }
+
+    updateTimeSlot(timeInNum, div){
         const newRequest = {
             user_id: localStorage.getItem('userId'),
             timeSlotInteger: timeInNum,
             matched: false
         }
-        this.setState({request: newRequest})
+        this.setState({
+            request: newRequest,
+            divsToChangeColor: [
+                ...this.state.divsToChangeColor,
+                div
+            ]
+        })
+        this.changeColor(div)
     }
 
     async submitTimeSlot(){
-        try {
-            const res = await axios.post(`${API_URL}/api/requests`, this.state.request)
-            console.log(res.data)
-        } catch (err){
-            console.log(err)
+        if (this.state.request.timeSlotInteger){
+            this.props.addTimeSlot(this.state.request.timeSlotInteger)
+            this.props.postRequest(this.state.request)
+            this.props.history.push('/topics')
+        } else {
+            alert("Please select a time slot")
         }
     }
 
@@ -55,14 +76,14 @@ export default class Time3 extends React.Component {
         const t = new Date()
         const times = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
         const days = {
-        0: ['Sun'],
-        1: ['Mon'],
-        2: ['Tue'],
-        3: ['Wed'],
-        4: ['Thu'],
-        5: ['Fri'],
-        6: ['Sat']
-        }
+                        0: ['Sun'],
+                        1: ['Mon'],
+                        2: ['Tue'],
+                        3: ['Wed'],
+                        4: ['Thu'],
+                        5: ['Fri'],
+                        6: ['Sat']
+                     }
         let curDay = parseInt(t.getUTCDay())
         let curDate = parseInt(t.getUTCDate())
         let curMonth = parseInt(t.getUTCMonth() + 1)
@@ -117,7 +138,17 @@ export default class Time3 extends React.Component {
                 ? <table>
                     {week.map((eachDay, i) => 
                     <tr>
-                        {eachDay.map(el => Number.isInteger(el) ? el == 0 ? <td className="hour-invisible">0</td> : <td className="hour-visible" onClick={() => this.updateTimeSlot(this.turnHourDayMonthIntoNum(el, week[i][1], curYear ))}>{this.turnIntToHourString(el)}</td> : <td className="daytime">{el}</td>)}
+                        {eachDay.map((el, elInd) => Number.isInteger(el) 
+                            ? el == 0 
+                                ? <td className="hour-invisible">0</td> 
+                                : <td 
+                                    className="hour-visible" 
+                                    id = {i*16 + elInd}
+                                    style={{backgroundColor: "#FFFFFF"}}
+                                    onClick={() => this.updateTimeSlot(this.turnHourDayMonthIntoNum(el, week[i][1], curYear ), document.getElementById(`${i*16 + elInd}`))}>
+                                        {this.turnIntToHourString(el)}
+                                  </td> 
+                            : <td className="daytime">{el}</td>)}
                     </tr>
                     )}
                  </table>
@@ -127,3 +158,11 @@ export default class Time3 extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { addTimeSlot, postRequest})(Time3);

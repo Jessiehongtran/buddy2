@@ -2,7 +2,7 @@ import axios from 'axios'
 import { API_URL } from '../config'
 export const ADD_USER_ID = 'ADD_USER_ID'
 export const ADD_TOPIC = 'ADD_TOPIC'
-export const ADD_DATE_TIME = 'ADD_DATE_TIME'
+export const ADD_TIMESLOT = 'ADD_TIMESLOT'
 export const POST_USER_FAILURE = 'POST_USER_FAILURE'
 export const UPDATE_REQUEST_ID = 'UPDATE_REQUEST_ID'
 export const POST_REQUEST_FAILURE = 'UPDATE_REQUEST_FAILURE'
@@ -18,10 +18,10 @@ export const updateEmail = email => {
     }
 }
 
-export const addDateTime = dateTime => {
+export const addTimeSlot = timeSlotInteger => {
     return {
-        type: ADD_DATE_TIME,
-        payload: dateTime
+        type: ADD_TIMESLOT,
+        payload: timeSlotInteger
     }
 }
 
@@ -29,6 +29,13 @@ export const addTopic = topics => {
     return {
         type: ADD_TOPIC,
         payload: topics
+    }
+}
+
+export const updateUserID = userID => {
+    return {
+        type: ADD_USER_ID,
+        payload: userID
     }
 }
 
