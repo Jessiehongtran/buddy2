@@ -57,7 +57,8 @@ class Matching2 extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        currentRequest: state.request
+        currentRequest: state.request,
+        selectedTopics: state.topics
     }
 }
 
