@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import { addTopic, postRequestTopic} from '../actions';
 import { connect } from 'react-redux';
+import LogOut from '../components/logout';
 import '../styles/topics.scss';
 
 class Topics extends Component {
@@ -61,6 +62,9 @@ class Topics extends Component {
         if (this.state.topics.length > 0){
             return (
                 <div class="topics-container">
+                    <div className="logout-container">
+                        <LogOut history={this.props.history}/>
+                    </div>
                     <p className="title">Which topics are you interested in to speak?</p>
                     <div className="topics">
                         {this.state.topics.map(topic => {

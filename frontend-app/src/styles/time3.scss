@@ -1,8 +1,32 @@
 .timetable-container {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     padding-top: 50px;
+
+    .logout-container {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        margin-right: 100px;
+    }
+
+    .timezone-container {
+        margin-bottom: 30px;
+
+        label {
+            color: #DC5C3B;
+            font-weight: bold;
+        }
+        
+
+        .timezone {
+            margin-left: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+    }
 
     table {
         tr { 

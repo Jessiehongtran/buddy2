@@ -12,7 +12,8 @@ class Login extends React.Component {
             user: {
                 email: "",
                 password: ""
-            }
+            },
+            login_error: ""
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -28,24 +29,26 @@ class Login extends React.Component {
         })
     }
 
-    handleSubmit(e){
+    async handleSubmit(e){
         e.preventDefault()
         //post for login
         console.log(this.state.user)
-        Axios.post(`${ API_URL }/api/users/login`, this.state.user)
-             .then(res => {
-                 console.log(res.data)
-                 localStorage.setItem('token', res.data.token)
-                 localStorage.setItem('userId', res.data.userId)
-                 this.props.updateUserID(res.data.userId)
-                 this.props.history.push('/time3')
-             })
-             .catch(err => {
-                 console.log(err.message)
-             })
+        try {
+            const res = await Axios.post(`${ API_URL }/api/users/login`, this.state.user)
+            console.log(res.data)
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('userId', res.data.userId)
+            this.props.updateUserID(res.data.userId)
+            this.props.history.push('/time3')
+        } catch (err){
+            console.log(err)
+            this.setState({ login_error: err.message })
+        }
     }
 
     render(){
+        const { login_error } = this.state;
+
         return (
             <div className="login">
                 <div className="logo">
@@ -71,6 +74,9 @@ class Login extends React.Component {
                             onChange={this.handleChange}
                         />
                     </div>
+                    { login_error.length > 0
+                    ? <p style={{marginTop: '0px', fontStyle: 'italic', fontSize: '14px'}}>Email or password is not valid</p>
+                    : null}
                     <button>Sign In</button>
                 </form>
                 <p className="new-here">New here? <a href="/signup">Create an account</a></p>

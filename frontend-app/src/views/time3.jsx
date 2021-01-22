@@ -2,6 +2,9 @@ import React from 'react';
 import '../styles/time3.scss';
 import { addTimeSlot, postRequest} from '../actions';
 import { connect } from 'react-redux';
+import { API_URL } from '../config';
+import Axios from 'axios';
+import LogOut from '../components/logout';
 
 class Time3 extends React.Component {
     constructor(props){
@@ -9,13 +12,34 @@ class Time3 extends React.Component {
         this.state = {
             request: {},
             divsToChangeColor: [],
+            timeZones: [],
+            selectedTimeZone: {},
+            timeZoneDif: 0
         }
 
         this.updateTimeSlot = this.updateTimeSlot.bind(this)
+        this.getTimeZones = this.getTimeZones.bind(this)
+        this.updateTimeZone = this.updateTimeZone.bind(this)
+    }
+
+    componentDidMount(){
+        this.getTimeZones()
+    }
+
+    async getTimeZones(){
+        try {
+            const res = await Axios.get(`${API_URL}/api/timezones`)
+            console.log('timezones', res.data)
+            this.setState({timeZones: res.data})
+        } catch(err){
+           console.log(err.message)
+        }
     }
 
     turnIntToHourString(n){
-        if (n != 0 && n < 12 || n == 24){
+        if (n < 0){
+            return null
+        } else if (n != 0 && n < 12 || n == 24){
             return n.toString() + ":00 AM"
         } 
         else if (n === 12){
@@ -33,6 +57,7 @@ class Time3 extends React.Component {
         return (year - 1970)*365*24 + month*30*24 + day*24 + hr
     }
 
+
     changeColor(div){
         if (div.style.backgroundColor === "rgb(255, 255, 255)"){
             div.style.backgroundColor = "#BFE0FF"
@@ -43,6 +68,56 @@ class Time3 extends React.Component {
         for (var i=0; i<this.state.divsToChangeColor.length; i++){
             this.state.divsToChangeColor[i].style.backgroundColor = "rgb(255, 255, 255)";
         }
+    }
+
+    calculateEpochSimilar(y, mon, d, h, min, s){
+        return (y-1970)*365*24*3600 + mon*30*24*3600 + d*24*3600 + h*3600 + min*60 + s
+      }
+
+    turnNumToTime(n){
+        const year = Math.floor(n/(365*24*3600)) + 1970
+        n = n - (year-1970)*365*24*3600
+        const mon = Math.floor(n/(30*24*3600)) + 1
+        n = n - (mon-1)*30*24*3600
+        const d = Math.floor(n/(24*3600))
+        n = n - d*24*3600
+        const h = Math.floor(n/(3600))
+        n = n - h*3600
+        const min = Math.floor(n/60)
+        n = n - min*60
+        return {
+          year: year,
+          month: mon, 
+          date: d,
+          hour: h,
+          minute: min,
+          second: n
+        }
+      }
+
+    getLocalDateTime(){
+        //get universal datetime as integer 
+        const y = (new Date()).getFullYear()
+        const mon = (new Date()).getMonth() + 1
+        const d = (new Date()).getDate()
+        const h = (new Date()).getHours()
+        const min = (new Date()).getMinutes()
+        const s = (new Date()).getSeconds()
+
+        const timeAsNum = calculateEpochSimilar(y, mon, d, h, min, s)
+
+        //get offset
+        const timeOffset = this.state.timeZoneDif
+
+        //add to get to local datetime as integer
+        const localTimeNum = timeAsNum + timeOffset
+
+        //convert back to date and time local
+        return turnNumToTime(localTimeNum)
+    }
+
+    updateTimeZone(e){
+        this.setState({ timeZoneDif: parseInt(e.target.value) })
     }
 
     updateTimeSlot(timeInNum, div){
@@ -75,6 +150,11 @@ class Time3 extends React.Component {
 
         const t = new Date()
         const times = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+
+        for (let i = 0; i < times.length; i++){
+            times[i] = times[i] + this.state.timeZoneDif;
+        }
+
         const days = {
                         0: ['Sun'],
                         1: ['Mon'],
@@ -134,6 +214,16 @@ class Time3 extends React.Component {
 
         return (
             <div className="timetable-container">
+                <div className="logout-container">
+                    <LogOut history={this.props.history}/>
+                </div>
+                <div className="timezone-container">
+                    <label>Select your time zone</label>
+                    <select className="timezone" name="timezone" onChange={this.updateTimeZone} >
+                        <option>(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
+                        {this.state.timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
+                    </select>
+                </div>
                 {week.length > 0
                 ? <table>
                     {week.map((eachDay, i) => 

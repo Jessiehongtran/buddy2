@@ -54,17 +54,7 @@ function App() {
           }
         />
         <Route
-          exact path = "/time"
-          render = {
-            props => {
-              return (
-                <Time2 {...props}/>
-              )
-            }
-          }
-        />
-        <Route
-          exact path = "/time3"
+          exact path = "/times"
           render = {
             props => {
               return (

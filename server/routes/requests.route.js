@@ -23,25 +23,63 @@ router.post('/', async (req,res) => {
 router.get('/', async (req,res) => {
     try {
         const requests = await getRequests()
-        for (let i=0; i< requests.length; i++){
-            requests[i] = {
-                id: requests[i].id,
-                user: {
-                    user_id: requests[i].user_id,
-                    first_name: requests[i].first_name,
-                    last_name: requests[i].last_name,
-                    email: requests[i].email,
-                },
-                timeSlotInteger: requests[i].timeSlotInteger,
-                topic: {
-                    topic_id: requests[i].topic_id,
-                    topic_name: requests[i].topic_name
-                },
-                matched: requests[i].matched
+        if (requests.length > 0){
+            preRequest = requests[0]
+            output = []
+            topics = [
+                {
+                    topic_id: requests[0].topic_id,
+                    topic_name: requests[0].topic_name
+                }
+            ]
+            for (let i=0; i< requests.length; i++){
+                console.log('requests[i]', requests[i])
 
+                if (i > 0){
+                    if (requests[i].id === preRequest.id){
+                        topics.push({
+                            topic_id: requests[i].topic_id,
+                            topic_name: requests[i].topic_name
+                        })
+                    } else {
+                        preRequest = requests[i]
+                        output.push({
+                            id: preRequest.id,
+                            user: {
+                                user_id: preRequest.user_id,
+                                first_name: preRequest.first_name,
+                                last_name: preRequest.last_name,
+                                email: preRequest.email
+                            },
+                            timeSlotInteger: preRequest.timeSlotInteger,
+                            topics: topics,
+                            matched: preRequest.matched
+                        })
+                        topics = []
+                        topics.push({
+                            topic_id: requests[i].topic_id,
+                            topic_name: requests[i].topic_name
+                        })
+                    }
+                }
             }
+
+            if (topics.length > 0){
+                output.push({
+                    id: preRequest.id,
+                    user: {
+                        user_id: preRequest.user_id,
+                        first_name: preRequest.first_name,
+                        last_name: preRequest.last_name,
+                        email: preRequest.email
+                    },
+                    timeSlotInteger: preRequest.timeSlotInteger,
+                    topics: topics,
+                    matched: preRequest.matched
+                })
+             }
         }
-        res.status(200).json(requests)
+        res.status(200).json(output)
     } catch (err){
         res.status(500).json(err.message)
     }
