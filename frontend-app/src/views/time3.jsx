@@ -77,8 +77,8 @@ class Time3 extends React.Component {
     turnNumToTime(n){
         const year = Math.floor(n/(365*24*3600)) + 1970
         n = n - (year-1970)*365*24*3600
-        const mon = Math.floor(n/(30*24*3600)) + 1
-        n = n - (mon-1)*30*24*3600
+        const mon = Math.floor(n/(30*24*3600)) 
+        n = n - (mon)*30*24*3600
         const d = Math.floor(n/(24*3600))
         n = n - d*24*3600
         const h = Math.floor(n/(3600))
@@ -104,7 +104,7 @@ class Time3 extends React.Component {
         const min = (new Date()).getMinutes()
         const s = (new Date()).getSeconds()
 
-        const timeAsNum = calculateEpochSimilar(y, mon, d, h, min, s)
+        const timeAsNum = this.calculateEpochSimilar(y, mon, d, h, min, s)
 
         //get offset
         const timeOffset = this.state.timeZoneDif
@@ -113,7 +113,7 @@ class Time3 extends React.Component {
         const localTimeNum = timeAsNum + timeOffset
 
         //convert back to date and time local
-        return turnNumToTime(localTimeNum)
+        return this.turnNumToTime(localTimeNum)
     }
 
     updateTimeZone(e){
@@ -148,12 +148,7 @@ class Time3 extends React.Component {
 
     render(){
 
-        const t = new Date()
         const times = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
-
-        for (let i = 0; i < times.length; i++){
-            times[i] = times[i] + this.state.timeZoneDif;
-        }
 
         const days = {
                         0: ['Sun'],
@@ -164,31 +159,31 @@ class Time3 extends React.Component {
                         5: ['Fri'],
                         6: ['Sat']
                      }
-        let curDay = parseInt(t.getUTCDay())
-        let curDate = parseInt(t.getUTCDate())
-        let curMonth = parseInt(t.getUTCMonth() + 1)
-        let curYear = parseInt(t.getUTCFullYear())
+        const localTime = this.getLocalDateTime()
+        const localDay = parseInt(new Date(Date.UTC(localTime.year, localTime.month -1, localTime.date, localTime.hour, localTime.minute, localTime.second)).getDay())
+
+        console.log('local time', this.getLocalDateTime())
 
         let dayInd = null
         let daysBefore = []
         let week = []
         for (let key in days){
-            if (key != curDay && dayInd === null){
+            if (key != localDay && dayInd === null){
                 daysBefore.push(days[key].concat([key]))
             }
-            else if (key == curDay){
-                week.push(days[key].concat([curMonth.toString() + "/" + curDate.toString()]))
+            else if (key == localDay){
+                week.push(days[key].concat([localTime.month.toString() + "/" + localTime.date.toString()]))
                 dayInd = key
             } 
             else {
                 if (dayInd){
-                week.push(days[key].concat([curMonth.toString() + "/" + (curDate + parseInt(key) - parseInt(dayInd)).toString()]))
+                week.push(days[key].concat([localTime.month.toString() + "/" + (localTime.date + parseInt(key) - parseInt(dayInd)).toString()]))
                 }
             }
         }
 
         for (let i = 0; i < daysBefore.length; i++){
-            daysBefore[i][1] = curMonth.toString() + "/" + (curDate + 7 + parseInt(daysBefore[i][1]) - parseInt(dayInd)).toString()
+            daysBefore[i][1] = localTime.month.toString() + "/" + (localTime.date + 7 + parseInt(daysBefore[i][1]) - parseInt(dayInd)).toString()
         }
 
         // console.log(daysBefore)
@@ -198,8 +193,7 @@ class Time3 extends React.Component {
         //the first date is already the current date, check if any hour already passed, don't show, else show
         const timesForCurDate = times.slice()
         for (let i = 0; i < timesForCurDate.length; i++){
-            console.log('t.getUTCHours()', t.getUTCHours(), 'curDate', curDate)
-            if (timesForCurDate[i] < t.getUTCHours()){
+            if (timesForCurDate[i] <= localTime.hour){
                 timesForCurDate[i] = 0
             }
         }
@@ -235,7 +229,7 @@ class Time3 extends React.Component {
                                     className="hour-visible" 
                                     id = {i*16 + elInd}
                                     style={{backgroundColor: "#FFFFFF"}}
-                                    onClick={() => this.updateTimeSlot(this.turnHourDayMonthIntoNum(el, week[i][1], curYear ), document.getElementById(`${i*16 + elInd}`))}>
+                                    onClick={() => this.updateTimeSlot(this.turnHourDayMonthIntoNum(el, week[i][1], localTime.year ), document.getElementById(`${i*16 + elInd}`))}>
                                         {this.turnIntToHourString(el)}
                                   </td> 
                             : <td className="daytime">{el}</td>)}
