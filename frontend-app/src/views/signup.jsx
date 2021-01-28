@@ -35,7 +35,7 @@ class SignUp extends React.Component {
         const token = localStorage.getItem('token')
         if (userId > 0 || token){
             this.props.postRequest(this.props.state.request)
-            this.props.history.push('/time3')
+            this.props.history.push('/times')
         }
         
         console.log('props in signup', this.props)

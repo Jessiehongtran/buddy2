@@ -97,12 +97,14 @@ class Time3 extends React.Component {
 
     getLocalDateTime(){
         //get universal datetime as integer 
-        const y = (new Date()).getFullYear()
-        const mon = (new Date()).getMonth() + 1
-        const d = (new Date()).getDate()
-        const h = (new Date()).getHours()
-        const min = (new Date()).getMinutes()
-        const s = (new Date()).getSeconds()
+        const y = (new Date()).getUTCFullYear()
+        const mon = (new Date()).getUTCMonth() + 1
+        const d = (new Date()).getUTCDate()
+        const h = (new Date()).getUTCHours()
+        const min = (new Date()).getUTCMinutes()
+        const s = (new Date()).getUTCSeconds()
+
+        console.log('UTC time', 'year', y, 'month', mon, 'date', d, 'hour', h, 'minute', min, 'second', s)
 
         const timeAsNum = this.calculateEpochSimilar(y, mon, d, h, min, s)
 
@@ -110,7 +112,7 @@ class Time3 extends React.Component {
         const timeOffset = this.state.timeZoneDif
 
         //add to get to local datetime as integer
-        const localTimeNum = timeAsNum + timeOffset
+        const localTimeNum = timeAsNum + timeOffset*3600
 
         //convert back to date and time local
         return this.turnNumToTime(localTimeNum)
@@ -160,9 +162,11 @@ class Time3 extends React.Component {
                         6: ['Sat']
                      }
         const localTime = this.getLocalDateTime()
-        const localDay = parseInt(new Date(Date.UTC(localTime.year, localTime.month -1, localTime.date, localTime.hour, localTime.minute, localTime.second)).getDay())
+        console.log('timeZoneDiff', this.state.timeZoneDif)
+        console.log('local Time', localTime)
+        const localDay = parseInt(new Date(localTime.year, localTime.month -1, localTime.date, localTime.hour, localTime.minute, localTime.second).getDay())
 
-        console.log('local time', this.getLocalDateTime())
+        console.log('local Day', localDay)
 
         let dayInd = null
         let daysBefore = []

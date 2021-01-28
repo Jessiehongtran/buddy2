@@ -39,7 +39,7 @@ class Login extends React.Component {
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('userId', res.data.userId)
             this.props.updateUserID(res.data.userId)
-            this.props.history.push('/time3')
+            this.props.history.push('/times')
         } catch (err){
             console.log(err)
             this.setState({ login_error: err.message })
