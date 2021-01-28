@@ -139,8 +139,9 @@ class Time3 extends React.Component {
     }
 
     async submitTimeSlot(){
-        if (this.state.request.timeSlotInteger){
-            this.props.addTimeSlot(this.state.request.timeSlotInteger)
+        const UTCTimeNum = this.state.request.timeSlotInteger + this.state.timeZoneDif*3600
+        if (this.state.request.timeSlotInteger && UTCTimeNum){
+            this.props.addTimeSlot(UTCTimeNum)
             this.props.postRequest(this.state.request)
             this.props.history.push('/topics')
         } else {
@@ -233,7 +234,7 @@ class Time3 extends React.Component {
                                     className="hour-visible" 
                                     id = {i*16 + elInd}
                                     style={{backgroundColor: "#FFFFFF"}}
-                                    onClick={() => this.updateTimeSlot(this.turnHourDayMonthIntoNum(el, week[i][1], localTime.year ), document.getElementById(`${i*16 + elInd}`))}>
+                                    onClick={() => this.updateTimeSlot(this.calculateEpochSimilar(localTime.year, localTime.month, parseInt(week[i][1].split('/')[1]), el, 0, 0 ), document.getElementById(`${i*16 + elInd}`))}>
                                         {this.turnIntToHourString(el)}
                                   </td> 
                             : <td className="daytime">{el}</td>)}
