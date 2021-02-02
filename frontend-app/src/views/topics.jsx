@@ -54,6 +54,7 @@ class Topics extends Component {
                     request_id: this.props.state.request_id,
                     topic_id: this.props.state.topics[i].id
                 }
+                console.log('request_topic_ids', request_topic_ids)
                 this.props.postRequestTopic(request_topic_ids)
             }
             this.props.history.push('/matching')

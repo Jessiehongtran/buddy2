@@ -27,6 +27,8 @@
 
     .navigation {
         margin-right: 130px;
+        display: flex;
+        align-items: center;
 
         a {
             margin-right: 20px;
@@ -38,19 +40,32 @@
             color: #3B3A36
         }
 
-        button {
+        .getStarted-btn {
             border: 1px solid #61605D;
             padding: 8px;
             border-radius: 4px;
             font-size: 14px;
             background-color: transparent;
             font-family: 'Montserrat', sans-serif;
-            color: #61605D
+            color: #61605D;
+            margin-right: 20px;
         }
 
-        button:hover {
+        .getStarted-btn:hover {
             border:  1px solid #3B3A36;
-            color: #3B3A36
+            background-color: #3B3A36;
+            color: white
+        }
+
+        .account {
+            .account-icon {
+                font-size: 30px;
+                color: grey
+            }
+
+            .account-icon:hover {
+                color: black
+            }
         }
     }
 }

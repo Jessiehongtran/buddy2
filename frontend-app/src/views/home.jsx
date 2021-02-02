@@ -27,6 +27,7 @@ class Home extends Component {
 
     render(){
         console.log('props in home', this.props)
+
         return (
             <div className="home">
                 <div className="left">
