@@ -12,7 +12,8 @@ class Matching extends React.Component{
         super(props);
         this.state = {
             requests: [],
-            toMatch: {}
+            toMatch: {},
+            matchedZoomID: ""
         }
     }
 
@@ -76,8 +77,17 @@ class Matching extends React.Component{
             })
     }
 
+    showZoomLink(meetingTime){
+        let now = new Date();
+        let millisTillMeeting = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 21,5,0,0 ) - now
+
+        setTimeout(function(){
+            alert("It's 9:30pm!")
+        }, millisTillMeeting);
+    }
+
     render(){
-        const toMatch = this.state.toMatch
+        const { toMatch, matchedZoomID } = this.state
 
         const matches = []
 
@@ -99,6 +109,7 @@ class Matching extends React.Component{
             //if there is a match,  update matched of this new request as 'true'
             this.updateMatch(this.props.state.request_id)
             const uuid = uuidv4()
+            //showZoomLink()
            
             return (
                 <div className="matching-container">
@@ -120,6 +131,9 @@ class Matching extends React.Component{
                         </tr>
                     </table>
                     
+                    {matchedZoomID.length > 0
+                    ? <a href=""><p>Meet your buddy</p></a>
+                    : null}
                 
                 </div>
             )

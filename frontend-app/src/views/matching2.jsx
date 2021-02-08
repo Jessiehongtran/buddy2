@@ -7,7 +7,8 @@ class Matching2 extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            requests: []
+            requests: [],
+            matchedZoomID: ""
         }
     }
 
@@ -63,13 +64,26 @@ class Matching2 extends React.Component {
         return null
     }
 
+    //when to call this function though, if call in return, I need the match, where the match can be stored? in database or in localStorage, maybe we need a match table to store matches, and dashboard for each user
+    showZoomLink(meetingTime){
+        let now = new Date();
+        let millisTillMeeting = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 21,5,0,0 ) - now
+
+        setTimeout(function(){
+            alert("It's 9:30pm!")
+        }, millisTillMeeting);
+    }
+
 
     render(){
 
         return (
             <div>
                 {this.hasMatch()
-                ? <p>Matched with buddy #{this.hasMatch().id}</p>
+                ? <div>
+                    <p>Matched with buddy #{this.hasMatch().id}</p>
+                    <a href="">Meet your buddy</a>
+                  </div>
                 : <p>There is no buddy available for you :(</p>}
             </div>
         )

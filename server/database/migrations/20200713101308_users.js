@@ -6,6 +6,7 @@ exports.up = function(knex) {
         tbl.string('last_name')
         tbl.string('email').unique().notNullable()
         tbl.string('password')
+        tbl.string('zoomID').unique().notNullable()
     })
   };
   

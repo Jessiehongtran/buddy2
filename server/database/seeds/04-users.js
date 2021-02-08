@@ -10,21 +10,24 @@ exports.seed = function(knex) {
           first_name: 'Hong',
           last_name: 'Tran',
           email: 'htran2@babson.edu',
-          password: '1234'
+          password: '1234',
+          zoomID: '12345678'
         },
         {
           id: 2,
           first_name: 'Vy',
           last_name: 'Tran',
           email: 'vytran@babson.edu',
-          password: '12345'
+          password: '12345',
+          zoomID: '12345679'
         },
         {
           id: 3,
           first_name: 'La',
           last_name: 'Giang',
           email: 'lagiang@gmail.com',
-          password: 'abcd'
+          password: 'abcd',
+          zoomID: '123456710'
         }
       ]);
     });

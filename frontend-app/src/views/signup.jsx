@@ -11,7 +11,8 @@ class SignUp extends React.Component {
                 first_name: "",
                 last_name: "",
                 email: this.props.state.email,
-                password: ""
+                password: "",
+                zoomID: ""
             }
         }
         this.handleChange = this.handleChange.bind(this)
@@ -53,12 +54,14 @@ class SignUp extends React.Component {
                             type="text"
                             name="first_name"
                             onChange={this.handleChange}
+                            required
                         />
                         <input 
                             placeholder="Last name"
                             type="text"
                             name="last_name"
                             onChange={this.handleChange}
+                            required
                         />
                     </div>
                     <div className="row">
@@ -68,6 +71,7 @@ class SignUp extends React.Component {
                             name="email"
                             value={this.state.user.email}
                             onChange={this.handleChange}
+                            required
                         />
                     </div>
                     <div className="row">
@@ -76,6 +80,16 @@ class SignUp extends React.Component {
                             type="password"
                             name="password"
                             onChange={this.handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="row">
+                        <input 
+                            placeholder="Personal Zoom Meeting ID"
+                            type="zoomID"
+                            name="zoomID"
+                            onChange={this.handleChange}
+                            required
                         />
                     </div>
                     <button>Sign up</button>

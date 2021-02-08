@@ -25,8 +25,13 @@ class Home extends Component {
         this.props.history.push('/signup')
     }
 
+
     render(){
         console.log('props in home', this.props)
+
+        if (localStorage.getItem('token')){
+            this.props.history.push('/times')
+        }
 
         return (
             <div className="home">
