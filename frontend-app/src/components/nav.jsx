@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { API_URL } from '../config';
+import LogOut from '../components/logout';
 
 class Nav extends Component {
     constructor(props){
@@ -54,8 +55,14 @@ class Nav extends Component {
                     <h1>Buddy</h1>
                 </div>
                 <div className="navigation">
-                    <a href="/login">Login</a>
-                    <button className="getStarted-btn" onClick={() => this.props.history.push('/signup')}>Get started</button>
+                    {localStorage.getItem('userId')
+                    ? <LogOut history={this.props.history}/>
+                    : <a href="/login">Login</a>
+                    }
+                    {localStorage.getItem('userId') 
+                    ? <a href="/mymatch">My Matches</a>
+                    : <button className="getStarted-btn" onClick={() => this.props.history.push('/signup')}>Get started</button>
+                    }
                     <div className="account">
                         <FontAwesomeIcon
                             className="account-icon"

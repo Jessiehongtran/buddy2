@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { API_URL } from '../config';
 import Axios from 'axios';
 import LogOut from '../components/logout';
+import Nav from '../components/nav';
 
 class Time3 extends React.Component {
     constructor(props){
@@ -212,6 +213,8 @@ class Time3 extends React.Component {
 
 
         return (
+            <>
+            <Nav props={this.props}/>
             <div className="timetable-container">
                 <div className="logout-container">
                     <LogOut history={this.props.history}/>
@@ -244,6 +247,7 @@ class Time3 extends React.Component {
                 : null}
                 <button className="next-btn" onClick={() => this.submitTimeSlot()}>NEXT</button>
             </div>
+            </>
         )
     }
 }

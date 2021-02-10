@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { API_URL } from '../config';
 import { addTimeSlot, postRequest} from '../actions';
 import { connect } from 'react-redux';
+import Nav from '../components/nav';
 
 class Time2 extends React.Component {
     constructor(props){
@@ -229,6 +230,8 @@ class Time2 extends React.Component {
 
         if (dateTimes.length > 0){
         return (
+            <>
+            <Nav />
             <div className="time-container">
                 <div class="top">
                     <label>Select your time zone</label>
@@ -264,6 +267,7 @@ class Time2 extends React.Component {
                     )}
                 </div>
             </div>
+            </>
         )
         }
         else {

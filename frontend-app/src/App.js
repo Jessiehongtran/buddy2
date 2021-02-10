@@ -11,7 +11,8 @@ import Nav from './components/nav';
 import Time3 from './views/time3';
 import Top from './components/top';
 import Video from './components/video';
-import Login from './components/login'
+import Login from './components/login';
+import MyMatch from './views/mymatch';
 
 function App() {
   return (
@@ -49,6 +50,16 @@ function App() {
             props => {
               return (
                 <Login {...props}/>
+              )
+            }
+          }
+        />
+         <Route
+          exact path = "/mymatch"
+          render = {
+            props => {
+              return (
+                <MyMatch {...props}/>
               )
             }
           }
