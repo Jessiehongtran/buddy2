@@ -5,7 +5,6 @@ const getMatchByUserID = (userID) => {
             .where(function(){
                 this.where('buddy1_ID', userID).orWhere('buddy2_ID', userID)
             })
-            .first()
 }
 
 const addMatch = (match) => {

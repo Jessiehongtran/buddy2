@@ -7,10 +7,8 @@ exports.seed = function(knex) {
       return knex('matches').insert([
         {
           id: 1,
-          buddy1_ID: 1,
-          buddy2_ID: 2,
-          buddy1_zoomID: "1234567",
-          buddy2_zoomID: "123456710",
+          request1_id: 1,
+          request2_id: 2,
           meetingTimeInt: 1614349886,
           topics: "environment, education"
         },
