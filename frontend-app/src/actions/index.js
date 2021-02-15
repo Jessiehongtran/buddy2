@@ -44,7 +44,7 @@ export const postUser = user => {
         axios
             .post(`${API_URL}/api/users`, user)
             .then(res => {
-                console.log('posted user successfully')
+                console.log('posted user successfully', res.data)
                 localStorage.setItem('userId', res.data.id)
                 dispatch({
                     type: ADD_USER_ID,
@@ -66,7 +66,8 @@ export const postRequest = request => {
         axios
             .post(`${API_URL}/api/requests`, request)
             .then(res => {
-                console.log('posted request successfully')
+                console.log('posting a new request', res.data)
+                localStorage.setItem('request_id', res.data.id)
                 dispatch({
                     type: UPDATE_REQUEST_ID,
                     payload: res.data.id
@@ -94,7 +95,7 @@ export const postRequestTopic = request_topic_ids => {
         axios
             .post(`${API_URL}/api/topics/withRequest`, request_topic_ids)
             .then(res => {
-                console.log('posted request topic successfully')
+                console.log('posted request topic successfully', res.data)
                 dispatch({
                     type: POST_REQUEST_TOPIC_SUCCESS,
                     payload: res.data.id

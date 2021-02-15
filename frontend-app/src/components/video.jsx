@@ -14,8 +14,6 @@ const Video = (props) => {
         if (room ) setCall(true)
     }
 
-    console.log('state in video', props.state)
-
     return call ? (
         <Jutsu
             roomName={room}

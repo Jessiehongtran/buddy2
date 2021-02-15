@@ -21,14 +21,12 @@ class Home extends Component {
 
     getStarted(e){
         e.preventDefault()
-        this.props.updateEmail(this.state.email)
+        this.props.updateEmail(this.state.email) //for what??
         this.props.history.push('/signup')
     }
 
 
     render(){
-        console.log('props in home', this.props)
-
         if (localStorage.getItem('token')){
             this.props.history.push('/times')
         }

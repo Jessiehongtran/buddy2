@@ -25,7 +25,6 @@ class SignUp extends React.Component {
 
     handleSubmit(e){
         e.preventDefault() 
-        console.log('user', this.state.user)
         this.props.postUser(this.state.user)
     }
 
@@ -35,11 +34,8 @@ class SignUp extends React.Component {
         const userId = this.props.state.request.user_id
         const token = localStorage.getItem('token')
         if (userId > 0 || token){
-            this.props.postRequest(this.props.state.request)
             this.props.history.push('/times')
         }
-        
-        console.log('props in signup', this.props)
 
         return (
             <div className="signup">

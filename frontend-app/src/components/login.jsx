@@ -32,13 +32,12 @@ class Login extends React.Component {
     async handleSubmit(e){
         e.preventDefault()
         //post for login
-        console.log(this.state.user)
         try {
             const res = await Axios.post(`${ API_URL }/api/users/login`, this.state.user)
-            console.log(res.data)
+            console.log('a user is logging in', res.data)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('userId', res.data.userId)
-            this.props.updateUserID(res.data.userId)
+            this.props.updateUserID(res.data.userId) //doing this but currently mostly rely on local storage so that the data does not disappear due to refresh
             this.props.history.push('/times')
         } catch (err){
             console.log(err)

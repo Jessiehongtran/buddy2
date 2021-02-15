@@ -1,316 +1,252 @@
-import React, {Component} from 'react';
-import '../styles/time.scss';
-import {timeslots} from '../data/timeslots';
-import {timeZones} from '../data/timeZones';
+import React from 'react';
+import '../styles/time3.scss';
+import { addTimeSlot, postRequest} from '../actions';
+import { connect } from 'react-redux';
+import { API_URL } from '../config';
 import Axios from 'axios';
+import LogOut from '../components/logout';
+import Nav from '../components/nav';
 
-class Time extends Component {
+class Time3 extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            timeslots: [],
-            timezoneDif: 0,
-            currentTime: {
-                year: (new Date()).getFullYear(),
-                month: (new Date()).getMonth()+1,
-                date: (new Date()).getDate(),
-                hour: (new Date()).getHours(),
-                min: (new Date()).getMinutes(),
-                sec: (new Date()).getSeconds(),
-                daynight: 'AM'
-            },
-            dateTimeClicked: {
-                date: '',
-                time: ''
-            },
-            divsToColor: []
-
+            request: {},
+            divsToChangeColor: [],
+            timeZones: [],
+            selectedTimeZone: {},
+            timeZoneDif: 0
         }
 
-        this.handleChange = this.handleChange.bind(this)
-        // this.updateCurrentTime = this.updateCurrentTime(this)
-        
+        this.updateTimeSlot = this.updateTimeSlot.bind(this)
+        this.getTimeZones = this.getTimeZones.bind(this)
+        this.updateTimeZone = this.updateTimeZone.bind(this)
     }
 
     componentDidMount(){
-        Axios.get('https://buddy-talk.herokuapp.com/api/days')
-             .then(res => {
-                const days = res.data
-                Axios.get('https://buddy-talk.herokuapp.com/api/times')
-                     .then(newres => {
-                        const timeslots = []
-                        for (let i=0; i<days.length;i++){
-                            const timeObj = {
-                                day: days[i],
-                                date: "",
-                                times: newres.data
-                            }
-                            timeslots.push(timeObj)
-                        }
-                        console.log('timeslots from get request', timeslots)
-                        this.setState({timeslots: timeslots})
-
-                     })
-                     .catch(err => {
-                        console.log(err.message)
-                    })
-             })
-             .catch(err => {
-                 console.log(err.message)
-             })
+        this.getTimeZones()
     }
 
-    updateCurrentTime(){
-        this.setState({currentTime: this.getLocalTime(this.state.timezoneDif)})
+    async getTimeZones(){
+        try {
+            const res = await Axios.get(`${API_URL}/api/timezones`)
+            console.log('getting timezones', res.data)
+            this.setState({timeZones: res.data})
+        } catch(err){
+           console.log(err.message)
+        }
     }
 
-    //update time zone
-    handleChange(e) {
-        this.setState({timezoneDif: parseInt(e.target.value)})
-        this.updateCurrentTime()
+    turnIntToHourString(n){
+        if (n < 0){
+            return null
+        } else if (n != 0 && n < 12 || n == 24){
+            return n.toString() + ":00 AM"
+        } 
+        else if (n === 12){
+            return n.toString() + ":00 PM"
+        }
+        else {
+            return (n-12).toString() + ":00 PM"
+        }
     }
 
-    //compare current time to show only the time after that
-    toShowTime(timeslot){
-        // console.log('currentTime in toShowTime', this.state.currentTime)
-        var currH = this.state.currentTime.hour
-        const ampmC = this.state.currentTime.daynight
-        // console.log(ampmC)
-        var timeH = timeslot.split(":")[0]
-        const ampmT = timeslot.split(" ")[1]
+    turnHourDayMonthIntoNum(hr, daymonth, year){
+        const day = parseInt(daymonth.split("/")[0])
+        const month = parseInt(daymonth.split("/")[1])
 
-        if (ampmC === "PM" && parseInt(currH) !== 12){
-            currH = parseInt(currH) + 12
-        }
-
-        if (ampmT === "PM" && parseInt(timeH) !== 12){
-            timeH = parseInt(timeH) + 12
-        }
-
-        // console.log(currH, timeH)
-
-        if (parseInt(currH) >= parseInt(timeH)){
-            return false
-        }
-        
-        return true
-        
+        return (year - 1970)*365*24 + month*30*24 + day*24 + hr
     }
 
-    //when the slot is clicked
-    handleClickTime(date, time, div){
-        const dateTimeClicked = {
-            date: date,
-            time: time
-        }
-        this.setState({
-            dateTimeClicked: dateTimeClicked,
-            divsToColor: [...this.state.divsToColor, div]
-        })
 
-        if (div.style.backgroundColor === "rgb(255, 255, 255)") {
-            console.log("fired click")
-            div.style.backgroundColor = "rgb(150, 219, 242)";
-        } else{
-            div.style.backgroundColor = "rgb(255, 255, 255)";
+    changeColor(div){
+        if (div.style.backgroundColor === "rgb(255, 255, 255)"){
+            div.style.backgroundColor = "#BFE0FF"
+        } else {
+            div.style.backgroundColor = "rgb(255, 255, 255)"
         }
-
         //make previous clicked back to white
-        for (var i=0; i<this.state.divsToColor.length; i++){
-            this.state.divsToColor[i].style.backgroundColor = "rgb(255, 255, 255)";
+        for (var i=0; i<this.state.divsToChangeColor.length; i++){
+            this.state.divsToChangeColor[i].style.backgroundColor = "rgb(255, 255, 255)";
         }
     }
 
-    //to get another date based on one date
-    getAnotherdate(now, offset){
-        // var month = parseInt(monthdate.split('/')[0])
-        // var date = parseInt(monthdate.split('/')[1])
-        var month = this.state.currentTime.month
-        var date = this.state.currentTime.date
-      
-        if (offset > now){
-          if (date - now + offset <= new Date(2020, month, 0).getDate()){
-            return month.toString() + "/" + (date - now + offset).toString()
-          }
-          else {
-            return (month+1).toString() + "/" + (date - now + offset - new Date(2020, month, 0).getDate()).toString()
-          
-        }
-      
+    calculateEpochSimilar(y, mon, d, h, min, s){
+        return (y-1970)*365*24*3600 + mon*30*24*3600 + d*24*3600 + h*3600 + min*60 + s
       }
-    }
 
-    getLocalTime(dif){
-        let datetime = (new Date()).toLocaleString()
-        let date = datetime.split(', ')[0]
-        let day = parseInt(date.split('/')[1])
-        let month = parseInt(date.split('/')[0])
-        let year = parseInt(date.split('/')[2])
-        let time = datetime.split(', ')[1]
-        let daynight = time.split(' ')[1]
-        let currentTime = time.split(' ')[0]
-      
-        let hour = parseInt(currentTime.split(':')[0])
-        let min = parseInt(currentTime.split(':')[1])
-        let sec = parseInt(currentTime.split(':')[2])
-        
-        //convert hours based on morning/afternoon
-        if (daynight == 'PM' && hour !== 12){
-          hour = hour + 12
-        }
-      
-        //convert hour based on time zone difference
-        let t = (hour+ dif)*3600 + min*60 + sec
-        let h1 = Math.floor(t/3600)
-        let m1 = Math.floor((t-h1*3600)/60)
-        let s1 = t - h1*3600 - m1*60
-      
-        if (h1 < 0){
-          h1 = 24 + h1
-          day = day - 1
-          if (day < 0){
-            day = new Date(2020, month-1, 0).getDate()
-            month = month - 1
-            if (month <0){
-              year = year - 1
-              month = 12
-            }
-          }
-        }
-        else {
-          hour = h1 - 24
-          day = day + 1
-          if (day > new Date(2020, month, 0).getDate()){
-            day = 1
-            month = month + 1
-            if (month > 12){
-              year = year + 1
-              month = 1
-            }
-          }
-        }
-      
-        //convert back to AM or PM
-        if (h1 < 12){
-          daynight = 'AM'
-        }
-        else {
-          daynight = 'PM'
-          h1 = h1 - 12
-        }
-      
-        //check digits of min
-        if (m1.toString().length === 1){
-          m1 = '0' + m1.toString() 
-        }
-      
-        //check digits of sec
-        if (s1.toString().length === 1){
-          s1 = '0' + s1.toString() 
-        }
-      
+    turnNumToTime(n){
+        const year = Math.floor(n/(365*24*3600)) + 1970
+        n = n - (year-1970)*365*24*3600
+        const mon = Math.floor(n/(30*24*3600)) 
+        n = n - (mon)*30*24*3600
+        const d = Math.floor(n/(24*3600))
+        n = n - d*24*3600
+        const h = Math.floor(n/(3600))
+        n = n - h*3600
+        const min = Math.floor(n/60)
+        n = n - min*60
         return {
           year: year,
-          month: month,
-          date: day,
-          hour: h1,
-          min: m1,
-          sec: s1,
-          daynight: daynight
+          month: mon, 
+          date: d,
+          hour: h,
+          minute: min,
+          second: n
         }
       }
-    
-    
+
+    getLocalDateTime(){
+        //get universal datetime as integer 
+        const y = (new Date()).getUTCFullYear()
+        const mon = (new Date()).getUTCMonth() + 1
+        const d = (new Date()).getUTCDate()
+        const h = (new Date()).getUTCHours()
+        const min = (new Date()).getUTCMinutes()
+        const s = (new Date()).getUTCSeconds()
+
+        const timeAsNum = this.calculateEpochSimilar(y, mon, d, h, min, s)
+
+        //get offset
+        const timeOffset = this.state.timeZoneDif
+
+        //add to get to local datetime as integer
+        const localTimeNum = timeAsNum + timeOffset*3600
+
+        //convert back to date and time local
+        return this.turnNumToTime(localTimeNum)
+    }
+
+    updateTimeZone(e){
+        this.setState({ timeZoneDif: parseInt(e.target.value) })
+    }
+
+    updateTimeSlot(timeInNum, div){
+        const newRequest = {
+            user_id: localStorage.getItem('userId'),
+            timeSlotInteger: timeInNum,
+            matched: false
+        }
+        this.setState({
+            request: newRequest,
+            divsToChangeColor: [
+                ...this.state.divsToChangeColor,
+                div
+            ]
+        })
+        this.changeColor(div)
+    }
+
+    async submitTimeSlot(){
+        const UTCTimeNum = this.state.request.timeSlotInteger + this.state.timeZoneDif*3600
+        if (this.state.request.timeSlotInteger && UTCTimeNum){
+            this.props.addTimeSlot(UTCTimeNum)
+            this.props.postRequest(this.state.request)
+            this.props.history.push('/topics')
+        } else {
+            alert("Please select a time slot")
+        }
+    }
 
     render(){
-        console.log('this.state.currentTime', this.state.currentTime)
-        console.log(this.state.dateTimeClicked)
 
-        const arrangedSlots = []
-        var todate = (this.state.currentTime.month).toString() + "/" + this.state.currentTime.date.toString()
+        const times = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
 
-        for (var i=0; i < timeslots.length; i++){
-            if (i == (new Date()).getDay()){
-                arrangedSlots.push(timeslots[i])
-                var j = i + 1
-                while (j < timeslots.length){
-                    var dateObj = {
-                        day: timeslots[j].day,
-                        date: this.getAnotherdate(todate, i, j),
-                        times: timeslots[j].times
-                    }
-                    arrangedSlots.push(dateObj)
-                    j += 1
-                }
-                if (j === timeslots.length){
-                    while (j - timeslots.length< i){
-                        var dateObj2 = {
-                            day: timeslots[j-timeslots.length].day,
-                            date: this.getAnotherdate(todate, i, j),
-                            times: timeslots[j-timeslots.length].times
-                        }
-                        arrangedSlots.push(dateObj2)
-                        j += 1
-                    }
+        const days = {
+                        0: ['Sun'],
+                        1: ['Mon'],
+                        2: ['Tue'],
+                        3: ['Wed'],
+                        4: ['Thu'],
+                        5: ['Fri'],
+                        6: ['Sat']
+                     }
+        const localTime = this.getLocalDateTime()
+        const localDay = parseInt(new Date(localTime.year, localTime.month -1, localTime.date, localTime.hour, localTime.minute, localTime.second).getDay())
+
+        let dayInd = null
+        let daysBefore = []
+        let week = []
+        for (let key in days){
+            if (key != localDay && dayInd === null){
+                daysBefore.push(days[key].concat([key]))
+            }
+            else if (key == localDay){
+                week.push(days[key].concat([localTime.month.toString() + "/" + localTime.date.toString()]))
+                dayInd = key
+            } 
+            else {
+                if (dayInd){
+                week.push(days[key].concat([localTime.month.toString() + "/" + (localTime.date + parseInt(key) - parseInt(dayInd)).toString()]))
                 }
             }
         }
 
-        console.log('arrangedSlots', arrangedSlots)
+        for (let i = 0; i < daysBefore.length; i++){
+            daysBefore[i][1] = localTime.month.toString() + "/" + (localTime.date + 7 + parseInt(daysBefore[i][1]) - parseInt(dayInd)).toString()
+        }
+
+        // console.log(daysBefore)
+
+        week = week.concat(daysBefore)
+
+        //the first date is already the current date, check if any hour already passed, don't show, else show
+        const timesForCurDate = times.slice()
+        for (let i = 0; i < timesForCurDate.length; i++){
+            if (timesForCurDate[i] <= localTime.hour){
+                timesForCurDate[i] = 0
+            }
+        }
+        week[0] = week[0].concat(timesForCurDate)
+
+        for (let i = 1; i < week.length; i++){
+            week[i] = week[i].concat(times)
+        }
 
         return (
-            <div class="time-container">
-                {/* {this.toShowTime(this.state.currentTime, "9:00 AM")? <h1>OK</h1>: <h1>Not ok</h1>} */}
-                <div class="top">
-                    <select className="timezone" name="timezone" onChange={this.handleChange}>
-                        <option>Select your time zone</option>
-                        {timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
+            <>
+            <Nav props={this.props}/>
+            <div className="timetable-container">
+                <div className="logout-container">
+                    <LogOut history={this.props.history}/>
+                </div>
+                <div className="timezone-container">
+                    <label>Select your time zone</label>
+                    <select className="timezone" name="timezone" onChange={this.updateTimeZone} >
+                        <option>(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
+                        {this.state.timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
-                    <button onClick={() => this.props.history.push('/topics')}>Next</button>
                 </div>
-                <div class="slots">
-                    <p>Choose your timeslot</p>
-                    {arrangedSlots.map(function (slot, i) {
-                        if (i === 0){
-                        return (
-                                    <div class="each-slot">
-                                        <p class="day">{slot.day}</p>
-                                        <p>{todate}</p>
-                                        {slot.times.map(function (time, ind){  
-                                            if (this.toShowTime(time)){
-                                                // console.log('1', i+ind)
-                                                return <p class="time" style={{backgroundColor: "rgb(255,255,255)"}} id = {i + ind} onClick={() => this.handleClickTime(todate, time, document.getElementById(i*8 + ind))}>{time}</p>
-                                            } else {
-                                            return <p class="time-not">{time}</p>
-                                            }
-                                        }, this
-                                        )}
-                                    </div>
-                                )
-                        }
-
-                        else {
-                            return (
-                                <div class="each-slot">
-                                        <p class="day">{slot.day}</p>
-                                        <p class="non-date">{slot.date}</p> 
-                                        {slot.times.map(function(time,ind2){
-                                            // console.log('i', i, 'ind2', ind2)
-                                            // console.log('2', i*16 + ind2)
-                                            return <p class="time" style={{backgroundColor: "rgb(255,255,255)"}} id = {i*16 + ind2} onClick={() => this.handleClickTime(slot.date, time, document.getElementById(i*16 + ind2))}>{time}</p>
-                                        }, this
-                                        )}
-                                    </div>
-                            )
-                        }
-                            }, this)}
-                            
-                </div>
-                
+                {week.length > 0
+                ? <table>
+                    {week.map((eachDay, i) => 
+                    <tr>
+                        {eachDay.map((el, elInd) => Number.isInteger(el) 
+                            ? el == 0 
+                                ? <td className="hour-invisible">0</td> 
+                                : <td 
+                                    className="hour-visible" 
+                                    id = {i*16 + elInd}
+                                    style={{backgroundColor: "#FFFFFF"}}
+                                    onClick={() => this.updateTimeSlot(this.calculateEpochSimilar(localTime.year, localTime.month, parseInt(week[i][1].split('/')[1]), el, 0, 0 ), document.getElementById(`${i*16 + elInd}`))}>
+                                        {this.turnIntToHourString(el)}
+                                  </td> 
+                            : <td className="daytime">{el}</td>)}
+                    </tr>
+                    )}
+                 </table>
+                : null}
+                <button className="next-btn" onClick={() => this.submitTimeSlot()}>NEXT</button>
             </div>
+            </>
         )
-       
     }
 }
 
-export default Time;
+const mapStateToProps = state => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { addTimeSlot, postRequest})(Time3);

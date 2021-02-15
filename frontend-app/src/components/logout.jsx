@@ -10,13 +10,14 @@ export default class LogOut extends React.Component {
     }
 
     logout(){
+        console.log('a user is logging out')
         localStorage.clear();
         this.props.history.push("/")
     }
 
     render(){
         return (
-            <div className="logout" onClick={() => this.logout()}>Log Out</div>
+            <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.logout()}>Log Out</div>
         )
     }
 }

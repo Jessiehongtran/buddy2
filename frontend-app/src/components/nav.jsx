@@ -28,11 +28,14 @@ class Nav extends Component {
         if (userId){
             try {
                 const res = await axios.get(`${API_URL}/api/users/${userId}`)
-                this.setState({ 
-                    username: res.data.first_name + " " + res.data.last_name,
-                    initials: res.data.first_name[0] + res.data.last_name[0],
-                    email: res.data.email
-                })
+                console.log('getting a user account', res.data)
+                if (res.data){
+                    this.setState({ 
+                        username: res.data.first_name + " " + res.data.last_name,
+                        initials: res.data.first_name[0] + res.data.last_name[0],
+                        email: res.data.email
+                    })
+                }
             } catch (err){
                 console.error(err)
             }
@@ -70,25 +73,27 @@ class Nav extends Component {
                             onClick={() => this.toggleShowAccount()}
                         />
                         {showAccount 
-                        ? <div className="account-detailed" style={{ position: 'absolute', backgroundColor: 'white', padding: '60px 20px', right: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <div className="email-container" style={{ display: 'flex' }}>
-                                <div className="name-initial" style={{ backgroundColor: 'blue', borderRadius: '50%', padding: '10px', marginRight: '20px', color: 'white'}}>
-                                    {initials}
-                                </div>
-                                <div className="content">
-                                    <div className="name" style={{ fontWeight: 'bold', marginBottom: '5px'}}>
-                                        {username}
+                        ? email.length > 0 
+                            ? <div className="account-detailed" style={{ position: 'absolute', backgroundColor: 'white', padding: '60px 20px', right: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <div className="email-container" style={{ display: 'flex' }}>
+                                    <div className="name-initial" style={{ backgroundColor: 'blue', borderRadius: '50%', padding: '10px', marginRight: '20px', color: 'white'}}>
+                                        {initials}
                                     </div>
-                                    <div className="email" style={{ fontSize: '14px' }}>
-                                        {email}
+                                    <div className="content">
+                                        <div className="name" style={{ fontWeight: 'bold', marginBottom: '5px'}}>
+                                            {username}
+                                        </div>
+                                        <div className="email" style={{ fontSize: '14px' }}>
+                                            {email}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="collapse-icon">
+                                    <div className="collapse-icon">
 
+                                    </div>
                                 </div>
+                                <button style={{ marginTop: '20px', width: '80%', backgroundColor: 'blue', color: 'white', borderRadius: '8px', fontSize: '16px', padding: '8px 15px', border: 'none'}}>Sign Out</button>
                             </div>
-                            <button style={{ marginTop: '20px', width: '80%', backgroundColor: 'blue', color: 'white', borderRadius: '8px', fontSize: '16px', padding: '8px 15px', border: 'none'}}>Sign Out</button>
-                        </div>
+                            : alert("Please sign in/sign up")
                         : null}
                     </div>
                 </div>

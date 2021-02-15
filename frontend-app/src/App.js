@@ -3,13 +3,10 @@ import { Route, Switch } from "react-router-dom";
 import Home from './views/home';
 import Topics from './views/topics';
 import SignUp from './views/signup';
-import Time2 from './views/time2';
 import Closing from './views/closingMessage';
 import Matching from './views/matching';
-import Matching2 from './views/matching2';
 import Nav from './components/nav';
-import Time3 from './views/time3';
-import Top from './components/top';
+import Time from './views/time';
 import Video from './components/video';
 import Login from './components/login';
 import MyMatch from './views/mymatch';
@@ -69,7 +66,7 @@ function App() {
           render = {
             props => {
               return (
-                <Time3 {...props}/>
+                <Time {...props}/>
               )
             }
           }
@@ -99,7 +96,7 @@ function App() {
           render = {
             props => {
               return (
-                <Matching2 {...props}/>
+                <Matching {...props}/>
               )
             }
           }

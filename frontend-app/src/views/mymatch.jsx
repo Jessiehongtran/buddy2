@@ -11,12 +11,35 @@ export default class MyMatch extends React.Component {
         }
     }
 
+    async getMatchesByRequestId(requestID){
+        let matches = []
+        try {
+            const res = await axios.get(`${API_URL}/api/matches/${requestID}`)
+            console.log('get matches by request id', res.data)
+            if (res.data.length > 0){
+                matches = res.data
+            }
+        } catch (err){
+            console.error(err)
+        }
+
+        return matches
+    }
+
     async getMatchesByUserId(){
         const userId = localStorage.getItem('userId')
         try {
-            const res = await axios.get(`${API_URL}/api/matches/${userId}`)
-            if (res.length > 0){
-                this.setState({ matches: res.data })
+            const res = await axios.get(`${API_URL}/api/requests/user/${userId}`)
+            console.log('get matches by user id', res.data)
+            if (res.data.length > 0){
+                const requestsOfThisUser = res.data
+                const { matches } = this.state;
+                for (let i = 0; i < requestsOfThisUser.length ; i++){
+                    if (this.getMatchesByRequestId(requestsOfThisUser[i].id).length > 0){
+                        matches.concat(this.getMatchesByRequestId(requestsOfThisUser[i].id))
+                    }
+                }
+                this.setState({ matches: matches })
             }
         } catch (err){
             console.error(err)
@@ -38,6 +61,8 @@ export default class MyMatch extends React.Component {
                     {matches.map(match => 
                         <div>
                             <p>Name</p>
+                            <p>Time</p>
+                            <p>Topics</p>
                             <p><a>Join</a></p>
                         </div>
                     )}

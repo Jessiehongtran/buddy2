@@ -17,13 +17,11 @@ class Topics extends Component {
     
     handleClickTopic(topic, div){
         if (div.style.backgroundColor === "rgb(255, 255, 255)") {
-            console.log("fired click")
             div.style.backgroundColor = "#F6D6C7";
             const selected = this.state.selected_topics
             selected.push(topic)
             this.setState({selected_topics: selected})
         } else{
-            console.log("unclicked")
             div.style.backgroundColor = "rgb(255, 255, 255)";
             const selected = this.state.selected_topics
             selected.pop(topic)
@@ -33,13 +31,24 @@ class Topics extends Component {
 
     handleClickNext(){ 
         this.props.addTopic(this.state.selected_topics)
+        //post request_topic
+        const request_id = localStorage.getItem('request_id')
+        if (request_id){
+            for (let i = 0; i < this.state.selected_topics; i++){
+                this.postRequestTopic({
+                    request_id: request_id,
+                    topic_id:  this.state.selected_topics[i].id
+                })
+            }
+            this.props.history.push('/matching')
+        }
     }
 
     componentDidMount(){
         axios.get('https://buddy-talk.herokuapp.com/api/topics')
              .then(res => {
+                console.log('getting topics', res.data)
                 this.setState({topics: res.data})
-                console.log('get topics', res.data)
              })
              .catch(err => {
                  console.log(err.message)
@@ -47,18 +56,6 @@ class Topics extends Component {
     }
 
     render(){
-        console.log('state', this.props.state)
-        if (this.props.state.topics.length > 0){
-            for (let i=0; i< this.props.state.topics.length; i++){
-                const request_topic_ids = {
-                    request_id: this.props.state.request_id,
-                    topic_id: this.props.state.topics[i].id
-                }
-                console.log('request_topic_ids', request_topic_ids)
-                this.props.postRequestTopic(request_topic_ids)
-            }
-            this.props.history.push('/matching')
-        }
 
         if (this.state.topics.length > 0){
             return (
