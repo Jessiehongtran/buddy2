@@ -1,9 +1,9 @@
 const db = require('../database/dbConfig');
 
-const getMatchByUserID = (userID) => {
+const getMatchByRequestID = (requestID) => {
     return db('matches')
             .where(function(){
-                this.where('buddy1_ID', userID).orWhere('buddy2_ID', userID)
+                this.where('request1_id', requestID).orWhere('request2_id', requestID)
             })
 }
 
@@ -15,6 +15,6 @@ const addMatch = (match) => {
 }
 
 module.exports = {
-    getMatchByUserID,
+    getMatchByRequestID,
     addMatch
 }

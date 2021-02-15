@@ -206,10 +206,7 @@ class Time3 extends React.Component {
         return (
             <>
             <Nav props={this.props}/>
-            <div className="timetable-container">
-                <div className="logout-container">
-                    <LogOut history={this.props.history}/>
-                </div>
+            <div className="timetable-container"> 
                 <div className="timezone-container">
                     <label>Select your time zone</label>
                     <select className="timezone" name="timezone" onChange={this.updateTimeZone} >

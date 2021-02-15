@@ -13,10 +13,10 @@ router.post('/', async (req, res) => {
 })
 
 //GET match by userId
-router.get('/:userID', async (req, res) => {
-    const userID = req.params.userID
+router.get('/:requestID', async (req, res) => {
+    const requestID = req.params.userID
     try {
-        const response = await matchModel.getMatchByUserID(userID)
+        const response = await matchModel.getMatchByRequestID(requestID)
         res.status(200).json(response)
     } catch (err){
         res.status(500).json(err.message)

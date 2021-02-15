@@ -4,7 +4,8 @@ const {
     getRequests,
     getRequestById,
     getRequestByUserId,
-    updateRequest
+    updateRequest,
+    deleteRequest
       } = require('../queries/requests.query')
 
 
@@ -23,6 +24,7 @@ router.post('/', async (req,res) => {
 router.get('/', async (req,res) => {
     try {
         const requests = await getRequests()
+        console.log('all requests', requests)
         if (requests.length > 0){
             preRequest = requests[0]
             output = []
@@ -102,6 +104,7 @@ router.get('/user/:user_id', async (req,res) => {
     const user_id = req.params.user_id
     try {
         const requests = await getRequestByUserId(user_id)
+        console.log('requests by userid', requests)
         res.status(200).json(requests)
     } catch (err){
         res.status(500).json(err.message)
@@ -114,8 +117,19 @@ router.patch('/:request_id', async (req,res) => {
     const request_id = req.params.request_id
     const change = req.body
     try {
-        await updateRequest(request_id, change)
-        res.status(200).json({message: 'Updated 1 request'})
+        const count = await updateRequest(request_id, change)
+        res.status(200).json({message: `Updated ${count} request`})
+    } catch (err){
+        res.status(500).json(err.message)
+    }
+})
+
+//DELETE a request
+router.delete('/:request_id', async (req, res) => {
+    const request_id = req.params.request_id
+    try {
+        const count = await deleteRequest(request_id)
+        res.status(200).json({ message: `Deleted ${count} request`})
     } catch (err){
         res.status(500).json(err.message)
     }

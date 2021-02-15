@@ -28,14 +28,6 @@ function getRequests(){
             )
 }
 
-//UPDATE a request
-function updateRequest(request_id, change){
-    return db('requests as r')
-            .where({id: request_id})
-            .update(change)
-            
-}
-
 
 //GET a request by id
 function getRequestById(request_id){
@@ -55,6 +47,7 @@ function getRequestByUserId(user_id){
             .join('request_topic as rt', 'rt.request_id', 'r.id')
             .join('topics as tp', 'tp.id', 'rt.topic_id')
             .select(
+                'r.id',
                 'u.id as user_id',
                 'u.first_name',
                 'u.last_name',
@@ -67,10 +60,26 @@ function getRequestByUserId(user_id){
 
 }
 
+//UPDATE a request
+function updateRequest(request_id, change){
+    return db('requests')
+            .where({id: request_id})
+            .update(change)
+            
+}
+
+//DELETE a request
+function deleteRequest(request_id){
+    return db('requests')
+            .where({ id: request_id })
+            .del()
+}
+
 module.exports = {
     addRequest,
     getRequests,
     getRequestById,
     getRequestByUserId,
-    updateRequest
+    updateRequest,
+    deleteRequest
 }

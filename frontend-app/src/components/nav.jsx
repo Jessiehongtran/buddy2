@@ -59,7 +59,10 @@ class Nav extends Component {
                 </div>
                 <div className="navigation">
                     {localStorage.getItem('userId')
-                    ? <LogOut history={this.props.history}/>
+                    ? <div style={{ display: 'flex' }}>
+                        <LogOut history={this.props.history}/>
+                        <a href="/times" style={{ cursor: 'pointer' }}>Find a buddy</a>
+                      </div>
                     : <a href="/login">Login</a>
                     }
                     {localStorage.getItem('userId') 
