@@ -20,53 +20,25 @@ router.post('/', async (req,res) => {
     }   
 })
 
-//GET all requests
-router.get('/', async (req,res) => {
-    try {
-        const requests = await getRequests()
-        console.log('all requests', requests)
-        if (requests.length > 0){
-            preRequest = requests[0]
-            output = []
-            topics = [
-                {
-                    topic_id: requests[0].topic_id,
-                    topic_name: requests[0].topic_name
-                }
-            ]
-            for (let i=0; i< requests.length; i++){
-                console.log('requests[i]', requests[i])
+function getUniqueRequests(requests){
+    preRequest = requests[0]
+    output = []
+    topics = [
+        {
+            topic_id: requests[0].topic_id,
+            topic_name: requests[0].topic_name
+        }
+    ]
+    for (let i=0; i< requests.length; i++){
+        console.log('requests[i]', requests[i])
 
-                if (i > 0){
-                    if (requests[i].id === preRequest.id){
-                        topics.push({
-                            topic_id: requests[i].topic_id,
-                            topic_name: requests[i].topic_name
-                        })
-                    } else {
-                        preRequest = requests[i]
-                        output.push({
-                            id: preRequest.id,
-                            user: {
-                                user_id: preRequest.user_id,
-                                first_name: preRequest.first_name,
-                                last_name: preRequest.last_name,
-                                email: preRequest.email
-                            },
-                            timeSlotInteger: preRequest.timeSlotInteger,
-                            topics: topics,
-                            matched: preRequest.matched
-                        })
-                        topics = []
-                        topics.push({
-                            topic_id: requests[i].topic_id,
-                            topic_name: requests[i].topic_name
-                        })
-                    }
-                }
-            }
-
-            if (topics.length > 0){
+        if (i > 0){
+            if (requests[i].id === preRequest.id){
+                topics.push({
+                    topic_id: requests[i].topic_id,
+                    topic_name: requests[i].topic_name
+                })
+            } else {
                 output.push({
                     id: preRequest.id,
                     user: {
@@ -79,9 +51,41 @@ router.get('/', async (req,res) => {
                     topics: topics,
                     matched: preRequest.matched
                 })
-             }
+                preRequest = requests[i]
+                topics = []
+                topics.push({
+                    topic_id: requests[i].topic_id,
+                    topic_name: requests[i].topic_name
+                })
+            }
         }
-        res.status(200).json(output)
+    }
+
+    if (topics.length > 0){
+        output.push({
+            id: preRequest.id,
+            user: {
+                user_id: preRequest.user_id,
+                first_name: preRequest.first_name,
+                last_name: preRequest.last_name,
+                email: preRequest.email
+            },
+            timeSlotInteger: preRequest.timeSlotInteger,
+            topics: topics,
+            matched: preRequest.matched
+        })
+     }
+    return output
+}
+
+//GET all requests
+router.get('/', async (req,res) => {
+    try {
+        const requests = await getRequests()
+        if (requests.length > 0){
+            const output = getUniqueRequests(requests)
+            res.status(200).json(output)
+        }
     } catch (err){
         res.status(500).json(err.message)
     }
@@ -104,8 +108,9 @@ router.get('/user/:user_id', async (req,res) => {
     const user_id = req.params.user_id
     try {
         const requests = await getRequestByUserId(user_id)
-        console.log('requests by userid', requests)
-        res.status(200).json(requests)
+        console.log('raw requests', requests)
+        const uniqueRequests = getUniqueRequests(requests)
+        res.status(200).json(uniqueRequests)
     } catch (err){
         res.status(500).json(err.message)
     }
