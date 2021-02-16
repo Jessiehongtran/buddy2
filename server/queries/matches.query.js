@@ -14,7 +14,12 @@ const addMatch = (match) => {
             .then(ids => ({ id: ids[0]}))
 }
 
+const getMatches = () => {
+    return db('matches')
+}
+
 module.exports = {
     getMatchByRequestID,
-    addMatch
+    addMatch,
+    getMatches
 }
