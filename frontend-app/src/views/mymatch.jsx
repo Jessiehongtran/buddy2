@@ -19,6 +19,8 @@ export default class MyMatch extends React.Component {
             if (res.data.length > 0){
                 const match = res.data.filter(match => match.user_id !== userId)[0]
                 match.meetingTime = this.turnNumIntoTime(match.meetingTimeInt)
+                this.scheduleShowZoomLink(match.meetingTime, match.zoomID, match.id -1 )
+                match.zoomID = ""
                 this.setState({ matches: [...this.state.matches, match] })
             }
         } catch (err){
@@ -63,6 +65,18 @@ export default class MyMatch extends React.Component {
         }
     }
 
+    //when to call this function though, if call in return, I need the match, where the match can be stored? in database or in localStorage, maybe we need a match table to store matches, and dashboard for each user
+    scheduleShowZoomLink(meetingTime, zoomID, i){
+        let now = new Date();
+        let millisTillMeeting = new Date(meetingTime.year, meetingTime.month - 1, meetingTime.date, meetingTime.hour, meetingTime.minute, meetingTime.second,0 ) - now - 60*3600
+        const { matches } = this.state;
+
+        setTimeout(function(){
+            matches[i].zoomID = zoomID
+            this.setState({ matches: matches })
+        }, millisTillMeeting);
+    }
+
     componentDidMount(){
         this.getRequestsByUserId()
     }
@@ -87,11 +101,9 @@ export default class MyMatch extends React.Component {
                             <td>{match.first_name + " " + match.last_name}</td>
                             <td> 
                                 {
-                                match.meetingTime.hour.length > 1 
-                                ? match.meetingTime.hour > 12 && match.meetingTime.hour < 24 
-                                    ? match.meetingTime.hour -12 
-                                    : match.meetingTime.hour 
-                                :  "0" + match.meetingTime.hour
+                                (match.meetingTime.hour).toString().length > 1 
+                                ?  match.meetingTime.hour 
+                                : "0" + match.meetingTime.hour
                                 }:{
                                 match.meetingTime.minute.length > 1 
                                 ? match.meetingTime.minute 
@@ -103,7 +115,11 @@ export default class MyMatch extends React.Component {
                                 }
                             </td>
                             <td>{match.topics}</td>
-                            <td><a href={"https://us02web.zoom.us/j/" + match.zoomID}>Join</a></td>
+                            {
+                                match.zoomID
+                                ? <td><a href={"https://us02web.zoom.us/j/" + match.zoomID}>Join</a></td>
+                                : <p></p>
+                            }
                         </tr>
                     )}
                   </table>
