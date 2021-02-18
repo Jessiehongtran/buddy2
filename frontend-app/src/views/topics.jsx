@@ -4,16 +4,17 @@ import { addTopic, postRequestTopic} from '../actions';
 import { connect } from 'react-redux';
 import LogOut from '../components/logout';
 import '../styles/topics.scss';
+import { API_URL } from '../config'
 
 class Topics extends Component {
     constructor(props){
         super(props);
         this.state = {
             topics: [],
-            selected_topics: []
+            selected_topics: [],
+            hasMatch: false
         }   
     }
-
     
     handleClickTopic(topic, div){
         if (div.style.backgroundColor === "rgb(255, 255, 255)") {
@@ -27,6 +28,20 @@ class Topics extends Component {
             selected.pop(topic)
             this.setState({selected_topics: selected})
         }
+    }
+
+    hasSameTopics(topicList1, topicList2){
+        let sharedTopicsInString = ""
+        for (let i=0; i < topicList1.length; i++){
+            if (this.appearIn(topicList1[i], topicList2) ){
+                if (sharedTopicsInString.length == 0){
+                    sharedTopicsInString += topicList1[i].topic_name
+                } else {
+                    sharedTopicsInString += ", " + topicList1[i].topic_name
+                }
+            }
+        }
+        return sharedTopicsInString
     }
 
     handleClickNext(){ 
@@ -45,7 +60,7 @@ class Topics extends Component {
                     topic_id:  this.state.selected_topics[i].id
                 })
             }
-            this.props.history.push('/matching')
+            this.props.history.push('matching')
         }
     }
 
@@ -57,7 +72,7 @@ class Topics extends Component {
              })
              .catch(err => {
                  console.log(err.message)
-             })
+             }) 
     }
 
     render(){
@@ -86,7 +101,7 @@ class Topics extends Component {
                     <button onClick={() => this.handleClickNext()}>Next</button>
                 </div>
             )
-        }
+        } 
         else {
            return (
                <div className="loader"></div>

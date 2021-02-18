@@ -30,7 +30,7 @@ export default class MyMatch extends React.Component {
         const userId = localStorage.getItem('userId')
         try {
             const res = await axios.get(`${API_URL}/api/requests/user/${userId}`)
-            console.log('get matches by user id', res.data)
+            console.log('get requests by user id', res.data)
             if (res.data.length > 0){
                 const requestsOfThisUser = res.data
                 const { matches } = this.state;
