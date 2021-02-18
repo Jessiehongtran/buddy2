@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { API_URL } from '../config';
-
+import '../styles/mymatch.scss'
 
 export default class MyMatch extends React.Component {
     constructor(props){
@@ -12,13 +12,14 @@ export default class MyMatch extends React.Component {
     }
 
     async getMatchesByRequestId(requestID){
-        let matches = []
         const userId = localStorage.getItem('userId')
         try {
             const res = await axios.get(`${API_URL}/api/matches/${requestID}`)
             console.log('get matches by request id', res.data)
             if (res.data.length > 0){
-                this.setState({ matches: [...this.state.matches, res.data.filter(match => match.user_id !== userId)[0]] })
+                const match = res.data.filter(match => match.user_id !== userId)[0]
+                match.meetingTime = this.turnNumIntoTime(match.meetingTimeInt)
+                this.setState({ matches: [...this.state.matches, match] })
             }
         } catch (err){
             console.error(err)
@@ -41,6 +42,27 @@ export default class MyMatch extends React.Component {
         }
     }
 
+    turnNumIntoTime(n){
+        const year = Math.floor(n/(365*24*3600)) + 1970
+        n = n - (year-1970)*365*24*3600
+        const mon = Math.floor(n/(30*24*3600)) 
+        n = n - (mon)*30*24*3600
+        const d = Math.floor(n/(24*3600))
+        n = n - d*24*3600
+        const h = Math.floor(n/(3600))
+        n = n - h*3600
+        const min = Math.floor(n/60)
+        n = n - min*60
+        return {
+          year: year,
+          month: mon, 
+          date: d,
+          hour: h,
+          minute: min,
+          second: n
+        }
+    }
+
     componentDidMount(){
         this.getRequestsByUserId()
     }
@@ -51,18 +73,40 @@ export default class MyMatch extends React.Component {
         console.log(matches)
 
         return (
-            <div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
                 {this.state.matches.length > 0
-                ? <div>
+                ? <table style={{ border: "1px solid silver", width: "80%", textAlign: "center", borderCollapse: "collapse", marginTop: "60px"}}>
+                    <tr>
+                        <th>Buddy Name</th>
+                        <th>Meeting Time</th>
+                        <th>Topics</th>
+                        <th>Link</th>
+                    </tr>
                     {this.state.matches.map(match => 
-                        <div>
-                            <p>Name: {match.first_name + " " + match.last_name}</p>
-                            <p>Time</p>
-                            <p>Topics: {match.topics}</p>
-                            <p><a href={"https://us02web.zoom.us/j/" + match.zoomID}>Join</a></p>
-                        </div>
+                        <tr>
+                            <td>{match.first_name + " " + match.last_name}</td>
+                            <td> 
+                                {
+                                match.meetingTime.hour.length > 1 
+                                ? match.meetingTime.hour > 12 && match.meetingTime.hour < 24 
+                                    ? match.meetingTime.hour -12 
+                                    : match.meetingTime.hour 
+                                :  "0" + match.meetingTime.hour
+                                }:{
+                                match.meetingTime.minute.length > 1 
+                                ? match.meetingTime.minute 
+                                : "0" + match.meetingTime.minute
+                                } {
+                                " " + match.meetingTime.month 
+                                + "/" + match.meetingTime.date 
+                                + "/" + match.meetingTime.year 
+                                }
+                            </td>
+                            <td>{match.topics}</td>
+                            <td><a href={"https://us02web.zoom.us/j/" + match.zoomID}>Join</a></td>
+                        </tr>
                     )}
-                  </div>
+                  </table>
                 : <p>You have no match currently</p>}
             </div>
         )

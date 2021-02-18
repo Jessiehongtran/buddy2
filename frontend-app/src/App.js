@@ -21,10 +21,8 @@ function App() {
             props => {
               return (
                 <>
-                {/* <Top/> */}
                 <Nav {...props} />
                 <Home {...props}/>
-                {/* <Top/> */}
                 </>
                 
               )
@@ -56,7 +54,10 @@ function App() {
           render = {
             props => {
               return (
-                <MyMatch {...props}/>
+                <>
+                  <Nav {...props} />
+                  <MyMatch {...props}/>
+                </>
               )
             }
           }
@@ -66,7 +67,10 @@ function App() {
           render = {
             props => {
               return (
-                <Time {...props}/>
+                <>
+                  <Nav {...props} />
+                  <Time {...props}/>
+                </>
               )
             }
           }

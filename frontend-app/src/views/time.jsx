@@ -204,8 +204,6 @@ class Time3 extends React.Component {
         }
 
         return (
-            <>
-            <Nav history={this.props.history}/>
             <div className="timetable-container"> 
                 <div className="timezone-container">
                     <label>Select your time zone</label>
@@ -235,7 +233,6 @@ class Time3 extends React.Component {
                 : null}
                 <button className="next-btn" onClick={() => this.submitTimeSlot()}>NEXT</button>
             </div>
-            </>
         )
     }
 }
