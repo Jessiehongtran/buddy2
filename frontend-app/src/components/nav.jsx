@@ -39,9 +39,7 @@ class Nav extends Component {
             } catch (err){
                 console.error(err)
             }
-        } else {
-            alert("Please signin/signup")
-        }
+        } 
     }
 
     toggleShowAccount(){
@@ -58,6 +56,7 @@ class Nav extends Component {
 
     render(){
         const { initials, username, email, showAccount } = this.state;
+        console.log('show account', showAccount)
 
         return (
             <div className="nav">
@@ -65,6 +64,7 @@ class Nav extends Component {
                     <h1>Buddy</h1>
                 </div>
                 <div className="navigation">
+                    <a href="/" style={{ cursor: 'pointer' }}>Home</a>
                     {localStorage.getItem('userId')
                     ? <div style={{ display: 'flex' }}>
                         <LogOut history={this.props.history}/>
