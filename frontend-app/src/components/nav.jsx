@@ -48,6 +48,13 @@ class Nav extends Component {
         this.setState({ showAccount: !this.state.showAccount })
     }
 
+    logout(){
+        console.log('a user is logging out')
+        localStorage.clear();
+        this.props.history.push("/")
+        this.toggleShowAccount()
+    }
+
 
     render(){
         const { initials, username, email, showAccount } = this.state;
@@ -94,7 +101,10 @@ class Nav extends Component {
 
                                     </div>
                                 </div>
-                                <button style={{ marginTop: '20px', width: '80%', backgroundColor: 'blue', color: 'white', borderRadius: '8px', fontSize: '16px', padding: '8px 15px', border: 'none'}}>Sign Out</button>
+                                <button 
+                                    style={{ marginTop: '20px', width: '80%', backgroundColor: 'blue', color: 'white', borderRadius: '8px', fontSize: '16px', padding: '8px 15px', border: 'none'}}
+                                    onClick={() => this.logout()}
+                                >Sign Out</button>
                             </div>
                             : alert("Please sign in/sign up")
                         : null}
