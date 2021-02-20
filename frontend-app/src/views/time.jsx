@@ -125,7 +125,8 @@ class Time3 extends React.Component {
         const newRequest = {
             user_id: localStorage.getItem('userId'),
             timeSlotInteger: timeInNum,
-            matched: false
+            matched: false,
+            showZoomLink: false
         }
         this.setState({
             request: newRequest,
