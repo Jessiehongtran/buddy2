@@ -9,13 +9,15 @@ exports.seed = function(knex) {
           id: 1,
           user_id: 1,
           timeSlotInteger: 1614358886,
-          matched: false
+          matched: false,
+          showZoomLink: false
         },
         {
           id: 2,
           user_id: 2,
           timeSlotInteger: 1614370886,
-          matched: false
+          matched: false,
+          showZoomLink: false
         },
       ]);
     });

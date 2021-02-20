@@ -11,6 +11,7 @@ exports.up = function(knex) {
            .onUpdate('CASCADE')
         tbl.integer('timeSlotInteger')
         tbl.boolean('matched')
+        tbl.boolean('showZoomLink')
     })
   };
   

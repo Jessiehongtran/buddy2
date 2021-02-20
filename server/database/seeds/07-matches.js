@@ -10,7 +10,7 @@ exports.seed = function(knex) {
           request1_id: 1,
           request2_id: 2,
           meetingTimeInt: 1614349886,
-          topics: "environment, education"
+          topics: "environment, education",
         },
       ]);
     });
