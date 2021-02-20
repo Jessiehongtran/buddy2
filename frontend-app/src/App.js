@@ -34,7 +34,10 @@ function App() {
           render = {
             props => {
               return (
-                <Topics {...props}/>
+                <>
+                  <Nav {...props} />
+                  <Topics {...props}/>
+                </>
               )
             }
           }

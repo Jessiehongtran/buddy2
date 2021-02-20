@@ -80,28 +80,12 @@ export default class MyMatch extends React.Component {
         this.getRequestsByUserId()
     }
 
-    calculateEpochSimilar(y, mon, d, h, min, s){
-        return (y-1970)*365*24*3600 + mon*30*24*3600 + d*24*3600 + h*3600 + min*60 + s
-      }
-
-    schedule(meetingTimeInt){
-        let now = new Date();
-        const nowTimeInt =  this.calculateEpochSimilar(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
-        console.log('nowTimeInt', nowTimeInt, 'meetingTimeInt', meetingTimeInt)
-        const timeGap = meetingTimeInt - nowTimeInt
-        if (timeGap > 0){
-            setTimeout(function(){
-                alert("out")
-            }, timeGap)
-        }
-    }
+   
 
     render(){
 
         const { matches } = this.state;
         console.log(matches)
-
-        this.schedule()
 
         return (
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -133,7 +117,7 @@ export default class MyMatch extends React.Component {
                             </td>
                             <td>{match.topics}</td>
                             {
-                                match.zoomID
+                                match.showZoomLink
                                 ? <td><a href={"https://us02web.zoom.us/j/" + match.zoomID}>Join</a></td>
                                 : <p></p>
                             }

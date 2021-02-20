@@ -55,9 +55,9 @@ class Matching2 extends React.Component {
         return sharedTopicsInString
     }
 
-    async updateMatch(request_id){
+    async updateMatch(request_id, change){
         try {
-            const res = await Axios.patch(`${API_URL}/api/requests/${request_id}`, {matched: true})
+            const res = await Axios.patch(`${API_URL}/api/requests/${request_id}`, change)
             console.log('update match', res.data)
         } catch (err){
             console.error(err)
@@ -93,6 +93,23 @@ class Matching2 extends React.Component {
         return null
     }
 
+    calculateEpochSimilar(y, mon, d, h, min, s){
+        return (y-1970)*365*24*3600 + mon*30*24*3600 + d*24*3600 + h*3600 + min*60 + s
+      }
+
+    schedule(meetingTimeInt, requestID){
+        let now = new Date();
+        const nowTimeInt =  this.calculateEpochSimilar(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
+        console.log('nowTimeInt', nowTimeInt, 'meetingTimeInt', meetingTimeInt)
+        const timeGap = meetingTimeInt - nowTimeInt - 30*60*60
+        if (timeGap > 0){
+            setTimeout(function(){
+                //update showZoomLink
+                this.updateMatch(requestID, { showZoomLink: true })
+            }, timeGap)
+        }
+    }
+
     matching(requests){
         console.log('matching is invoked')
         const curRequest = this.props.currentRequest;
@@ -101,8 +118,11 @@ class Matching2 extends React.Component {
         if (matched){
             this.setState({hasMatch: true})
             //update match boolean
-            this.updateMatch(matched.id) 
-            this.updateMatch(curRequestId) 
+            this.updateMatch(matched.id, { matched: true }) 
+            this.updateMatch(curRequestId, { matched: true }) 
+            //schedule to showZoomLink
+            this.schedule(curRequest.timeSlotInteger, curRequestId)
+            this.schedule(curRequest.timeSlotInteger, matched.id)
             //send to match table
             const matchToPost = {
                 request1_id: curRequestId,
