@@ -102,7 +102,7 @@ class Matching2 extends React.Component {
         let now = new Date();
         const nowTimeInt =  this.calculateEpochSimilar(now.getUTCFullYear(), now.getUTCMonth() + 1, now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
         console.log('nowTimeInt', nowTimeInt, 'meetingTimeInt', meetingTimeInt)
-        const timeGap = meetingTimeInt - nowTimeInt - 30*60
+        const timeGap = meetingTimeInt - nowTimeInt - 15*60
         console.log('timeGap', timeGap)
         if (timeGap > 0){
             setTimeout(function(){

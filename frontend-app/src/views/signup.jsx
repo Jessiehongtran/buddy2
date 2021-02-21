@@ -2,6 +2,8 @@ import React from 'react';
 import "../styles/signup.scss";
 import { postUser, postRequest } from '../actions';
 import { connect } from 'react-redux';
+import { API_URL } from '../config';
+import axios from 'axios'
 
 class SignUp extends React.Component {
     constructor(props){
@@ -13,10 +15,41 @@ class SignUp extends React.Component {
                 email: this.props.state.email,
                 password: "",
                 zoomID: ""
-            }
+            },
+            error: "",
+            users: []
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    async getAllUsers(){
+        try {
+            const res = await axios.get(`${API_URL}/api/users`)
+            console.log('get users', res.data)
+            if (res.data.length > 0){
+                this.setState({ users: res.data })
+            }
+        } catch (err){
+            console.error(err)
+        }
+    }
+
+    componentDidMount(){
+        this.getAllUsers()
+    }
+
+    isUnique(toCheckHeader, toCheck){
+        const { users } = this.state
+        if (users.length > 0){
+            for (let i = 0; i < users.length; i++){
+                if (users[i][toCheckHeader] === toCheck){
+                    return false
+                }
+            }
+        }
+
+        return true
     }
 
     handleChange(e){
@@ -25,7 +58,23 @@ class SignUp extends React.Component {
 
     handleSubmit(e){
         e.preventDefault() 
-        this.props.postUser(this.state.user)
+        if (!this.isUnique("email", this.state.user.email) 
+           || !this.isUnique("zoomID", this.state.user.zoomID
+           || this.state.user.zoomID.toString().length !== 10)){
+                if (!this.isUnique("email", this.state.user.email)){
+                    this.setState({error: "Email was already taken, you may want to login"})
+                } 
+                if (!this.isUnique("zoomID", this.state.user.zoomID)){
+                    this.setState({error: "zoomID was already taken, you may want to login"})
+                }
+                if (this.state.user.zoomID.toString().length !== 10){
+                    this.setState({error: "zoomID has to be 10 digits"})
+                }
+        }
+        else {
+            this.props.postUser(this.state.user)
+        }
+
     }
 
 
@@ -82,12 +131,15 @@ class SignUp extends React.Component {
                     <div className="row">
                         <input 
                             placeholder="Personal Zoom Meeting ID"
-                            type="zoomID"
+                            type="number"
                             name="zoomID"
                             onChange={this.handleChange}
                             required
                         />
                     </div>
+                    {this.state.error.length > 0
+                    ? <p style={{ color: "red", fontSize: "14px", fontStyle: "italic"}}>{this.state.error}</p>
+                    : null}
                     <button>Sign up</button>
                 </form>
                 <p className="already-member">Already a member? <a href="/login">Log in</a></p>
