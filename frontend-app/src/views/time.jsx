@@ -13,7 +13,9 @@ class Time3 extends React.Component {
             divsToChangeColor: [],
             timeZones: [],
             selectedTimeZone: {},
-            timeZoneDif: 0
+            timeZoneDif: 0,
+            requestsByThisUser: [],
+            error: ""
         }
 
         this.updateTimeSlot = this.updateTimeSlot.bind(this)
@@ -23,6 +25,19 @@ class Time3 extends React.Component {
 
     componentDidMount(){
         this.getTimeZones()
+        this.getRequestsByUser()
+    }
+
+    async getRequestsByUser(){
+        const userId = localStorage.getItem('userId')
+        try {
+            const res = await Axios.get(`${API_URL}/api/requests/user/${userId}`)
+            if (res.data.length > 0){
+                this.setState({ requestsByThisUser: res.data })
+            }
+        } catch (err){
+            console.error(err.message)
+        }
     }
 
     async getTimeZones(){
@@ -33,6 +48,19 @@ class Time3 extends React.Component {
         } catch(err){
            console.log(err.message)
         }
+    }
+
+    isUniqueTimeSlot(timeInt){
+        const { requestsByThisUser } = this.state
+        if (requestsByThisUser.length > 0){
+            for ( let i =0; i < requestsByThisUser.length; i++ ){
+                console.log('timeInt', timeInt, 'requestsByThisUser[i].timeSlotInteger', requestsByThisUser[i].timeSlotInteger)
+                if (requestsByThisUser[i].timeSlotInteger === timeInt){
+                    return false
+                }
+            }
+        }
+        return true
     }
 
     turnIntToHourString(n){
@@ -58,15 +86,17 @@ class Time3 extends React.Component {
 
 
     changeColor(div){
+        //make previous clicked back to white
+        for (var i=0; i<this.state.divsToChangeColor.length; i++){
+            this.state.divsToChangeColor[i].style.backgroundColor = "rgb(255, 255, 255)";
+        }
+        //change bg color of that particular div
         if (div.style.backgroundColor === "rgb(255, 255, 255)"){
             div.style.backgroundColor = "#BFE0FF"
         } else {
             div.style.backgroundColor = "rgb(255, 255, 255)"
         }
-        //make previous clicked back to white
-        for (var i=0; i<this.state.divsToChangeColor.length; i++){
-            this.state.divsToChangeColor[i].style.backgroundColor = "rgb(255, 255, 255)";
-        }
+       
     }
 
     calculateEpochSimilar(y, mon, d, h, min, s){
@@ -140,8 +170,13 @@ class Time3 extends React.Component {
         const UTCTimeNum = this.state.request.timeSlotInteger + this.state.timeZoneDif*3600
         if (this.state.request.timeSlotInteger && UTCTimeNum){
             this.props.addTimeSlot(UTCTimeNum)
-            this.props.postRequest(this.state.request)
-            this.props.history.push('/topics')
+            //check if the user has chosen this timeslot before
+            if (this.isUniqueTimeSlot(this.state.request.timeSlotInteger)){
+                this.props.postRequest(this.state.request)
+                this.props.history.push('/topics')
+            } else {
+                this.setState({ error: "You had a meeting at this time, please choose a different time slot"})
+            }
         } else {
             alert("Please select a time slot")
         }
@@ -211,6 +246,9 @@ class Time3 extends React.Component {
                         {this.state.timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
                 </div>
+                {this.state.error.length > 0
+                ? <p style={{ color: "red", fontStyle: "italic", backgroundColor: "#F7CFCC", padding: "8px 20px" }}>{this.state.error}</p>
+                : null}
                 {week.length > 0
                 ? <table>
                     {week.map((eachDay, i) => 
