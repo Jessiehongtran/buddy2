@@ -4,6 +4,8 @@ import { addTimeSlot, postRequest} from '../actions';
 import { connect } from 'react-redux';
 import { API_URL } from '../config';
 import Axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle} from '@fortawesome/free-solid-svg-icons'
 
 class Time3 extends React.Component {
     constructor(props){
@@ -178,7 +180,7 @@ class Time3 extends React.Component {
                 this.setState({ error: "You had a meeting at this time, please choose a different time slot"})
             }
         } else {
-            alert("Please select a time slot")
+            this.setState({ error: "Please select a time slot"})
         }
     }
 
@@ -245,9 +247,17 @@ class Time3 extends React.Component {
                         <option>(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
                         {this.state.timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
+                    <button className="next-btn" onClick={() => this.submitTimeSlot()}>NEXT</button>
                 </div>
                 {this.state.error.length > 0
-                ? <p style={{ color: "red", fontStyle: "italic", backgroundColor: "#F7CFCC", padding: "8px 20px" }}>{this.state.error}</p>
+                ? <p style={{ color: "red", fontStyle: "italic", backgroundColor: "#F7CFCC", padding: "8px 20px", borderRadius: "4px", marginTop: "0", marginBottom: "20px" }}>
+                    <FontAwesomeIcon
+                            icon={faInfoCircle} 
+                            className="info-icon"
+                            style={{ color: "red", marginRight: "10px"}}
+                        /> 
+                    {this.state.error}
+                  </p>
                 : null}
                 {week.length > 0
                 ? <table>
@@ -268,7 +278,7 @@ class Time3 extends React.Component {
                     )}
                  </table>
                 : null}
-                <button className="next-btn" onClick={() => this.submitTimeSlot()}>NEXT</button>
+
             </div>
         )
     }
