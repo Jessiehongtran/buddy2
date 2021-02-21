@@ -103,7 +103,10 @@ function App() {
           render = {
             props => {
               return (
-                <Matching {...props}/>
+                <>
+                  <Nav {...props} />
+                  <Matching {...props}/>
+                </>
               )
             }
           }

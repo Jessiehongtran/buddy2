@@ -141,13 +141,18 @@ class Matching2 extends React.Component {
     render(){
 
         return (
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '80px'}}>
                 {this.state.hasMatch
-                ? <div>
-                    <p>Matched with a buddy</p>
-                    <a href="">Meet your buddy</a>
+                ? <div style={{ textAlign: 'center', backgroundColor: '#C0F5C3', padding: '80px' }}>
+                    <p style={{ fontSize: '26px', fontWeight: 'bold'}}>Congratz, you are atched with a buddy</p>
+                    <a href="/mymatch" style={{ color: 'black'}}>Meet your buddy</a>
                   </div>
-                : <p>There is no buddy available for you :(</p>}
+                : <div style={{ textAlign: 'center', backgroundColor: '#F7CFCC', padding: '80px' }}>
+                    <p style={{ fontSize: '26px', color: 'red', fontWeight: 'bold' }}>
+                        There is no buddy available for you :(
+                    </p>
+                    <a href="/times" style={{ color: 'black'}}>Find another timeslot</a>
+                  </div>}
             </div>
         )
     }
