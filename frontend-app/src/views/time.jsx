@@ -4,8 +4,6 @@ import { addTimeSlot, postRequest} from '../actions';
 import { connect } from 'react-redux';
 import { API_URL } from '../config';
 import Axios from 'axios';
-import LogOut from '../components/logout';
-import Nav from '../components/nav';
 
 class Time3 extends React.Component {
     constructor(props){

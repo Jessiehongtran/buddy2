@@ -3,7 +3,9 @@ import "../styles/signup.scss";
 import { postUser, postRequest } from '../actions';
 import { connect } from 'react-redux';
 import { API_URL } from '../config';
-import axios from 'axios'
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle} from '@fortawesome/free-solid-svg-icons'
 
 class SignUp extends React.Component {
     constructor(props){
@@ -136,6 +138,14 @@ class SignUp extends React.Component {
                             onChange={this.handleChange}
                             required
                         />
+                        <FontAwesomeIcon
+                            icon={faInfoCircle} 
+                            className="info-icon"
+                        />
+                        <div className="info">
+                            Zoom is a video conferencing tool you will be using to practice speaking with your buddy
+                            <a href="https://zoom.us/signup" style={{ color: "orange"}}> sign up Zoom</a>
+                        </div>
                     </div>
                     {this.state.error.length > 0
                     ? <p style={{ color: "red", fontSize: "14px", fontStyle: "italic"}}>{this.state.error}</p>

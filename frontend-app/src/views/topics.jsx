@@ -4,7 +4,6 @@ import { addTopic, postRequestTopic} from '../actions';
 import { connect } from 'react-redux';
 import LogOut from '../components/logout';
 import '../styles/topics.scss';
-import { API_URL } from '../config'
 
 class Topics extends Component {
     constructor(props){

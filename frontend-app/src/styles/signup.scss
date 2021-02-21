@@ -42,7 +42,7 @@
             }
 
             .row {
-                display: flex;
+                // display: flex;
                 width: 100%;
                 margin-bottom: 20px;
 
@@ -67,6 +67,34 @@
     
                 input:focus {
                     outline: none
+                }
+
+                .info {
+                    display: none;
+                    position: absolute;
+                    left: 64%;
+                    top: 47%;
+                    background-color: black;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 4px;
+                    max-width: 200px;
+                    font-size: 12px;
+                }
+
+                .info-icon {
+                    position: absolute;
+                    left: 60%;
+                    width: 5%;
+                    top: 47%;
+                }
+
+                .info-icon:hover + .info{
+                    display: block
+                }
+
+                .info:hover {
+                    display: block
                 }
             }
 
