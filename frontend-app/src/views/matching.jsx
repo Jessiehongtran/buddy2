@@ -56,6 +56,7 @@ class Matching2 extends React.Component {
     }
 
     async updateMatch(request_id, change){
+        console.log('updatematch is invoked', request_id)
         try {
             const res = await Axios.patch(`${API_URL}/api/requests/${request_id}`, change)
             console.log('update match', res.data)
@@ -99,14 +100,15 @@ class Matching2 extends React.Component {
 
     schedule(meetingTimeInt, requestID){
         let now = new Date();
-        const nowTimeInt =  this.calculateEpochSimilar(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
+        const nowTimeInt =  this.calculateEpochSimilar(now.getUTCFullYear(), now.getUTCMonth() + 1, now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
         console.log('nowTimeInt', nowTimeInt, 'meetingTimeInt', meetingTimeInt)
-        const timeGap = meetingTimeInt - nowTimeInt - 30*60*60
+        const timeGap = meetingTimeInt - nowTimeInt - 30*60
+        console.log('timeGap', timeGap)
         if (timeGap > 0){
             setTimeout(function(){
                 //update showZoomLink
                 this.updateMatch(requestID, { showZoomLink: true })
-            }, timeGap)
+            }.bind(this), timeGap)
         }
     }
 

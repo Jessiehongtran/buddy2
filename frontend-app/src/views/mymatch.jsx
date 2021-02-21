@@ -19,7 +19,6 @@ export default class MyMatch extends React.Component {
             if (res.data.length > 0){
                 const match = res.data.filter(match => match.user_id !== userId)[0]
                 match.meetingTime = this.turnNumIntoTime(match.meetingTimeInt)
-                match.showZoomLink = false //need this in database
                 this.setState({ matches: [...this.state.matches, match] })
             }
         } catch (err){
@@ -119,7 +118,7 @@ export default class MyMatch extends React.Component {
                             {
                                 match.showZoomLink
                                 ? <td><a href={"https://us02web.zoom.us/j/" + match.zoomID}>Join</a></td>
-                                : <p></p>
+                                : <td></td>
                             }
                         </tr>
                     )}
