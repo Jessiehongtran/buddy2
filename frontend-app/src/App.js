@@ -10,6 +10,7 @@ import Time from './views/time';
 import Video from './components/video';
 import Login from './components/login';
 import MyMatch from './views/mymatch';
+import ProtectedRoute from './components/protectedRoute';
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
             }
           }
         />
-        <Route
+        <ProtectedRoute
           exact path = "/topics"
           render = {
             props => {
@@ -52,7 +53,7 @@ function App() {
             }
           }
         />
-         <Route
+         <ProtectedRoute
           exact path = "/mymatch"
           render = {
             props => {
@@ -65,7 +66,7 @@ function App() {
             }
           }
         />
-        <Route
+        <ProtectedRoute
           exact path = "/times"
           render = {
             props => {
@@ -98,7 +99,7 @@ function App() {
             }
           }
         />
-        <Route
+        <ProtectedRoute
           exact path = "/matching"
           render = {
             props => {

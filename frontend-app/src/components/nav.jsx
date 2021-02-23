@@ -53,6 +53,12 @@ class Nav extends Component {
         this.toggleShowAccount()
     }
 
+    logout(){
+        localStorage.clear();
+        this.setState({ showAccount: false })
+        this.props.history.push("/")
+    }
+
 
     render(){
         const { initials, username, email, showAccount } = this.state;
@@ -67,7 +73,7 @@ class Nav extends Component {
                     <a href="/" style={{ cursor: 'pointer' }}>Home</a>
                     {localStorage.getItem('userId')
                     ? <div style={{ display: 'flex' }}>
-                        <LogOut history={this.props.history}/>
+                        <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.logout()}>Log Out</div>
                         <a href="/times" style={{ cursor: 'pointer' }}>Find a buddy</a>
                       </div>
                     : <a href="/login">Login</a>
