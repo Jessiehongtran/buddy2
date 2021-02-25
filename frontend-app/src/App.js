@@ -32,16 +32,7 @@ function App() {
         />
         <ProtectedRoute
           exact path = "/topics"
-          render = {
-            props => {
-              return (
-                <>
-                  <Nav {...props} />
-                  <Topics {...props}/>
-                </>
-              )
-            }
-          }
+          component = {Topics}
         />
         <Route
           exact path = "/login"
@@ -55,29 +46,11 @@ function App() {
         />
          <ProtectedRoute
           exact path = "/mymatch"
-          render = {
-            props => {
-              return (
-                <>
-                  <Nav {...props} />
-                  <MyMatch {...props}/>
-                </>
-              )
-            }
-          }
+          component = {MyMatch}
         />
         <ProtectedRoute
           exact path = "/times"
-          render = {
-            props => {
-              return (
-                <>
-                  <Nav {...props} />
-                  <Time {...props}/>
-                </>
-              )
-            }
-          }
+          component = {Time}
         />
         <Route
           exact path = "/signup"
@@ -101,16 +74,7 @@ function App() {
         />
         <ProtectedRoute
           exact path = "/matching"
-          render = {
-            props => {
-              return (
-                <>
-                  <Nav {...props} />
-                  <Matching {...props}/>
-                </>
-              )
-            }
-          }
+          component = { Matching }
         />
         <Route
           exact path = "/end"

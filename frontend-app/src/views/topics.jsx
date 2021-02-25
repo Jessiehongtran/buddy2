@@ -3,6 +3,7 @@ import axios from 'axios';
 import { addTopic, postRequestTopic} from '../actions';
 import { connect } from 'react-redux';
 import LogOut from '../components/logout';
+import Nav from '../components/nav';
 import '../styles/topics.scss';
 
 class Topics extends Component {
@@ -78,6 +79,8 @@ class Topics extends Component {
 
         if (this.state.topics.length > 0){
             return (
+                <>
+                <Nav />
                 <div class="topics-container">
                     <div className="logout-container">
                         <LogOut history={this.props.history}/>
@@ -99,11 +102,15 @@ class Topics extends Component {
                     </div>
                     <button onClick={() => this.handleClickNext()}>Next</button>
                 </div>
+                </>
             )
         } 
         else {
            return (
+               <>
+               <Nav />
                <div className="loader"></div>
+               </>
            )
         }
     }

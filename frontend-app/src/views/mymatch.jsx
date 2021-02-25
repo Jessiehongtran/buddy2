@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import { API_URL } from '../config';
-import '../styles/mymatch.scss'
+import '../styles/mymatch.scss';
+import Nav from '../components/nav';
 
 export default class MyMatch extends React.Component {
     constructor(props){
@@ -87,6 +88,8 @@ export default class MyMatch extends React.Component {
         console.log(matches)
 
         return (
+            <>
+            <Nav />
             <div style={{ display: "flex", justifyContent: "center" }}>
                 {this.state.matches.length > 0
                 ? <table style={{ border: "1px solid silver", width: "80%", textAlign: "center", borderCollapse: "collapse", marginTop: "60px"}}>
@@ -125,6 +128,7 @@ export default class MyMatch extends React.Component {
                   </table>
                 : <p>You have no match currently</p>}
             </div>
+            </>
         )
     }
 }

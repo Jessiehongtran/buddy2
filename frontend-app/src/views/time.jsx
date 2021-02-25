@@ -4,6 +4,7 @@ import { addTimeSlot, postRequest} from '../actions';
 import { connect } from 'react-redux';
 import { API_URL } from '../config';
 import Axios from 'axios';
+import Nav from '../components/nav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle} from '@fortawesome/free-solid-svg-icons'
 
@@ -240,7 +241,9 @@ class Time3 extends React.Component {
         }
 
         return (
-            <div className="timetable-container"> 
+            <>
+            <Nav /> 
+            <div className="timetable-container">
                 <div className="timezone-container">
                     <label>Select your time zone</label>
                     <select className="timezone" name="timezone" onChange={this.updateTimeZone} >
@@ -280,6 +283,7 @@ class Time3 extends React.Component {
                 : null}
 
             </div>
+            </>
         )
     }
 }

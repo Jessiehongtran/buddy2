@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { API_URL } from '../config';
 import { connect } from 'react-redux';
+import Nav from '../components/nav';
 
 class Matching2 extends React.Component {
     constructor(props){
@@ -141,6 +142,8 @@ class Matching2 extends React.Component {
     render(){
 
         return (
+            <>
+            <Nav />
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '80px'}}>
                 {this.state.hasMatch
                 ? <div style={{ textAlign: 'center', backgroundColor: '#C0F5C3', padding: '80px' }}>
@@ -154,6 +157,7 @@ class Matching2 extends React.Component {
                     <a href="/times" style={{ color: 'black'}}>Find another timeslot</a>
                   </div>}
             </div>
+            </>
         )
     }
 }
