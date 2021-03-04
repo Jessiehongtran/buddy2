@@ -46,7 +46,6 @@ class Time3 extends React.Component {
     async getTimeZones(){
         try {
             const res = await Axios.get(`${API_URL}/api/timezones`)
-            console.log('getting timezones', res.data)
             this.setState({timeZones: res.data})
         } catch(err){
            console.log(err.message)

@@ -48,13 +48,8 @@ class Topics extends Component {
         this.props.addTopic(this.state.selected_topics)
         //post request_topic
         const request_id = localStorage.getItem('request_id')
-        console.log('handleClickNext', request_id, 'this.state.selected_topics', this.state.selected_topics)
         if (request_id){
             for (let i = 0; i < this.state.selected_topics.length; i++){
-                console.log('about to post topic request', {
-                    request_id: request_id,
-                    topic_id:  this.state.selected_topics[i].id
-                })
                 this.props.postRequestTopic({
                     request_id: request_id,
                     topic_id:  this.state.selected_topics[i].id
@@ -67,7 +62,6 @@ class Topics extends Component {
     componentDidMount(){
         axios.get('https://buddy-talk.herokuapp.com/api/topics')
              .then(res => {
-                console.log('getting topics', res.data)
                 this.setState({topics: res.data})
              })
              .catch(err => {

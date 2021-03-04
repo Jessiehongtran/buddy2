@@ -17,7 +17,6 @@ class Matching2 extends React.Component {
     getAllRequests(){
         Axios.get(`${API_URL}/api/requests`)
              .then(res => {
-                console.log('get All requests', res.data)
                 const requests = res.data
                 if (requests.length > 0){
                     this.matching(requests)
@@ -57,27 +56,22 @@ class Matching2 extends React.Component {
     }
 
     async updateMatch(request_id, change){
-        console.log('updatematch is invoked', request_id)
         try {
             const res = await Axios.patch(`${API_URL}/api/requests/${request_id}`, change)
-            console.log('update match', res.data)
         } catch (err){
             console.error(err)
         }
     }
 
     async postMatch(match){
-        console.log('posting matches')
         try {
             const res = await Axios.post(`${API_URL}/api/matches`, match)
-            console.log('post match', res.data)
         } catch (err){
             console.error(err)
         }
     }
 
     hasMatch(requests){
-        console.log('hasMatch is invoked')
         const curRequest = this.props.currentRequest;
         curRequest.topics = this.props.selectedTopics;
 
@@ -102,9 +96,7 @@ class Matching2 extends React.Component {
     schedule(meetingTimeInt, requestID){
         let now = new Date();
         const nowTimeInt =  this.calculateEpochSimilar(now.getUTCFullYear(), now.getUTCMonth() + 1, now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
-        console.log('nowTimeInt', nowTimeInt, 'meetingTimeInt', meetingTimeInt)
         const timeGap = meetingTimeInt - nowTimeInt - 15*60
-        console.log('timeGap', timeGap)
         if (timeGap > 0){
             setTimeout(function(){
                 //update showZoomLink
@@ -114,7 +106,6 @@ class Matching2 extends React.Component {
     }
 
     matching(requests){
-        console.log('matching is invoked')
         const curRequest = this.props.currentRequest;
         const curRequestId = localStorage.getItem('request_id')
         const matched = this.hasMatch(requests)

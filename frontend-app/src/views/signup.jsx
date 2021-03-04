@@ -28,7 +28,6 @@ class SignUp extends React.Component {
     async getAllUsers(){
         try {
             const res = await axios.get(`${API_URL}/api/users`)
-            console.log('get users', res.data)
             if (res.data.length > 0){
                 this.setState({ users: res.data })
             }

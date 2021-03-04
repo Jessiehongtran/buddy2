@@ -28,7 +28,6 @@ class Nav extends Component {
         if (userId){
             try {
                 const res = await axios.get(`${API_URL}/api/users/${userId}`)
-                console.log('getting a user account', res.data)
                 if (res.data){
                     this.setState({ 
                         username: res.data.first_name + " " + res.data.last_name,
@@ -47,7 +46,6 @@ class Nav extends Component {
     }
 
     logout(){
-        console.log('a user is logging out')
         localStorage.clear();
         this.props.history.push("/")
         this.toggleShowAccount()

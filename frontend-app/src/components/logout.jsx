@@ -10,7 +10,6 @@ export default class LogOut extends React.Component {
     }
 
     logout(){
-        console.log('a user is logging out')
         localStorage.clear();
         this.props.history.push("/")
     }
