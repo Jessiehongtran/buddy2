@@ -6,7 +6,6 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('users').insert([
         { 
-          id: 1,
           first_name: 'Hong',
           last_name: 'Tran',
           email: 'htran2@babson.edu',
@@ -14,7 +13,6 @@ exports.seed = function(knex) {
           zoomID: '12345678'
         },
         {
-          id: 2,
           first_name: 'Vy',
           last_name: 'Tran',
           email: 'vytran@babson.edu',
@@ -22,7 +20,6 @@ exports.seed = function(knex) {
           zoomID: '12345679'
         },
         {
-          id: 3,
           first_name: 'La',
           last_name: 'Giang',
           email: 'lagiang@gmail.com',

@@ -6,7 +6,6 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('matches').insert([
         {
-          id: 1,
           request1_id: 1,
           request2_id: 2,
           meetingTimeInt: 1614349886,
