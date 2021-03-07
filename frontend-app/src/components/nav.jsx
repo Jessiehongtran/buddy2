@@ -60,7 +60,6 @@ class Nav extends Component {
 
     render(){
         const { initials, username, email, showAccount } = this.state;
-        console.log('show account', showAccount)
 
         return (
             <div className="nav">
