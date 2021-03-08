@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { API_URL } from '../config';
-import LogOut from '../components/logout';
 
 class Nav extends Component {
     constructor(props){
@@ -45,11 +44,6 @@ class Nav extends Component {
         this.setState({ showAccount: !this.state.showAccount })
     }
 
-    logout(){
-        localStorage.clear();
-        this.props.history.push("/")
-        this.toggleShowAccount()
-    }
 
     logout(){
         localStorage.clear();
