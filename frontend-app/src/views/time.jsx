@@ -68,7 +68,7 @@ class Time3 extends React.Component {
     turnIntToHourString(n){
         if (n < 0){
             return null
-        } else if (n != 0 && n < 12 || n == 24){
+        } else if ((n !== 0 && n < 12) || n === 24){
             return n.toString() + ":00 AM"
         } 
         else if (n === 12){
@@ -89,9 +89,11 @@ class Time3 extends React.Component {
 
     changeColor(div){
         //make previous clicked back to white
-        for (var i=0; i<this.state.divsToChangeColor.length; i++){
-            this.state.divsToChangeColor[i].style.backgroundColor = "rgb(255, 255, 255)";
+        const curColorDivs = this.state.divsToChangeColor
+        for (var i=0; i<curColorDivs.length; i++){
+            curColorDivs[i].style.backgroundColor = "rgb(255, 255, 255)";
         }
+        this.setState({ divsToChangeColor: curColorDivs })
         //change bg color of that particular div
         if (div.style.backgroundColor === "rgb(255, 255, 255)"){
             div.style.backgroundColor = "#BFE0FF"
@@ -204,10 +206,10 @@ class Time3 extends React.Component {
         let daysBefore = []
         let week = []
         for (let key in days){
-            if (key != localDay && dayInd === null){
+            if (key !== localDay && dayInd === null){
                 daysBefore.push(days[key].concat([key]))
             }
-            else if (key == localDay){
+            else if (key === localDay){
                 week.push(days[key].concat([localTime.month.toString() + "/" + localTime.date.toString()]))
                 dayInd = key
             } 

@@ -82,8 +82,6 @@ export default class MyMatch extends React.Component {
 
     render(){
 
-        const { matches } = this.state;
-
         return (
             <>
             <Nav />

@@ -34,7 +34,7 @@ class Matching2 extends React.Component {
 
     appearIn(el, arr){
         for (let i =0; i < arr.length; i++){
-            if (el.id == arr[i].topic_id){
+            if (el.id === arr[i].topic_id){
                 return true
             }
         }
@@ -45,7 +45,7 @@ class Matching2 extends React.Component {
         let sharedTopicsInString = ""
         for (let i=0; i < topicList1.length; i++){
             if (this.appearIn(topicList1[i], topicList2) ){
-                if (sharedTopicsInString.length == 0){
+                if (sharedTopicsInString.length === 0){
                     sharedTopicsInString += topicList1[i].topic_name
                 } else {
                     sharedTopicsInString += ", " + topicList1[i].topic_name
@@ -57,7 +57,7 @@ class Matching2 extends React.Component {
 
     async updateMatch(request_id, change){
         try {
-            const res = await Axios.patch(`${API_URL}/api/requests/${request_id}`, change)
+            await Axios.patch(`${API_URL}/api/requests/${request_id}`, change)
         } catch (err){
             console.error(err)
         }
@@ -65,7 +65,7 @@ class Matching2 extends React.Component {
 
     async postMatch(match){
         try {
-            const res = await Axios.post(`${API_URL}/api/matches`, match)
+            await Axios.post(`${API_URL}/api/matches`, match)
         } catch (err){
             console.error(err)
         }

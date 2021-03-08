@@ -34,7 +34,7 @@ class Topics extends Component {
         let sharedTopicsInString = ""
         for (let i=0; i < topicList1.length; i++){
             if (this.appearIn(topicList1[i], topicList2) ){
-                if (sharedTopicsInString.length == 0){
+                if (sharedTopicsInString.length === 0){
                     sharedTopicsInString += topicList1[i].topic_name
                 } else {
                     sharedTopicsInString += ", " + topicList1[i].topic_name
