@@ -40,6 +40,7 @@ export const updateUserID = userID => {
 }
 
 export const postUser = (user, history) => {
+    console.log('history', history)
     return dispatch => {
         axios
             .post(`${API_URL}/api/users`, user)
@@ -49,7 +50,7 @@ export const postUser = (user, history) => {
                     type: ADD_USER_ID,
                     payload: res.data.id
                 })
-                history.push('/times')
+                history.push('/')
             })
             .catch(err => {
                 dispatch({
