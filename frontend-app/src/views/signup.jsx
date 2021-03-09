@@ -73,7 +73,7 @@ class SignUp extends React.Component {
                 }
         }
         else {
-            this.props.postUser(this.state.user)
+            this.props.postUser(this.state.user, this.props.history)
         }
 
     }

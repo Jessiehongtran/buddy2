@@ -39,7 +39,7 @@ export const updateUserID = userID => {
     }
 }
 
-export const postUser = user => {
+export const postUser = (user, history) => {
     return dispatch => {
         axios
             .post(`${API_URL}/api/users`, user)
@@ -49,6 +49,7 @@ export const postUser = user => {
                     type: ADD_USER_ID,
                     payload: res.data.id
                 })
+                history.push('/times')
             })
             .catch(err => {
                 dispatch({
@@ -60,12 +61,10 @@ export const postUser = user => {
 }
 
 export const postRequest = request => {
-    console.log('request to post', request)
     return dispatch => {
         axios
             .post(`${API_URL}/api/requests`, request)
             .then(res => {
-                console.log('posting a new request', res.data)
                 localStorage.setItem('request_id', res.data.id)
                 dispatch({
                     type: UPDATE_REQUEST_ID,
