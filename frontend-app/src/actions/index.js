@@ -50,6 +50,9 @@ export const postUser = (user, history) => {
                     type: ADD_USER_ID,
                     payload: res.data.id
                 })
+                setTimeout(function(){
+                    localStorage.clear()
+                }, 30000)
                 history.push('/')
             })
             .catch(err => {
