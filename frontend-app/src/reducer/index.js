@@ -99,7 +99,8 @@ export const reducer = (state=initialState, action) => {
         case LOG_OUT:
             return {
                 ...state,
-                showAccount: action.payload
+                showAccount: action.payload,
+                authenticated: false
             }
         case UPDATE_AUTHENTICATE:
             return {
