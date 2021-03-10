@@ -38,6 +38,7 @@ class Login extends React.Component {
             localStorage.setItem('userId', res.data.userId)
             this.props.updateUserID(res.data.userId) //doing this but currently mostly rely on local storage so that the data does not disappear due to refresh
             this.props.history.push('/times')
+            this.props.updateAuthentication(true)
         } catch (err){
             this.setState({ login_error: err.message })
         }

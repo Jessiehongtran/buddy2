@@ -11,6 +11,7 @@ export const POST_REQUEST_TOPIC_FAILURE = 'POST_REQUEST_TOPIC_FAILURE'
 export const UPDATE_EMAIL = 'UPDATE_EMAIL'
 export const UPDATE_CALL_INFO = 'UPDATE_CALL_INFO'
 export const LOG_OUT = 'LOG_OUT'
+export const UPDATE_AUTHENTICATE = 'UPDATE_AUTHENTICATE'
 
 export const updateEmail = email => {
     return {
@@ -49,6 +50,13 @@ export const logOut = (curShowAccountState, history) => {
     }
 }
 
+export const updateAuthentication = (authState) => {
+    return {
+        type: UPDATE_AUTHENTICATE,
+        payload: authState
+    }
+}
+
 export const postUser = (user, history) => {
     console.log('history', history)
     return dispatch => {
@@ -60,10 +68,15 @@ export const postUser = (user, history) => {
                     type: ADD_USER_ID,
                     payload: res.data.id
                 })
+                dispatch({
+                    type: UPDATE_AUTHENTICATE,
+                    payload: true
+                })
                 setTimeout(function(){
                     localStorage.clear()
                 }, 30000)
                 history.push('/')
+
             })
             .catch(err => {
                 dispatch({

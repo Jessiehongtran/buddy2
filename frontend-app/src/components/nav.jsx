@@ -57,7 +57,7 @@ class Nav extends Component {
     render(){
         const { initials, username, email } = this.state;
 
-        if (localStorage.getItem('userId')){
+        if (this.props.state.authenticated){
             setTimeout(function(){
                 this.props.logOut(!this.props.state.showAccount, this.props.history)
             }, 60000)
@@ -70,14 +70,14 @@ class Nav extends Component {
                 </div>
                 <div className="navigation">
                     <a href="/" style={{ cursor: 'pointer' }}>Home</a>
-                    {localStorage.getItem('userId')
+                    {this.props.state.authenticated
                     ? <div style={{ display: 'flex' }}>
                         <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.props.logout(!this.props.state.showAccount, this.props.history)}>Log Out</div>
                         <a href="/times" style={{ cursor: 'pointer' }}>Find a buddy</a>
                       </div>
                     : <a href="/login">Login</a>
                     }
-                    {localStorage.getItem('userId') 
+                    {this.props.state.authenticated 
                     ? <a href="/mymatch">My Matches</a>
                     : <button className="getStarted-btn" onClick={() => this.props.history.push('/signup')}>Get started</button>
                     }
@@ -108,7 +108,7 @@ class Nav extends Component {
                                 </div>
                                 <button 
                                     style={{ marginTop: '20px', width: '80%', backgroundColor: 'blue', color: 'white', borderRadius: '8px', fontSize: '16px', padding: '8px 15px', border: 'none'}}
-                                    onClick={() => this.logout()}
+                                    onClick={() => this.props.logout()}
                                 >Sign Out</button>
                             </div>
                             : alert("Please sign in/sign up")
