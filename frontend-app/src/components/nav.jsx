@@ -59,7 +59,7 @@ class Nav extends Component {
 
         if (localStorage.getItem('userId')){
             setTimeout(function(){
-                this.props.logOut()
+                this.props.logOut(!this.props.state.showAccount, this.props.history)
             }, 60000)
         }
 
@@ -72,7 +72,7 @@ class Nav extends Component {
                     <a href="/" style={{ cursor: 'pointer' }}>Home</a>
                     {localStorage.getItem('userId')
                     ? <div style={{ display: 'flex' }}>
-                        <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.props.logout()}>Log Out</div>
+                        <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.props.logout(!this.props.state.showAccount, this.props.history)}>Log Out</div>
                         <a href="/times" style={{ cursor: 'pointer' }}>Find a buddy</a>
                       </div>
                     : <a href="/login">Login</a>
