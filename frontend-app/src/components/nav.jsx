@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { API_URL } from '../config';
-import { connect } from '../../../server/routes/users.route';
+import { connect } from 'react-redux';
 import { logOut } from '../actions';
 
 class Nav extends Component {
