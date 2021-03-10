@@ -58,7 +58,6 @@ export const updateAuthentication = (authState) => {
 }
 
 export const postUser = (user, history) => {
-    console.log('history', history)
     return dispatch => {
         axios
             .post(`${API_URL}/api/users`, user)
