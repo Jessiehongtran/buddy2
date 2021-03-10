@@ -57,6 +57,12 @@ class Nav extends Component {
     render(){
         const { initials, username, email } = this.state;
 
+        if (localStorage.getItem('userId')){
+            setTimeout(function(){
+                this.props.logOut()
+            }, 60000)
+        }
+
         return (
             <div className="nav">
                 <div className="logo">
