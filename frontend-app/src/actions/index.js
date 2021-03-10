@@ -10,6 +10,7 @@ export const POST_REQUEST_TOPIC_SUCCESS = 'POST_REQUEST_TOPIC_SUCCESS'
 export const POST_REQUEST_TOPIC_FAILURE = 'POST_REQUEST_TOPIC_FAILURE'
 export const UPDATE_EMAIL = 'UPDATE_EMAIL'
 export const UPDATE_CALL_INFO = 'UPDATE_CALL_INFO'
+export const LOG_OUT = 'LOG_OUT'
 
 export const updateEmail = email => {
     return {
@@ -36,6 +37,15 @@ export const updateUserID = userID => {
     return {
         type: ADD_USER_ID,
         payload: userID
+    }
+}
+
+export const logOut = (curShowAccountState, history) => {
+    localStorage.clear()
+    history.push('/')
+    return {
+        type: LOG_OUT,
+        payload: !curShowAccountState
     }
 }
 

@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { API_URL } from '../config';
+import { connect } from '../../../server/routes/users.route';
+import { logOut } from '../actions';
 
 class Nav extends Component {
     constructor(props){
@@ -12,7 +14,7 @@ class Nav extends Component {
             username: "",
             initials: "",
             email: "",
-            showAccount: false
+            // showAccount: false
         }
         this.toggleShowAccount = this.toggleShowAccount.bind(this)
         this.getAccountByUserId = this.getAccountByUserId.bind(this)
@@ -45,15 +47,15 @@ class Nav extends Component {
     }
 
 
-    logout(){
-        localStorage.clear();
-        this.setState({ showAccount: false })
-        this.props.history.push("/")
-    }
+    // logout(){
+    //     localStorage.clear();
+    //     this.setState({ showAccount: false })
+    //     this.props.history.push("/")
+    // }
 
 
     render(){
-        const { initials, username, email, showAccount } = this.state;
+        const { initials, username, email } = this.state;
 
         return (
             <div className="nav">
@@ -64,7 +66,7 @@ class Nav extends Component {
                     <a href="/" style={{ cursor: 'pointer' }}>Home</a>
                     {localStorage.getItem('userId')
                     ? <div style={{ display: 'flex' }}>
-                        <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.logout()}>Log Out</div>
+                        <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.props.logout()}>Log Out</div>
                         <a href="/times" style={{ cursor: 'pointer' }}>Find a buddy</a>
                       </div>
                     : <a href="/login">Login</a>
@@ -79,7 +81,7 @@ class Nav extends Component {
                             icon={faUserCircle} 
                             onClick={() => this.toggleShowAccount()}
                         />
-                        {showAccount 
+                        {this.props.state.showAccount 
                         ? email.length > 0 
                             ? <div className="account-detailed" style={{ position: 'absolute', backgroundColor: 'white', padding: '60px 20px', right: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <div className="email-container" style={{ display: 'flex' }}>
@@ -112,4 +114,10 @@ class Nav extends Component {
     }
 }
 
-export default Nav;
+const mapStateToProps = state => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, { logOut })(Nav);

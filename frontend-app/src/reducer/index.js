@@ -8,7 +8,8 @@ import {
     POST_REQUEST_FAILURE,
     POST_REQUEST_TOPIC_SUCCESS,
     POST_REQUEST_TOPIC_FAILURE,
-    UPDATE_CALL_INFO 
+    UPDATE_CALL_INFO,
+    LOG_OUT
 } from '../actions';
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
     user_post_error: "",
     request_post_error: "",
     requestTopic_post_error: "",
+    showAccount: false,
     callInfo: {
         roomId: "",
         password: ""
@@ -91,6 +93,11 @@ export const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 requestTopic_post_error: action.payload
+            }
+        case LOG_OUT:
+            return {
+                ...state,
+                showAccount: action.payload
             }
         default:
             return state
