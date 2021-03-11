@@ -8,6 +8,8 @@ class ProtectedRoute extends React.Component {
     render(){
         const Component = this.props.component;
 
+        console.log('props in protected rout', this.props)
+
         return this.props.state.authenticated ? (
             <Component />
         ) : (
