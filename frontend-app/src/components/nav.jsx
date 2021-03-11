@@ -47,13 +47,6 @@ class Nav extends Component {
     }
 
 
-    // logout(){
-    //     localStorage.clear();
-    //     this.setState({ showAccount: false })
-    //     this.props.history.push("/")
-    // }
-
-
     render(){
         const { initials, username, email } = this.state;
 
