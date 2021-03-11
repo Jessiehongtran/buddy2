@@ -71,9 +71,6 @@ export const postUser = (user, history) => {
                     type: UPDATE_AUTHENTICATE,
                     payload: true
                 })
-                setTimeout(function(){
-                    localStorage.clear()
-                }, 30000)
                 history.push('/')
 
             })
