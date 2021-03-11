@@ -60,7 +60,7 @@ class Nav extends Component {
         if (this.props.state.authenticated){
             setTimeout(function(){
                 this.props.logOut(!this.props.state.showAccount, this.props.history)
-            }.bind(this), 60000)
+            }.bind(this), 60000*30)
         }
 
         return (
