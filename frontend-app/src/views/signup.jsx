@@ -59,20 +59,14 @@ class SignUp extends React.Component {
 
     handleSubmit(e){
         e.preventDefault() 
-        if (!this.isUnique("email", this.state.user.email) 
-           || !this.isUnique("zoomID", this.state.user.zoomID
-           || this.state.user.zoomID.toString().length !== 10)){
-                if (!this.isUnique("email", this.state.user.email)){
-                    this.setState({error: "Email was already taken, you may want to login"})
-                } 
-                if (!this.isUnique("zoomID", this.state.user.zoomID)){
-                    this.setState({error: "zoomID was already taken, you may want to login"})
-                }
-                if (this.state.user.zoomID.toString().length !== 10){
-                    this.setState({error: "zoomID has to be 10 digits"})
-                }
-        }
-        else {
+        if (this.state.user.zoomID.toString().length !== 10){
+            this.setState({error: "zoomID has to be 10 digits"})
+        } else  if (!this.isUnique("zoomID", this.state.user.zoomID)){
+            this.setState({error: "zoomID was already taken, you may want to login"})
+        } else if (!this.isUnique("email", this.state.user.email)){
+            this.setState({error: "Email was already taken, you may want to login"})
+        } else {
+            console.log('in else')
             this.props.postUser(this.state.user, this.props.history)
         }
 
