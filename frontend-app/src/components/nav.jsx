@@ -50,11 +50,13 @@ class Nav extends Component {
     render(){
         const { initials, username, email } = this.state;
 
-        if (this.props.state.authenticated){
+        if (localStorage.getItem('isAuth')){
             setTimeout(function(){
                 this.props.logOut(!this.props.state.showAccount, this.props.history)
             }.bind(this), 60000*30)
         }
+
+        console.log(this.props.history)
 
         return (
             <div className="nav">
@@ -63,16 +65,16 @@ class Nav extends Component {
                 </div>
                 <div className="navigation">
                     <a href="/" style={{ cursor: 'pointer' }}>Home</a>
-                    {this.props.state.authenticated
+                    {localStorage.getItem('isAuth')
                     ? <div style={{ display: 'flex' }}>
-                        <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.props.logout(!this.props.state.showAccount, this.props.history)}>Log Out</div>
+                        <div className="logout" style={{ marginRight: '20px'}} onClick={() => this.props.logOut(!this.props.state.showAccount, this.props.history)}>Log Out</div>
                         <a href="/times" style={{ cursor: 'pointer' }}>Find a buddy</a>
+                        <a href="/mymatch">My Matches</a>
                       </div>
-                    : <a href="/login">Login</a>
-                    }
-                    {this.props.state.authenticated 
-                    ? <a href="/mymatch">My Matches</a>
-                    : <button className="getStarted-btn" onClick={() => this.props.history.push('/signup')}>Get started</button>
+                    : <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <a href="/login">Login</a>
+                        <button className="getStarted-btn" onClick={() => this.props.history.push('/signup')}>Get started</button>
+                      </div>
                     }
                     <div className="account">
                         <FontAwesomeIcon

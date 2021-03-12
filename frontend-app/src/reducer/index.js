@@ -10,7 +10,6 @@ import {
     POST_REQUEST_TOPIC_FAILURE,
     UPDATE_CALL_INFO,
     LOG_OUT,
-    UPDATE_AUTHENTICATE
 } from '../actions';
 
 const initialState = {
@@ -101,11 +100,6 @@ export const reducer = (state=initialState, action) => {
                 ...state,
                 showAccount: action.payload,
                 authenticated: false
-            }
-        case UPDATE_AUTHENTICATE:
-            return {
-                ...state,
-                authenticated: action.payload
             }
         default:
             return state

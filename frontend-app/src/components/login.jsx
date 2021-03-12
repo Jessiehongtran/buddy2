@@ -36,9 +36,9 @@ class Login extends React.Component {
             const res = await Axios.post(`${ API_URL }/api/users/login`, this.state.user)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('userId', res.data.userId)
+            localStorage.setState('isAuth', true)
             this.props.updateUserID(res.data.userId) //doing this but currently mostly rely on local storage so that the data does not disappear due to refresh
             this.props.history.push('/times')
-            this.props.updateAuthentication(true)
         } catch (err){
             this.setState({ login_error: err.message })
         }
