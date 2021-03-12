@@ -56,8 +56,6 @@ class Nav extends Component {
             }.bind(this), 60000*30)
         }
 
-        console.log(this.props.history)
-
         return (
             <div className="nav">
                 <div className="logo">
