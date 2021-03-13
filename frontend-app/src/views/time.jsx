@@ -202,29 +202,32 @@ class Time3 extends React.Component {
         const localTime = this.getLocalDateTime()
         const localDay = parseInt(new Date(localTime.year, localTime.month -1, localTime.date, localTime.hour, localTime.minute, localTime.second).getDay())
 
+        console.log('localTime', localTime)
+
         let dayInd = null
         let daysBefore = []
         let week = []
         for (let key in days){
-            if (key !== localDay && dayInd === null){
+            console.log('key', key, 'localDay', localDay)
+            if (parseInt(key) !== localDay && dayInd === null){
                 daysBefore.push(days[key].concat([key]))
+                console.log(days[key].concat([key]))
             }
-            else if (key === localDay){
+            else if (parseInt(key) === localDay){
                 week.push(days[key].concat([localTime.month.toString() + "/" + localTime.date.toString()]))
                 dayInd = key
             } 
             else {
                 if (dayInd){
-                week.push(days[key].concat([localTime.month.toString() + "/" + (localTime.date + parseInt(key) - parseInt(dayInd)).toString()]))
+                    week.push(days[key].concat([localTime.month.toString() + "/" + (localTime.date + parseInt(key) - parseInt(dayInd)).toString()]))
                 }
             }
         }
 
         for (let i = 0; i < daysBefore.length; i++){
+            console.log('dayInd', dayInd)
             daysBefore[i][1] = localTime.month.toString() + "/" + (localTime.date + 7 + parseInt(daysBefore[i][1]) - parseInt(dayInd)).toString()
         }
-
-        // console.log(daysBefore)
 
         week = week.concat(daysBefore)
 
