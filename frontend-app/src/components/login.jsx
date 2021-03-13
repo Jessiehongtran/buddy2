@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import '../styles/login.scss'
 import { API_URL } from '../config';
-import { updateUserID } from '../actions';
+import { updateUserID, showNewVocab } from '../actions';
 import { connect } from 'react-redux';
 
 class Login extends React.Component {
@@ -42,6 +42,8 @@ class Login extends React.Component {
         } catch (err){
             this.setState({ login_error: err.message })
         }
+
+        setTimeout(this.props.showNewVocab.bind(this), 60000)
     }
 
     render(){
@@ -89,4 +91,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { updateUserID })(Login);
+export default connect(mapStateToProps, { updateUserID, showNewVocab })(Login);

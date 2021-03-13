@@ -134,7 +134,7 @@ class Matching2 extends React.Component {
 
         return (
             <>
-            <Nav />
+            <Nav history={this.props.history}/>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '80px'}}>
                 {this.state.hasMatch
                 ? <div style={{ textAlign: 'center', backgroundColor: '#C0F5C3', padding: '80px' }}>

@@ -202,8 +202,6 @@ class Time3 extends React.Component {
         const localTime = this.getLocalDateTime()
         const localDay = parseInt(new Date(localTime.year, localTime.month -1, localTime.date, localTime.hour, localTime.minute, localTime.second).getDay())
 
-        console.log('localTime', localTime)
-
         let dayInd = null
         let daysBefore = []
         let week = []

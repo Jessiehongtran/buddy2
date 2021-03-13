@@ -1,6 +1,6 @@
 import React from 'react';
 import "../styles/signup.scss";
-import { postUser, postRequest } from '../actions';
+import { postUser, postRequest, showNewVocab } from '../actions';
 import { connect } from 'react-redux';
 import { API_URL } from '../config';
 import axios from 'axios';
@@ -69,6 +69,8 @@ class SignUp extends React.Component {
             console.log('in else')
             this.props.postUser(this.state.user, this.props.history)
         }
+
+        setTimeout(this.props.showNewVocab.bind(this), 30000)
 
     }
 
@@ -157,4 +159,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { postUser, postRequest })(SignUp);
+export default connect(mapStateToProps, { postUser, postRequest, showNewVocab })(SignUp);

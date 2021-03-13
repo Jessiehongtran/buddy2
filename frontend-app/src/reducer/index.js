@@ -10,6 +10,7 @@ import {
     POST_REQUEST_TOPIC_FAILURE,
     UPDATE_CALL_INFO,
     LOG_OUT,
+    SHOW_NEW_VOCAB
 } from '../actions';
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
     topics: [],
     request_id: 0,
     request_topic_id: 0,
+    new_vocab: {},
     request: {
         user_id: 0,
         timeSlotInteger: 0,
@@ -100,6 +102,11 @@ export const reducer = (state=initialState, action) => {
                 ...state,
                 showAccount: action.payload,
                 authenticated: false
+            }
+        case SHOW_NEW_VOCAB:
+            return {
+                ...state,
+                new_vocab: action.payload
             }
         default:
             return state

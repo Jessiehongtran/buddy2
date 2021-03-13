@@ -11,6 +11,22 @@ export const POST_REQUEST_TOPIC_FAILURE = 'POST_REQUEST_TOPIC_FAILURE'
 export const UPDATE_EMAIL = 'UPDATE_EMAIL'
 export const UPDATE_CALL_INFO = 'UPDATE_CALL_INFO'
 export const LOG_OUT = 'LOG_OUT'
+export const SHOW_NEW_VOCAB = 'SHOW_NEW_VOCAB'
+
+const vocabs = [
+    {
+        word: "abstract",
+        explain: "existing in thought or as an idea but not having a physical or concrete existence"
+    },
+    {
+        word: "glean",
+        explain: "collect gradually and bit by bit"
+    },
+    {
+        word: "marvelous",
+        explain: "causing great wonder; extraordinary"
+    }
+]
 
 export const updateEmail = email => {
     return {
@@ -46,6 +62,14 @@ export const logOut = (curShowAccountState, history) => {
     return {
         type: LOG_OUT,
         payload: !curShowAccountState
+    }
+}
+
+export const showNewVocab = () => {
+    console.log('vocabs[vocabs.length - 1]', vocabs[vocabs.length - 1])
+    return {
+        type: SHOW_NEW_VOCAB,
+        payload: vocabs[vocabs.length - 1]
     }
 }
 
