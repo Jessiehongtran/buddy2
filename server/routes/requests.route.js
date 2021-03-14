@@ -109,8 +109,13 @@ router.get('/user/:user_id', async (req,res) => {
     try {
         const requests = await getRequestByUserId(user_id)
         console.log('raw requests', requests)
-        const uniqueRequests = getUniqueRequests(requests)
-        res.status(200).json(uniqueRequests)
+        if (requests.length > 0){
+            const uniqueRequests = getUniqueRequests(requests)
+            res.status(200).json(uniqueRequests)
+        } else {
+            res.status(200).json(requests)
+        }
+        
     } catch (err){
         res.status(500).json(err.message)
     }
