@@ -266,7 +266,7 @@ class Time3 extends React.Component {
                 {week.length > 0
                 ? <table>
                     {week.map((eachDay, i) => 
-                    <tr>
+                    <tr >
                         {eachDay.map((el, elInd) => Number.isInteger(el) 
                             ? el == 0 
                                 ? <td className="hour-invisible">0</td> 
