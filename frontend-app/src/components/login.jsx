@@ -43,7 +43,7 @@ class Login extends React.Component {
             this.setState({ login_error: err.message })
         }
 
-        setTimeout(this.props.showNewVocab.bind(this), 60000)
+        setTimeout(this.props.showNewVocab.bind(this), 10000)
     }
 
     render(){

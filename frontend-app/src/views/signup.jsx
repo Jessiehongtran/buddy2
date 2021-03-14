@@ -70,13 +70,14 @@ class SignUp extends React.Component {
             this.props.postUser(this.state.user, this.props.history)
         }
 
-        setTimeout(this.props.showNewVocab.bind(this), 30000)
+        setTimeout(this.props.showNewVocab.bind(this), 10000)
 
     }
 
 
     render(){
 
+        console.log('props in signup', this.props)
         const userId = this.props.state.request.user_id
         const token = localStorage.getItem('token')
         if (userId > 0 || token){

@@ -206,7 +206,6 @@ class Time3 extends React.Component {
         let daysBefore = []
         let week = []
         for (let key in days){
-            console.log('key', key, 'localDay', localDay)
             if (parseInt(key) !== localDay && dayInd === null){
                 daysBefore.push(days[key].concat([key]))
                 console.log(days[key].concat([key]))

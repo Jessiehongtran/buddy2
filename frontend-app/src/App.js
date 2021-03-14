@@ -27,7 +27,7 @@ class App extends React.Component {
     return (
       <div className="App">
         {new_vocab.word
-        ? <div className="new_vocab" style={{ position: 'absolute', left: '80%', top: '80%', backgroundColor: 'lightblue', padding: '40px', borderRadius: '6px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
+        ? <div className="new_vocab" style={{ position: 'absolute', left: '80%', top: '80%', backgroundColor: '#DC5C3B', color: 'white', padding: '20px', borderRadius: '6px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'}}>
             <p>Hey, do you know</p>
             <p className="new_word" style={{ fontWeight: 'bold', fontSize: '18px'}}>{new_vocab.word}</p>
             <p className="explain">{new_vocab.explain}</p>
