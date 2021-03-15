@@ -66,10 +66,22 @@ export const logOut = (curShowAccountState, history) => {
 }
 
 export const showNewVocab = () => {
-    console.log('vocabs[vocabs.length - 1]', vocabs[vocabs.length - 1])
-    return {
-        type: SHOW_NEW_VOCAB,
-        payload: vocabs[vocabs.length - 1]
+    return dispatch => {
+        axios
+            .get(`${API_URL}/api/vocabulary`)
+            .then(res => {
+                if (res.data && res.data.length > 0){
+                    dispatch(
+                        {
+                            type: SHOW_NEW_VOCAB,
+                            payload: res.data[res.data.length - 1]
+                        }
+                    )
+                }
+            })
+            .catch(err => {
+                console.error(err)
+            })
     }
 }
 
@@ -116,14 +128,6 @@ export const postRequest = request => {
             })
     }
 }
-
-// export const postRequest =(request) => async dispatch => {
-//     const id  = await axios.post(`${API_URL}/api/requests`, request);
-//     dispatch({
-//           type: UPDATE_REQUEST_ID,
-//           payload: id
-//         })
-// }
 
 export const postRequestTopic = request_topic_ids => {
     return dispatch => {
