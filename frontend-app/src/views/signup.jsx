@@ -76,6 +76,7 @@ class SignUp extends React.Component {
 
 
     render(){
+        console.log('signup here')
 
         console.log('props in signup', this.props)
         const userId = this.props.state.request.user_id
@@ -98,6 +99,7 @@ class SignUp extends React.Component {
                             name="first_name"
                             onChange={this.handleChange}
                             required
+                            className="first_name"
                         />
                         <input 
                             placeholder="Last name"

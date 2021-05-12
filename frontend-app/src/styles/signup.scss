@@ -42,9 +42,14 @@
             }
 
             .row {
-                // display: flex;
+                display: flex;
                 width: 100%;
                 margin-bottom: 20px;
+                position: relative;
+
+                .first_name {
+                    margin-right: 15px;
+                }
 
                 input {
                     width: 100%;
@@ -84,9 +89,9 @@
 
                 .info-icon {
                     position: absolute;
-                    left: 60%;
+                    left: 90%;
                     width: 5%;
-                    top: 47%;
+                    top: 30%;
                 }
 
                 .info-icon:hover + .info{

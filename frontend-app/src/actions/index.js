@@ -29,6 +29,7 @@ const vocabs = [
 ]
 
 export const updateEmail = email => {
+    console.log('update email invoked')
     return {
         type: UPDATE_EMAIL,
         payload: email
@@ -58,6 +59,7 @@ export const updateUserID = userID => {
 
 export const logOut = (curShowAccountState, history) => {
     localStorage.clear()
+    localStorage.removeItem('persist:root')
     history.push('/')
     return {
         type: LOG_OUT,

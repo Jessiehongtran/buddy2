@@ -100,6 +100,11 @@ export const reducer = (state=initialState, action) => {
         case LOG_OUT:
             return {
                 ...state,
+                request: {
+                    user_id: 0,
+                    timeSlotInteger: 0,
+                    matched: false
+                },
                 showAccount: action.payload,
                 authenticated: false
             }

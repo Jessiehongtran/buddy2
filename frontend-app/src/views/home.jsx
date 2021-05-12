@@ -20,6 +20,7 @@ class Home extends Component {
     }
 
     getStarted(e){
+        console.log('get started invoked')
         e.preventDefault()
         this.props.updateEmail(this.state.email) //for what??
         this.props.history.push('/signup')
