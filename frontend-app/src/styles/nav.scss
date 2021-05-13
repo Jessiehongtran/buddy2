@@ -5,10 +5,12 @@
     font-family: 'Montserrat', sans-serif;
     background-color: #FFDFCF;
     padding: 0px 0 0 0;
+    flex-wrap: wrap;
 
     .logo {
-        margin-left: 130px;
+        margin-left: 10%;
         color: white;
+        margin-bottom: 20px;
 
         h1 {
             background-color: #DC5C3B;
@@ -26,9 +28,11 @@
     }
 
     .navigation {
-        margin-right: 130px;
+        margin-right: 10%;
         display: flex;
         align-items: center;
+        margin-left: 10%;
+        margin-bottom: 20px;
 
         a {
             margin-right: 20px;
