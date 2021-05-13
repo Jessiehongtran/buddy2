@@ -83,7 +83,7 @@ class Matching2 extends React.Component {
             console.log(curRequest.user_id, requests[i].user.user_id)
             console.log(this.hasSameTopics(curRequest.topics, requests[i].topics).length)
             if (curRequest.timeSlotInteger === requests[i].timeSlotInteger 
-                && requests[i].matched === 0 
+                && (requests[i].matched === 0 || requests[i].matched === false)
                 && curRequest.user_id !== requests[i].user.user_id //to make sure the request comes from a different user
                 && this.hasSameTopics(curRequest.topics, requests[i].topics).length > 0){
                     return requests[i]
