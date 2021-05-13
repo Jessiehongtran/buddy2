@@ -155,7 +155,7 @@ class Time3 extends React.Component {
     updateTimeSlot(timeInNum, div){
         const newRequest = {
             user_id: localStorage.getItem('userId'),
-            timeSlotInteger: timeInNum,
+            timeSlotInteger: timeInNum + this.state.timeZoneDif*3600,
             matched: false,
             showZoomLink: false
         }
@@ -170,9 +170,8 @@ class Time3 extends React.Component {
     }
 
     async submitTimeSlot(){
-        const UTCTimeNum = this.state.request.timeSlotInteger + this.state.timeZoneDif*3600
-        if (this.state.request.timeSlotInteger && UTCTimeNum){
-            this.props.addTimeSlot(UTCTimeNum)
+        if (this.state.request.timeSlotInteger){
+            this.props.addTimeSlot(this.state.request.timeSlotInteger )
             //check if the user has chosen this timeslot before
             if (this.isUniqueTimeSlot(this.state.request.timeSlotInteger)){
                 this.props.postRequest(this.state.request)
