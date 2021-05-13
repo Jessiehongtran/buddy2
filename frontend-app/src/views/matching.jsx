@@ -74,6 +74,7 @@ class Matching2 extends React.Component {
     hasMatch(requests){
         const curRequest = this.props.currentRequest;
         curRequest.topics = this.props.selectedTopics;
+        console.log('requests', requests)
 
         let i = 0
         while (i < requests.length){
