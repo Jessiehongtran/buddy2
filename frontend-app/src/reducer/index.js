@@ -10,7 +10,8 @@ import {
     POST_REQUEST_TOPIC_FAILURE,
     UPDATE_CALL_INFO,
     LOG_OUT,
-    SHOW_NEW_VOCAB
+    SHOW_NEW_VOCAB,
+    TOGGLE_ACCOUNT
 } from '../actions';
 
 const initialState = {
@@ -42,6 +43,11 @@ export const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 email: action.payload
+            }
+        case TOGGLE_ACCOUNT:
+            return {
+                ...state,
+                showAccount: action.payload
             }
         case ADD_TIMESLOT:
             return {

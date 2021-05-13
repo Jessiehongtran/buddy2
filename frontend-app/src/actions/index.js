@@ -12,6 +12,7 @@ export const UPDATE_EMAIL = 'UPDATE_EMAIL'
 export const UPDATE_CALL_INFO = 'UPDATE_CALL_INFO'
 export const LOG_OUT = 'LOG_OUT'
 export const SHOW_NEW_VOCAB = 'SHOW_NEW_VOCAB'
+export const TOGGLE_ACCOUNT = 'TOGGLE_ACCOUNT'
 
 const vocabs = [
     {
@@ -47,6 +48,13 @@ export const addTopic = topics => {
     return {
         type: ADD_TOPIC,
         payload: topics
+    }
+}
+
+export const toggleAccount = showAccount => {
+    return {
+        type: TOGGLE_ACCOUNT,
+        payload: showAccount
     }
 }
 

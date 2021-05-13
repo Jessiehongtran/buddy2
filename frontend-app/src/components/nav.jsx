@@ -5,7 +5,7 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { API_URL } from '../config';
 import { connect } from 'react-redux';
-import { logOut } from '../actions';
+import { logOut, toggleAccount } from '../actions';
 
 class Nav extends Component {
     constructor(props){
@@ -16,7 +16,6 @@ class Nav extends Component {
             email: "",
             // showAccount: false
         }
-        this.toggleShowAccount = this.toggleShowAccount.bind(this)
         this.getAccountByUserId = this.getAccountByUserId.bind(this)
     }
 
@@ -40,10 +39,6 @@ class Nav extends Component {
                 console.error(err)
             }
         } 
-    }
-
-    toggleShowAccount(){
-        this.setState({ showAccount: !this.state.showAccount })
     }
 
 
@@ -78,7 +73,7 @@ class Nav extends Component {
                         <FontAwesomeIcon
                             className="account-icon"
                             icon={faUserCircle} 
-                            onClick={() => this.toggleShowAccount()}
+                            onClick={() => this.props.toggleAccount(!this.props.state.showAccount)}
                         />
                         {this.props.state.showAccount 
                         ? email.length > 0 
@@ -119,4 +114,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { logOut })(Nav);
+export default connect(mapStateToProps, { logOut, toggleAccount })(Nav);
