@@ -47,8 +47,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="right">
-                    <img src="https://res.cloudinary.com/dfulxq7so/image/upload/v1598306697/output-onlinepngtools_14_fpyw6h.png" alt="buddy talking example"/>
-                    
+                    <img src="https://res.cloudinary.com/dfulxq7so/image/upload/v1598306697/output-onlinepngtools_14_fpyw6h.png" alt="buddy talking example"/> 
                 </div>
             </div>
         )

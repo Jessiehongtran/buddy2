@@ -13,7 +13,6 @@
       flex-direction: column;
       width: 50%;
       margin-top: -300px;
-      
 
 
       .position {
@@ -36,6 +35,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
+        flex-wrap: wrap;
         width: 100%;
   
         input {
@@ -47,7 +47,9 @@
           padding-left: 20px;
           font-family: 'Montserrat', sans-serif;
           font-size: 14px;
-          width: 50%;
+          width: 100%;
+          margin-top: 10px;
+          max-width: 350px;
         }
   
         button {
@@ -57,7 +59,8 @@
           background-color: #DC5C3B;
           color: white;
           font-size: 16px;
-          border: none
+          border: none;
+          margin-top: 10px;
         }
 
       }
@@ -69,6 +72,7 @@
       display: flex;
       justify-content: flex-end;
       margin-top: -30px;
+      width: 50%;
 
       img {
         width: 90%;
