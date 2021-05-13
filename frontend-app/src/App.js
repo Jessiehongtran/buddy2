@@ -22,8 +22,6 @@ class App extends React.Component {
 
     const { new_vocab } = this.props.state
 
-    console.log('new_vocab', new_vocab)
-
     return (
       <div className="App">
         {new_vocab.word

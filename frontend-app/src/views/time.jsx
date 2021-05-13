@@ -56,7 +56,6 @@ class Time3 extends React.Component {
         const { requestsByThisUser } = this.state
         if (requestsByThisUser.length > 0){
             for ( let i =0; i < requestsByThisUser.length; i++ ){
-                console.log('timeInt', timeInt, 'requestsByThisUser[i].timeSlotInteger', requestsByThisUser[i].timeSlotInteger)
                 if (requestsByThisUser[i].timeSlotInteger === timeInt){
                     return false
                 }
@@ -208,7 +207,6 @@ class Time3 extends React.Component {
         for (let key in days){
             if (parseInt(key) !== localDay && dayInd === null){
                 daysBefore.push(days[key].concat([key]))
-                console.log(days[key].concat([key]))
             }
             else if (parseInt(key) === localDay){
                 week.push(days[key].concat([localTime.month.toString() + "/" + localTime.date.toString()]))
@@ -222,7 +220,6 @@ class Time3 extends React.Component {
         }
 
         for (let i = 0; i < daysBefore.length; i++){
-            console.log('dayInd', dayInd)
             daysBefore[i][1] = localTime.month.toString() + "/" + (localTime.date + 7 + parseInt(daysBefore[i][1]) - parseInt(dayInd)).toString()
         }
 
