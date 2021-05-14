@@ -26,7 +26,7 @@ export default class MyMatch extends React.Component {
         const userId = localStorage.getItem('userId')
         try {
             const res = await axios.get(`${API_URL}/api/matches/${requestID}`)
-            if (res.data.length > 0){
+            if (res.data.length > 0){ 
                 const match = res.data.filter(match => match.user_id !== userId)[0]
                 const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;   
                 let timeZoneDiff = 0 
@@ -82,15 +82,15 @@ export default class MyMatch extends React.Component {
     }
 
     //when to call this function though, if call in return, I need the match, where the match can be stored? in database or in localStorage, maybe we need a match table to store matches, and dashboard for each user
-    scheduleShowZoomLink(meetingTime, zoomID, i){
+    scheduleShowZoomLink(meetingTime, i){
         let now = new Date();
         let millisTillMeeting = new Date(meetingTime.year, meetingTime.month - 1, meetingTime.date, meetingTime.hour, meetingTime.minute, meetingTime.second,0 ) - now - 60*3600
         const { matches } = this.state;
 
         setTimeout(function(){
-            matches[i].zoomID = zoomID
+            matches[i].showZoomLink = true
             this.setState({ matches: matches })
-        }, millisTillMeeting);
+        }.bind(this), millisTillMeeting);
     }
 
     componentDidMount(){
@@ -101,6 +101,16 @@ export default class MyMatch extends React.Component {
    
 
     render(){
+
+        const { matches } = this.state;
+
+        console.log('matches', matches)
+
+        if (matches.length > 0){
+            for (let i = 0; i < matches.length; i++){
+                this.scheduleShowZoomLink(this.turnNumIntoTime(matches[i].meetingTimeInt), i)
+            }
+        }
 
         return (
             <>
