@@ -8,7 +8,17 @@ export default class MyMatch extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            matches: []
+            matches: [],
+            timeZones: []
+        }
+    }
+
+    async getTimeZones(){
+        try {
+            const res = await axios.get(`${API_URL}/api/timezones`)
+            this.setState({timeZones: res.data})
+        } catch(err){
+           console.log(err.message)
         }
     }
 
@@ -18,7 +28,16 @@ export default class MyMatch extends React.Component {
             const res = await axios.get(`${API_URL}/api/matches/${requestID}`)
             if (res.data.length > 0){
                 const match = res.data.filter(match => match.user_id !== userId)[0]
-                match.meetingTime = this.turnNumIntoTime(match.meetingTimeInt)
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;   
+                let timeZoneDiff = 0 
+                if (this.state.timeZones.length > 0){
+                    for (let i = 0; i < this.state.timeZones.length; i++){
+                        if (this.state.timeZones[i].value === tz){
+                            timeZoneDiff = this.state.timeZones[i].dif
+                        }
+                    }
+                }
+                match.meetingTime = this.turnNumIntoTime(match.meetingTimeInt - timeZoneDiff*3600)
                 this.setState({ matches: [...this.state.matches, match] })
             }
         } catch (err){
@@ -76,6 +95,7 @@ export default class MyMatch extends React.Component {
 
     componentDidMount(){
         this.getRequestsByUserId()
+        this.getTimeZones()
     }
 
    
