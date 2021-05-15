@@ -45,6 +45,8 @@ class Nav extends Component {
     render(){
         const { initials, username, email } = this.state;
 
+        console.log('props in nav', this.props)
+
         if (localStorage.getItem('isAuth')){
             setTimeout(function(){
                 this.props.logOut(!this.props.state.showAccount, this.props.history)

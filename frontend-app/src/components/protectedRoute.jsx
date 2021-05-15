@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render = {(props) => (
-        localStorage.getItem('isAuth') 
+        localStorage.getItem('isAuth') === "true"
         ? <Component {...props}/>
         :<Redirect to={{ pathname: '/login' }} />
     )}

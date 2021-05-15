@@ -76,14 +76,15 @@ class SignUp extends React.Component {
 
 
     render(){
-        console.log('signup here')
 
         console.log('props in signup', this.props)
-        const userId = this.props.state.request.user_id
-        const token = localStorage.getItem('token')
-        if (userId > 0 || token){
-            this.props.history.push('/times')
-        }
+        //if a user wants to create an account from scratch, it should not lead him to times sheet
+
+        // const userId = this.props.state.request.user_id
+        // const token = localStorage.getItem('token')
+        // if (userId > 0 || token){
+        //     this.props.history.push('/times')
+        // }
 
         return (
             <div className="signup">
