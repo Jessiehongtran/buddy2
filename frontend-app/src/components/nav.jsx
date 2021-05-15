@@ -45,8 +45,6 @@ class Nav extends Component {
     render(){
         const { initials, username, email } = this.state;
 
-        console.log('props in nav', this.props)
-
         const isAuth = localStorage.getItem('isAuth')
 
         if (isAuth && isAuth === "true"){
