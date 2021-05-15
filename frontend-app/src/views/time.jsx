@@ -92,6 +92,7 @@ class Time3 extends React.Component {
         for (var i=0; i<curColorDivs.length; i++){
             curColorDivs[i].style.backgroundColor = "rgb(255, 255, 255)";
         }
+        console.log('curColorDivs', curColorDivs, 'newdiv', div)
         this.setState({ divsToChangeColor: curColorDivs })
         //change bg color of that particular div
         if (div.style.backgroundColor === "rgb(255, 255, 255)"){
@@ -159,12 +160,14 @@ class Time3 extends React.Component {
             matched: false,
             showZoomLink: false
         }
+
+        const {  divsToChangeColor } = this.state
+
+        divsToChangeColor.push(div)
+
         this.setState({
             request: newRequest,
-            divsToChangeColor: [
-                ...this.state.divsToChangeColor,
-                div
-            ]
+            divsToChangeColor: divsToChangeColor
         })
         this.changeColor(div)
     }

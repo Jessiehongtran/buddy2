@@ -104,8 +104,6 @@ export default class MyMatch extends React.Component {
 
         const { matches } = this.state;
 
-        console.log('matches', matches)
-
         if (matches.length > 0){
             for (let i = 0; i < matches.length; i++){
                 this.scheduleShowZoomLink(this.turnNumIntoTime(matches[i].meetingTimeInt), i)

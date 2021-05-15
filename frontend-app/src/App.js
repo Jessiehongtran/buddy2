@@ -41,7 +41,6 @@ class App extends React.Component {
                   <Nav {...props} />
                   <Home {...props}/>
                   </>
-                  
                 )
               }
             }

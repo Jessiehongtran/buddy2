@@ -47,7 +47,9 @@ class Nav extends Component {
 
         console.log('props in nav', this.props)
 
-        if (localStorage.getItem('isAuth')){
+        const isAuth = localStorage.getItem('isAuth')
+
+        if (isAuth && isAuth === "true"){
             setTimeout(function(){
                 this.props.logOut(!this.props.state.showAccount, this.props.history)
             }.bind(this), 60000*30)
@@ -101,7 +103,11 @@ class Nav extends Component {
                                     onClick={() => this.props.logout()}
                                 >Sign Out</button>
                             </div>
-                            : alert("Please sign in/sign up")
+                            : <div className="account-detailed" style={{ position: 'absolute', backgroundColor: 'white', padding: '60px 20px', right: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <div className="email-container" style={{ display: 'flex' }}>
+                                    Please sign in/sign up
+                                </div>
+                              </div>
                         : null}
                     </div>
                 </div>
