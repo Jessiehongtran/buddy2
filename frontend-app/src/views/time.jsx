@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/time3.scss';
+import '../styles/time.scss';
 import { addTimeSlot, postRequest} from '../actions';
 import { connect } from 'react-redux';
 import { API_URL } from '../config';
@@ -250,7 +250,7 @@ class Time3 extends React.Component {
                         <option>(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
                         {this.state.timeZones.map(zone =>  <option value={zone.dif}>{zone.name}</option>)}
                     </select>
-                    <button className="next-btn" onClick={() => this.submitTimeSlot()}>NEXT</button>
+                    <button className="next-btn" onClick={() => this.submitTimeSlot()}>Next</button>
                 </div>
                 {this.state.error.length > 0
                 ? <p style={{ color: "red", fontStyle: "italic", backgroundColor: "#F7CFCC", padding: "8px 20px", borderRadius: "4px", marginTop: "0", marginBottom: "20px" }}>

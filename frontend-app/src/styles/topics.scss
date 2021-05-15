@@ -2,7 +2,7 @@
     font-family: 'Montserrat', sans-serif;
     display: flex;
     flex-direction: column;
-    padding: 50px;
+    padding: 5% 10% ;
 
     .logout-container {
         display: flex;
@@ -48,7 +48,8 @@
         padding: 10px;
         color: white;
         width: 10%;
-        font-size: 16px;
+        font-size: 18px;
+        font-weight: bold;
         border: none;
         font-family: 'Montserrat', sans-serif;
     }

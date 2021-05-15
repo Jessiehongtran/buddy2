@@ -1,12 +1,19 @@
-.time-container {
-    padding: 50px;
-    font-family: 'Montserrat', sans-serif;
-    // background-color: yellow;
+.timetable-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 50px;
 
-    .top {
+    .logout-container {
         display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
+        justify-content: flex-end;
+        width: 100%;
+        margin-right: 100px;
+    }
+
+    .timezone-container {
+        margin-bottom: 30px;
 
         label {
             color: #DC5C3B;
@@ -19,73 +26,52 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        button {
-            margin-right: 200px;
-            background-color:  #DC5C3B;
-            border-radius: 4px;
-            padding: 10px;
-            border: none;
-            color: white;
-            width: 8%;
-            font-size: 16px;
-            font-family: 'Montserrat', sans-serif;
-        }
     }
 
-    .slots {
-        display: flex;
-        margin-left: 20px;
-
-        .title {
-            color: #DC5C3B;
-            font-weight: bold;
-        }
-        
-        
-        .each-slot {
-            margin: 20px;
+    table {
+        tr { 
+            display: block; 
+            float: left; 
             text-align: center;
+            margin-right: 10px;
+        }
+        th, td { 
+            display: block; 
+        }
 
-            .non-date {
-                // visibility: hidden;
-            }
+        .daytime {
+            margin-bottom: 15px;
+            font-weight: 500;
+            font-size: 18px;
+        }
 
-            .time {
-                border: 1px solid #e9cac0;
-                padding: 5px;
-                border-radius: 4px;
-                margin-bottom: 5px;
-                font-size: 16px;
-            }
+        .hour-visible, .hour-invisible {
+            border: 1px solid #00629A;
+            padding: 8px 15px 8px 15px;
+            margin: 0 10px 10px 0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-            .time:hover {
-                background-color: yellow;
-                // color: white
-            }
+        .hour-visible:hover {
+            background-color: #B4D2FB;
+            
+        }
 
-            .time-not {
-                border: 1px solid #DC5C3B;
-                padding: 5px;
-                border-radius: 4px;
-                visibility: hidden;
-                margin-bottom: 5px;
-            }
+        .hour-invisible {
+            visibility: hidden;
         }
     }
-}
 
-.loader {
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #3498db;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 2s linear infinite;
-    margin: 20% auto;
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
+    .next-btn {
+        padding: 8px 15px 8px 15px;
+        font-size: 18px;
+        border-radius: 4px;
+        background-color:  #DC5C3B;
+        color: white;
+        border: none;
+        font-weight: bold;
+        margin-left: 20px;
+        font-family: 'Montserrat', sans-serif;
+    }
 }
